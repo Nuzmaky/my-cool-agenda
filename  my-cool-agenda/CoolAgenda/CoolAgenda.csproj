@@ -188,6 +188,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Entidades\Compromisso.cs" />
+    <Compile Include="Models\Entidades\Contato.cs" />
+    <Compile Include="Models\Entidades\Grupo.cs" />
+    <Compile Include="Models\Entidades\Notas.cs" />
+    <Compile Include="Models\Entidades\Tarefas.cs" />
+    <Compile Include="Models\Entidades\Telefone.cs" />
     <Compile Include="Models\Entidades\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

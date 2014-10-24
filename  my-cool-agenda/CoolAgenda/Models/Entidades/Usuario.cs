@@ -2,22 +2,62 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
 
 namespace CoolAgenda.Models.Entidades
 {
     public class Usuario
     {
-        [StringLength(100, ErrorMessage = "Insira um usuário com um tamanho máximo de 100 caracteres.")]
-        [MinLength(4, ErrorMessage = "Insira um usuário com um tamanho mínimo de 4 caracteres.")]
-        [Required(ErrorMessage = "Insira um usuário ou e-mail.")]
-        [Display(Name = "Usuário")]
-        public string Email { get; set; }
+        private int idUsuario;
+        private string email;
+        private string senha;
+        private string nome;
 
-        [StringLength(300, ErrorMessage = "Insira uma senha com um tamanho máximo de 300 caracteres.")]
-        [MinLength(4, ErrorMessage = "Insira uma senha com um tamanho mínimo de 4 caracteres.")]
-        [Required(ErrorMessage = "Insira uma senha.")]
-        public string Senha { get; set; }
+        // USUARIO
+        public int IdUsuario
+        {
+            get { return idUsuario; }
+            set
+            {
+                if (idUsuario > 0)
+                    idUsuario = value;
+            }
+        }
+
+
+        // EMAIL
+        public string Email
+        {
+            get { return email; }
+            set 
+            {
+                if (email != null && value.Length < 50)
+                    email = value;
+            }
+        }
+
+
+        // SENHA
+        public string Senha
+        {
+            get { return senha; }
+            set
+            {
+                if (value.Length < 50)
+                    senha = value;
+            }
+
+        }
+
+        // NOME
+        public string Nome
+        {
+            get { return nome; }
+            set
+            {
+                if (nome != null && value.Length < 100)
+                    nome = value;
+            }
+        }
 
     }
 }
