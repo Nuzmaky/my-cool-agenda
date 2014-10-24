@@ -8,19 +8,9 @@
 	margin: 0;
 }
 
-body {
-	font-family: 'Lato', Calibri, Arial, sans-serif;
-	background: #f9f9f9 url(../images/background.png);
-	font-weight: 300;
-	font-size: 15px;
-	color: #333;
-	height: 100%;
-}
-
-
 /**HEADER**/
 .custom-calendar-wrap {
-	margin: 10px auto;
+	margin: 26px auto;
 	position: relative;
 	overflow: hidden;
 	width:95%;
