@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Agenda";
+}
+
+
+	<div class="container">	
+		<div class="custom-calendar-wrap">
+			<div id="custom-inner" class="custom-inner">
+				<div class="custom-header">
+					<nav>
+						<span id="custom-prev" class="custom-prev"></span>
+						<span id="custom-next" class="custom-next"></span>
+					</nav>
+					<h2 id="custom-month" class="custom-month"></h2>
+					<h3 id="custom-year" class="custom-year"></h3>
+				</div>
+				<div id="calendar" class="fc-calendar-container"></div>
+			</div>
+		</div>
+	</div><!-- /container -->
+
+	<a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='block';document.getElementById('fade').style.display='block'">here</a>
+    <div id="light" class="white_content">Coisas para cadastrar o compromisso. <a href = "javascript:void(0)" onclick = "document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none'">Close</a></div>
+    <div id="fade" class="black_overlay"></div>
+
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.calendario.js"></script>
+	<script type="text/javascript" src="js/data.js"></script>
+	<script type="text/javascript">	
+
+	
+	$(function() {
+
+		var cal = $( '#calendar' ).calendario( {
+			onDayClick : function( $el, $contentEl, dateProperties ) {
+
+				for( var key in dateProperties ) {
+					console.log( key + ' = ' + dateProperties[ key ] );
+				}
+
+			},
+		} ),
+		$month = $( '#custom-month' ).html( cal.getMonthName() ),
+		$year = $( '#custom-year' ).html( cal.getYear() );
+
+		$( '#custom-next' ).on( 'click', function() {
+			cal.gotoNextMonth( updateMonthYear );
+		} );
+		$( '#custom-prev' ).on( 'click', function() {
+			cal.gotoPreviousMonth( updateMonthYear );
+		} );
+		$( '#custom-current' ).on( 'click', function() {
+			cal.gotoNow( updateMonthYear );
+		} );
+
+		function updateMonthYear() {				
+			$month.html( cal.getMonthName() );
+			$year.html( cal.getYear() );
+		}
+
+	});
+
+	</script>

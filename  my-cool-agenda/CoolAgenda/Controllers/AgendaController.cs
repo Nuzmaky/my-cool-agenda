@@ -6,8 +6,11 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Controllers
 {
-    public class HomeController : Controller
+    public class AgendaController : Controller
     {
+        //
+        // GET: /Agenda/
+
         public ActionResult Index()
         {
             return View();
