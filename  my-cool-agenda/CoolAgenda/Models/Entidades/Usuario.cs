@@ -12,13 +12,16 @@ namespace CoolAgenda.Models.Entidades
         private string senha;
         private string nome;
 
+        //Lista
+        public List<Usuario> listaUsuario = new List<Usuario>();
+
         // USUARIO
         public int IdUsuario
         {
             get { return idUsuario; }
             set
             {
-                if (idUsuario > 0)
+                //if (idUsuario > 0)
                     idUsuario = value;
             }
         }
@@ -30,7 +33,7 @@ namespace CoolAgenda.Models.Entidades
             get { return email; }
             set 
             {
-                if (email != null && value.Length < 50)
+                //if (email != null && value.Length < 50)
                     email = value;
             }
         }
@@ -54,7 +57,7 @@ namespace CoolAgenda.Models.Entidades
             get { return nome; }
             set
             {
-                if (nome != null && value.Length < 100)
+                //if (nome != null && value.Length < 100)
                     nome = value;
             }
         }
