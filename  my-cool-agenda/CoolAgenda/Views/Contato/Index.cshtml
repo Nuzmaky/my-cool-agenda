@@ -1,0 +1,23 @@
+﻿@model CoolAgenda.ViewModels.ContatoVM
+@{
+    ViewBag.Title = "Contato";
+}
+
+<h2>Contato</h2>
+
+@using(Html.BeginForm("Form","Contato",FormMethod.Post))
+{
+    @Html.Label("IdUsuario conectado: ")
+    @Html.TextBoxFor(m => m.IdUsuario) <br />
+    
+    @Html.Label("Nome: ")
+    @Html.TextBoxFor(m => m.Nome) <br />
+    
+    @Html.Label("E-mail: ")
+    @Html.TextBoxFor(m => m.Email) <br />       
+    
+    @Html.Label("Endereço: ")
+    @Html.TextBoxFor(m => m.Endereco) <br /> 
+
+    <input type="submit" name="btOK" value="Cadastrar!" />
+}

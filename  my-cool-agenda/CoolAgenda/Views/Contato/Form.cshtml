@@ -1,0 +1,40 @@
+﻿@model CoolAgenda.ViewModels.ContatoVM
+@{
+    ViewBag.Title = "Contato";
+}
+
+<h2>Contato</h2>
+
+<h1>Inserido com Sucesso! </h1>
+
+    <table>
+        @for (int i = 0; i < Model.ListaContato.Count; i++)
+        {
+            <tr>
+                <td> 
+                     @Html.LabelFor(m =>m.IdContato)
+                     @Model.ListaContato[i].IdContato
+                </td>
+
+                <td> 
+                    @Html.LabelFor(m => m.IdUsuario)
+                    @Model.ListaContato[i].IdUsuario                
+                </td>
+
+                <td>
+                     @Html.LabelFor(m => m.Nome)
+                     @Model.ListaContato[i].Nome                 
+                </td>                
+
+                <td>
+                    @Html.LabelFor(m => m.Email)
+                    @Model.ListaContato[i].Email
+                </td>
+
+                <td>
+                    @Html.LabelFor(m => m.Endereco)
+                    @Model.ListaContato[i].Endereco
+                </td>
+            </tr>
+        }
+    </table>     

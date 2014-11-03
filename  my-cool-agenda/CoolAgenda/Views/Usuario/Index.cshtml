@@ -1,4 +1,4 @@
-﻿@model CoolAgenda.ViewModels.UsuarioFormVM
+﻿@model CoolAgenda.ViewModels.UsuarioVM
 @{
     ViewBag.Title = "Usuários";
 }
@@ -22,30 +22,4 @@
 <br />
 <br />
 
-    <table>
-        @for (int i = 0; i < Model.ListaUsuario.Count; i++)
-        {
-            <tr>
-                <td> 
-                     @Html.LabelFor(m =>m.IdUsuario)
-                     @Model.ListaUsuario[i].IdUsuario 
-                </td>
-
-                <td> 
-                    @Html.LabelFor(m => m.Email)
-                    @Model.ListaUsuario[i].Email                    
-                </td>
-
-                <td>
-                     @Html.LabelFor(m => m.Nome)
-                     @Model.ListaUsuario[i].Nome                 
-                </td>                
-
-                <td>
-                    @Html.LabelFor(m => m.Senha)
-                    @Model.ListaUsuario[i].Senha
-                </td>
-            </tr>
-        }
-    </table>       
 

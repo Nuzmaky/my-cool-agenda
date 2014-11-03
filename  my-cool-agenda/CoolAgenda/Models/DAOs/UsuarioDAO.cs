@@ -53,6 +53,7 @@ namespace CoolAgenda.Models.DAOs
         }
 
 
+        //Conversão
         public Usuario ConverterParaTipoClasse(OleDbDataReader dr)
         {
 

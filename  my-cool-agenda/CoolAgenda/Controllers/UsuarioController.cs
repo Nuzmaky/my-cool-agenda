@@ -13,22 +13,21 @@ namespace CoolAgenda.Controllers
     {
         //
         // GET: /Usuario/
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario user = new Usuario();
 
+        Usuario user = new Usuario(); 
+        UsuarioDAO usuarioDAO = new UsuarioDAO();       
 
-        public ActionResult Index(UsuarioFormVM userVM)
-        {
-            userVM.ListaUsuario = usuarioDAO.Select();
+        public ActionResult Index(UsuarioVM userVM)
+        {            
             return View(userVM);
         }
 
         [HttpPost]
-        public ActionResult Form(Usuario usuario)
+        public ActionResult Form(Usuario usuario, UsuarioVM userVM)
         {
             usuarioDAO.Insert(usuario);
-            
-            return View();
+            userVM.ListaUsuario = usuarioDAO.Select();            
+            return View(userVM);
             
         }
 

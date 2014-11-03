@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CoolAgenda.ViewModels
 {
-    public class UsuarioFormVM
+    public class UsuarioVM
     {
         [Display(Name = "Código: ")]
         public int IdUsuario { get; set; }

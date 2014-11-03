@@ -182,6 +182,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AgendaController.cs" />
+    <Compile Include="Controllers\ContatoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Models\Entidades\Telefone.cs" />
     <Compile Include="Models\Entidades\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\ContatoVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -311,6 +313,8 @@
     <Content Include="Views\Agenda\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
     <Content Include="Views\Usuario\Form.cshtml" />
+    <Content Include="Views\Contato\Index.cshtml" />
+    <Content Include="Views\Contato\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

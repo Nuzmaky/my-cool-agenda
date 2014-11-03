@@ -21,8 +21,7 @@ namespace CoolAgenda.Models.Entidades
             get { return idUsuario; }
             set
             {
-                //if (idUsuario > 0)
-                    idUsuario = value;
+                idUsuario = value;
             }
         }
 
@@ -31,10 +30,9 @@ namespace CoolAgenda.Models.Entidades
         public string Email
         {
             get { return email; }
-            set 
+            set
             {
-                //if (email != null && value.Length < 50)
-                    email = value;
+                email = value;
             }
         }
 
@@ -57,8 +55,7 @@ namespace CoolAgenda.Models.Entidades
             get { return nome; }
             set
             {
-                //if (nome != null && value.Length < 100)
-                    nome = value;
+                nome = value;
             }
         }
 
