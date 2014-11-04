@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.Entidades
+namespace CoolAgenda.Models
 {
     public class Contato
     {
