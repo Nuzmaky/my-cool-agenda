@@ -1,13 +1,14 @@
-﻿using CoolAgenda.Models.Entidades;
-using System.Data.OleDb;
+﻿using CoolAgenda.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.DAOs
+namespace CoolAgenda.Models
 {
-    public class UsuarioDAO
+    public class UsuarioDAO : IUsuarioDAO
     {
         private string SQL;
 

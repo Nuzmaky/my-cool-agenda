@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.DAOs
+namespace CoolAgenda.Models
 {
     public class Conexao
     {

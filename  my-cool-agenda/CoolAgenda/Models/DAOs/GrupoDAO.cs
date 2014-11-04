@@ -1,11 +1,15 @@
-﻿using System;
+﻿using CoolAgenda.Models;
+using System;
 using System.Collections.Generic;
+using System.Data.Common;
+using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.DAOs
+namespace CoolAgenda.Models
 {
-    public class GrupoDAO
+    public class GrupoDAO : IGrupoDAO
     {
+
     }
 }
