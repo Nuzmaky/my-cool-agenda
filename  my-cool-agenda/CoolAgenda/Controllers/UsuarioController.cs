@@ -1,5 +1,4 @@
-﻿using CoolAgenda.Models.DAOs;
-using CoolAgenda.Models.Entidades;
+﻿using CoolAgenda.Models;
 using CoolAgenda.ViewModels;   
 using System;
 using System.Collections.Generic;

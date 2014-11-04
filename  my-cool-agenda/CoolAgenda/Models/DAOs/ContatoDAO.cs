@@ -6,7 +6,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.DAOs
+namespace CoolAgenda.Models
 {
     public class ContatoDAO
     {

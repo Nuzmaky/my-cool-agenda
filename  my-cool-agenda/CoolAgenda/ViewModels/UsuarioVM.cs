@@ -1,4 +1,4 @@
-﻿using CoolAgenda.Models.Entidades;
+﻿using CoolAgenda.Models;
 using System.ComponentModel.DataAnnotations;
 using System;
 using System.Collections.Generic;
