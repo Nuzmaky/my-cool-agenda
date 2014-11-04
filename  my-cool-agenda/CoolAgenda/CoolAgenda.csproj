@@ -205,6 +205,27 @@
     <Compile Include="Models\Entidades\Tarefa.cs" />
     <Compile Include="Models\Entidades\Telefone.cs" />
     <Compile Include="Models\Entidades\Usuario.cs" />
+    <Compile Include="Models\IDAOs\ICompromissoDAO.cs" />
+    <Compile Include="Models\IDAOs\IContatoDAO.cs" />
+    <Compile Include="Models\IDAOs\IGrupoDAO.cs" />
+    <Compile Include="Models\IDAOs\INotaDAO.cs" />
+    <Compile Include="Models\IDAOs\ITarefaDAO.cs" />
+    <Compile Include="Models\IDAOs\ITelefoneDAO.cs" />
+    <Compile Include="Models\IDAOs\IUsuarioDAO.cs" />
+    <Compile Include="Models\IServices\ICompromissoService.cs" />
+    <Compile Include="Models\IServices\IContatoService.cs" />
+    <Compile Include="Models\IServices\IGrupoService.cs" />
+    <Compile Include="Models\IServices\INotaService.cs" />
+    <Compile Include="Models\IServices\ITarefaService.cs" />
+    <Compile Include="Models\IServices\ITelefoneService.cs" />
+    <Compile Include="Models\IServices\IUsuarioService.cs" />
+    <Compile Include="Models\Services\CompromissoService.cs" />
+    <Compile Include="Models\Services\ContatoService.cs" />
+    <Compile Include="Models\Services\GrupoService.cs" />
+    <Compile Include="Models\Services\NotaService.cs" />
+    <Compile Include="Models\Services\TarefaService.cs" />
+    <Compile Include="Models\Services\TelefoneService.cs" />
+    <Compile Include="Models\Services\UsuarioService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ContatoVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
@@ -325,9 +346,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\IDAOs\" />
-    <Folder Include="Models\IServices\" />
-    <Folder Include="Models\Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
