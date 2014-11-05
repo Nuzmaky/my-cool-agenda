@@ -64,6 +64,7 @@ namespace CoolAgenda.Models
             user.Email = dr["Email"].ToString();
             user.Nome = dr["Nome"].ToString();
             user.Senha = dr["Senha"].ToString();
+            user.Nivel = dr["Nivel"].ToString();
 
             return user;
         }

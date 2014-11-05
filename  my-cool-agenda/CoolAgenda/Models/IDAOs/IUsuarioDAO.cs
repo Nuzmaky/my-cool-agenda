@@ -7,7 +7,10 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public class IUsuarioDAO
+    public interface IUsuarioDAO
     {
+        void Insert(Usuario usuario);
+
+        List<Usuario> Select();
     }
 }

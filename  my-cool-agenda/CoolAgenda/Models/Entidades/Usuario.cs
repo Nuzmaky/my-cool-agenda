@@ -12,6 +12,8 @@ namespace CoolAgenda.Models
         private string senha;
         private string nome;
 
+        private string nivel;
+
         //Lista
         public List<Usuario> listaUsuario = new List<Usuario>();
 
@@ -56,6 +58,17 @@ namespace CoolAgenda.Models
             set
             {
                 nome = value;
+            }
+        }
+
+        //Nivel
+        public string Nivel
+        {
+            get { return nivel; }
+            set
+            {
+                if (value != null && value.Length <= 1)
+                    nivel = value.ToUpper();
             }
         }
 

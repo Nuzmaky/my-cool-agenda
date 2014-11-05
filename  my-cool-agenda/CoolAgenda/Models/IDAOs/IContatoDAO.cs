@@ -7,8 +7,15 @@ using System.Web;
 
 namespace CoolAgenda.Models.IDAOs
 {
-    public class IContatoDAO
+    public interface IContatoDAO
     {
+        void Insert(Contato contato);
+
+        void Update(Contato contato, DbTransaction transacao);
+
+        void DeleteById(int id, DbTransaction transacao);
+
+        List<Contato> Select();
 
     }
 }
