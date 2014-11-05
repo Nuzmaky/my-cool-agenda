@@ -2,6 +2,44 @@
     ViewBag.Title = "Agenda";
 }
 
+<div style="float: left; width: 13%; background: #FFF; margin-left: 1%">
+    <nav>
+        <div class="menu-item alpha">
+            <h4><a href="#" onclick="ShowEventPopup();">Novo Compromisso</a></h4>
+        </div>
+        <div class="menu-item alpha">
+            <h4><a href="#">Nova Tarefa</a></h4>
+        </div>
+
+        <div class="menu-item">
+            <h4 id="agendasMenu" ><a href="#">Minhas Agendas</a></h4>
+            <ul id="agendasSubMenu">
+                <li><a href="#">Pessoal</a></li>
+                <li><a href="#">Agenda1</a></li>
+                <li><a href="#">Agenda2</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-item">
+            <h4 id="tarefasMenu"><a href="#">Tarefas</a></h4>
+            <ul id="tarefasSubMenu">
+                <li><input type="checkbox" style="float:left"/><a class="checkList" href="#">11111111</a></li>
+                <li><input type="checkbox" style="float:left"/><a class="checkList" href="#">22222222</a></li>
+                <li><input type="checkbox" style="float:left"/><a class="checkList" href="#">3333333</a></li>
+            </ul>
+        </div>
+
+    </nav>
+</div>
+
+<div id='calendar' style="float: right; width: 85%; background: #FFF; margin-right: 1%;"></div>
+
+<div id="popupEventForm" class="modal hide" style="display: none;">
+
+            @Html.Action("Cadastrar", "Compromisso")
+</div>
+
+
 @section scripts{
 
     <script>
@@ -40,31 +78,30 @@
             $('#popupEventForm').hide();
         });
 
+        //MENU LATERAL
+        $(function () {
+            $('#agendasMenu').click(function () {
+                $('#agendasSubMenu').slideToggle();
+            });
+        });
+
+        $(function () {
+            $('#tarefasMenu').click(function () {
+                $('#tarefasSubMenu').slideToggle();
+            });
+        });
+
+        function ShowEventPopup() {
+            $('#popupEventForm').show();
+        }
+
+        $('#tarefasSubMenu input:checkbox').change(function () {
+            if ($(this).is(':checked')) {
+                $('.checkList').css('text-decoration', 'line-through')
+            } else {
+                $('.checkList').css('text-decoration', 'none')
+            }
+        })
 
     </script>
 }
-<div style="float: left; height: 200px; width: 18%; background: #FFF; margin-top: 28px; margin-left: 1%">
-</div>
-<div id='calendar' style="float: right; width: 80%; background: #FFF; margin-top: 28px; margin-right: 1%;"></div>
-
-<div id="popupEventForm" class="modal hide" style="display: none;">
-   <div class="modal-header"><h3>Novo Compromisso</h3></div>
-  <div class="modal-body">
-    <form id="EventForm" class="well">
-        <input type="hidden" id="eventID">
-        <label>Nome</label>
-        <input type="text" id="eventTitle" placeholder="Digite o nome do Compromisso"><br />
-        <label>Data Inicial</label>
-        <input type="text" id="eventDate"><br />
-        <label>Data Final</label>
-        <input type="text" id="eventTime"><br />
-        <label>Pariticipantes</label>
-        <input type="text" id="eventDuration" placeholder="15"><br />
-    </form>
-</div>
-  <div class="modal-footer">
-    <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn">Cancelar</button>
-    <button type="button" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary">Salvar</button>
-  </div>
-</div>
-

@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Models
 {
-    public class IGrupoService
+    public interface IGrupoService
     {
     }
 }

@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public class INotaDAO
+    public interface INotaDAO
     {
     }
 }

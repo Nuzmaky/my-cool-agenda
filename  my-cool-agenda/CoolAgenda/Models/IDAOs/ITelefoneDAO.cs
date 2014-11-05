@@ -7,7 +7,7 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public class ITelefoneDAO
+    public interface ITelefoneDAO
     {
     }
 }

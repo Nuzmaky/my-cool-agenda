@@ -5,7 +5,7 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.IDAOs
+namespace CoolAgenda.Models
 {
     public interface IContatoDAO
     {

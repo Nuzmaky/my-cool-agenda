@@ -8,6 +8,7 @@ namespace CoolAgenda.Models
     public class Compromisso
     {
         private int idCompromisso;
+        private string nomeCompromisso;
         private DateTime dataInicial;
         private DateTime dataFinal;
 
@@ -36,6 +37,15 @@ namespace CoolAgenda.Models
             set { dataFinal = value; }
         }
 
-
+        // NOME COMPROMISSO
+        public string NomeCompromisso
+        {
+            get { return nomeCompromisso; }
+            set
+            {
+                if (value != null && value.Length <= 100)
+                    nomeCompromisso = value;
+            }
+        }
     }
 }

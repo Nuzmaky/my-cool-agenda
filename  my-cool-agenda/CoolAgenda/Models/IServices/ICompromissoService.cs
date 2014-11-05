@@ -8,7 +8,16 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Models
 {
-    public class ICompromissoService
+    public interface ICompromissoService
     {
+        List<Validacao> ValidarEntidade(Compromisso entidade);
+
+        void Adicionar(Compromisso entidade);
+
+        List<Validacao> ValidaAdicionar(Compromisso entidade);
+
+        void Atualizar(Compromisso entidade);
+
+        List<Validacao> ValidaAtualizar(Compromisso entidade);
     }
 }
