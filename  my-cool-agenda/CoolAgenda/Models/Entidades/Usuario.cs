@@ -23,7 +23,7 @@ namespace CoolAgenda.Models
             get { return idUsuario; }
             set
             {
-                idUsuario = value;
+                idUsuario = value;               
             }
         }
 

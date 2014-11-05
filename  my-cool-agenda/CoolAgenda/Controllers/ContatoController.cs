@@ -20,11 +20,16 @@ namespace CoolAgenda.Controllers
         {
             return View(contatoVM);
         }
-
-
+        
         [HttpPost]
         public ActionResult Form(Contato contato, ContatoVM contatoVM)
-        {            
+        {
+            // Pega o usuário na sessão
+            Usuario usuario = Session["Usuario"] as Usuario;
+            int idUsuario = usuario.IdUsuario;
+
+            contato.IdUsuario = idUsuario;
+
             contatoDAO.Insert(contato);
             contatoVM.ListaContato = contatoDAO.Select(); 
             return View(contatoVM);

@@ -44,7 +44,7 @@ namespace CoolAgenda.Controllers
 
                 // Redireciona para as actions padrões de acordo com o nivel do usuário
                 if (Autenticacao.VerificaAdm(nivel))
-                    return RedirectToAction("Index", "Usuario");
+                    return RedirectToAction("Index", "Contato");
                 else
                     return RedirectToAction("Index", "Agenda");
             }

@@ -11,10 +11,11 @@ namespace CoolAgenda.Models
     public class ContatoDAO
     {
         private string SQL;
+        private int idUsuario;       
 
         //Insert
         public void Insert(Contato contato)
-        {
+        {            
             SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Email, Endereco) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
@@ -22,6 +23,7 @@ namespace CoolAgenda.Models
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = contato.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
+            //int user = Convert.ToInt32(Session["Usuario]);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = contato.Nome;
@@ -33,7 +35,7 @@ namespace CoolAgenda.Models
 
             OleDbParameter pEndereco = new OleDbParameter("Endereco", OleDbType.VarChar);
             pEndereco.Value = contato.Endereco;
-            comando.Parameters.Add(pEndereco);
+            comando.Parameters.Add(pEndereco);            
 
             comando.ExecuteNonQuery();
             comando.Dispose();
