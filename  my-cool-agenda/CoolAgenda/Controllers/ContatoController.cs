@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Controllers
 {
-    public class ContatoController : Controller
+    public class TarefaController : Controller
     {
         //
         // GET: /Contato/
