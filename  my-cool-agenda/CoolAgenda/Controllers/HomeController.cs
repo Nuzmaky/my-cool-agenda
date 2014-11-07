@@ -40,11 +40,11 @@ namespace CoolAgenda.Controllers
                 Session["Usuario"] = u;
 
                 // Redireciona para o controller adequado de acordo com o nível do usuário
-                string nivel = u.Nivel;
+                string nivel = u.Nivel.ToString();
 
                 // Redireciona para as actions padrões de acordo com o nivel do usuário
                 if (Autenticacao.VerificaAdm(nivel))
-                    return RedirectToAction("Index", "Contato");
+                    return RedirectToAction("Index", "Usuario");
                 else
                     return RedirectToAction("Index", "Agenda");
             }
@@ -52,8 +52,24 @@ namespace CoolAgenda.Controllers
             return View();
         }
 
-                
 
+        // Sair
+        public ActionResult Sair()
+        {
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        [ChildActionOnly]
+        public ActionResult AutenticarTemplate()
+        {
+            /**
+             * View parcial que só pode receber ser exibida sub-requisição,
+             * ou seja, essa action só poderá ser solicitada como parte de outra solicitação
+             */
+            return PartialView();
+        }
 
         
     }

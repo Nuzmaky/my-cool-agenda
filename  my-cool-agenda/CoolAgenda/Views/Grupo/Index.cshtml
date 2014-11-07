@@ -1,0 +1,15 @@
+﻿@model CoolAgenda.ViewModels.GrupoVM
+@{
+    ViewBag.Title = "Grupo";
+}
+
+<h2>Grupo</h2>
+
+@using(Html.BeginForm("Form","Grupo",FormMethod.Post))
+{
+    
+    @Html.Label("Nome: ")
+    @Html.TextBoxFor(m => m.Nome) <br />
+    
+    <input type="submit" name="btOK" value="Cadastrar!" />
+}

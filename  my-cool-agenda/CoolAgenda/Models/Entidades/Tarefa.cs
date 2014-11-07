@@ -22,7 +22,8 @@ namespace CoolAgenda.Models
             get { return idTarefa; }
             set
             {
-                if (idTarefa > 0) idTarefa = value;
+                if (value > 0)
+                    idTarefa = value;
             }
         }
 
@@ -33,7 +34,7 @@ namespace CoolAgenda.Models
             get { return nome; }
             set
             {
-                if (nome != null && value.Length < 50)
+                if (value != null && value.Length < 50)
                     nome = value;
             }
         }
@@ -53,7 +54,11 @@ namespace CoolAgenda.Models
         public int IdCompromisso
         {
             get { return idCompromisso; }
-            set { idCompromisso = value; }
+            set
+            {
+                if (value > 0)
+                    idCompromisso = value;
+            }
         }
 
 
@@ -61,7 +66,11 @@ namespace CoolAgenda.Models
         public int IdUsuario
         {
             get { return idUsuario; }
-            set { idUsuario = value; }
+            set
+            {
+                if (value > 0)
+                    idUsuario = value;
+            }
         }
 
 

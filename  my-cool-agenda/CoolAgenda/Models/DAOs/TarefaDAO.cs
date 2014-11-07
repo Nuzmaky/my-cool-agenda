@@ -11,12 +11,11 @@ namespace CoolAgenda.Models
     public class TarefaDAO
     {
         private string SQL;
-        private int idUsuario;
 
         //Insert
         public void Insert(Tarefa tarefa)
         {
-            SQL = "INSERT into TAREFA (idTarefa, IdCompromisso, idUsuario, Nome, Descricao, dataInicial, datafinal) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
+            SQL = "INSERT into TAREFA (idTarefa, IdCompromisso, idUsuario, Nome, Descricao, dataInicial, datafinal) VALUES (SeqTarefa.NEXTVAL, ?, ?, ?, ?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
@@ -65,7 +64,7 @@ namespace CoolAgenda.Models
 
             while (dr.Read())
             {
-                ListaTarefa.Add(ConverterParaTipoClasse(dr));
+                //ListaTarefa.Add(ConverterParaTipoClasse(dr));
             }
 
             return ListaTarefa;
@@ -164,20 +163,20 @@ namespace CoolAgenda.Models
 
             while (dr.Read())
             {
-                listaCompromisso.Add(ConverterParaTipoClasse(dr);
+                //listaCompromisso.Add(ConverterParaTipoClasse(dr);
             }
 
             return listaCompromisso;
         }
 
-        public Compromisso ConverterParaTipoClasse(OleDbDataReader dr)
+        /*public Compromisso ConverterParaTipoClasse(OleDbDataReader dr)
         {
             Compromisso compromisso = new Compromisso();
             compromisso.IdCompromisso = int.Parse(dr["IdCompromisso"].ToString());
 
             return compromisso;
         }
-
+        */
 
 
     }

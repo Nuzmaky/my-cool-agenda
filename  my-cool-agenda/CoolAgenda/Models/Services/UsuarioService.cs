@@ -39,8 +39,6 @@ namespace CoolAgenda.Models
             }    
             else
             {
-             //   erros.Add(new ValidationResult(
-               //         "Ative o seu cadastro através do link fornecido no email de ativação. Caso não tenha recebido o email ou algum outro problema tenha acontecido, contate o suporte."));
             }
 
             return erros;

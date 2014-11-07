@@ -24,6 +24,10 @@ namespace CoolAgenda.ViewModels
         [Display(Name = "Senha: ")]
         public string Senha { get; set; }
 
+        [Display(Name = "Usuário Administrador. ")]
+        public bool Nivel { get; set; }
+
+
         public List<Usuario> ListaUsuario { get; set; }
     }
 }

@@ -19,7 +19,8 @@ namespace CoolAgenda.Models
             get { return idCompromisso; }
             set
             {
-                if (idCompromisso > 0) idCompromisso = value;
+                if (value > 0)
+                    idCompromisso = value;
             }
         }
 

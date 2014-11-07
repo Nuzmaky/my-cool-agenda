@@ -1,4 +1,5 @@
-﻿using CoolAgenda.Models;
+﻿using CoolAgenda.Filters;
+using CoolAgenda.Models;
 using CoolAgenda.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,20 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Controllers
 {
-    public class TarefaController : Controller
+    public class ContatoController : Controller
     {
         //
         // GET: /Contato/
 
         Contato contato = new Contato();
-        ContatoDAO contatoDAO = new ContatoDAO();       
+        ContatoDAO contatoDAO = new ContatoDAO();
 
+        [FiltroAutenticacao]
         public ActionResult Index(ContatoVM contatoVM)
         {
             return View(contatoVM);
         }
+
         
         [HttpPost]
         public ActionResult Form(Contato contato, ContatoVM contatoVM)

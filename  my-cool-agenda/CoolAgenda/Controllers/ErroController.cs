@@ -1,5 +1,4 @@
-﻿using CoolAgenda.Filters;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,13 +6,16 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Controllers
 {
-    public class AgendaController : Controller
+    public class ErroController : Controller
     {
         //
-        // GET: /Agenda/
+        // GET: /Erro/
+        public ActionResult NotFound()
+        {
+            return View();
+        }
 
-        [FiltroAutenticacao]
-        public ActionResult Index()
+        public ActionResult Forbidden()
         {
             return View();
         }

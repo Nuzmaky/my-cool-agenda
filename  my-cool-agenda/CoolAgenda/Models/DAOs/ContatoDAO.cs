@@ -10,8 +10,7 @@ namespace CoolAgenda.Models
 {
     public class ContatoDAO
     {
-        private string SQL;
-        private int idUsuario;       
+        private string SQL;          
 
         //Insert
         public void Insert(Contato contato)
@@ -22,8 +21,7 @@ namespace CoolAgenda.Models
 
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = contato.IdUsuario;
-            comando.Parameters.Add(pIdUsuario);
-            //int user = Convert.ToInt32(Session["Usuario]);
+            comando.Parameters.Add(pIdUsuario);           
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = contato.Nome;
@@ -62,7 +60,7 @@ namespace CoolAgenda.Models
         //Update
         public void Update(Contato contato, DbTransaction transacao)
         {
-            SQL = "UPDATE Contato SET IdContado = ?, IdUsuario = ?, Nome = ?, Email = ?, Endereco = ? WHERE IdContato = ?";
+            SQL = "UPDATE Contato SET Nome = ?, Email = ?, Endereco = ? WHERE IdContato = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -74,10 +72,6 @@ namespace CoolAgenda.Models
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
             pIdContato.Value = contato.IdContato;
             comando.Parameters.Add(pIdContato);
-
-            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
-            pIdUsuario.Value = contato.IdUsuario;
-            comando.Parameters.Add(pIdUsuario);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = contato.Nome;

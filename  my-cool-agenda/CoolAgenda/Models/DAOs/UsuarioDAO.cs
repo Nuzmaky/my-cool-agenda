@@ -15,7 +15,7 @@ namespace CoolAgenda.Models
         //Insert
         public void Insert(Usuario user)
         {
-            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?)";
+            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
@@ -30,6 +30,11 @@ namespace CoolAgenda.Models
             OleDbParameter pSenha = new OleDbParameter("Senha", OleDbType.VarChar);
             pSenha.Value = user.Senha;
             comando.Parameters.Add(pSenha);
+
+            OleDbParameter pNivel = new OleDbParameter("Nivel", OleDbType.VarChar);
+            pNivel.Value = user.Nivel;    
+
+            comando.Parameters.Add(pNivel);
 
             comando.ExecuteNonQuery();
             comando.Dispose();
@@ -51,6 +56,45 @@ namespace CoolAgenda.Models
             }
 
             return ListaUsuario;
+        }
+
+
+        //Update
+        public void Update(Usuario usuario, DbTransaction transacao)
+        {
+            SQL = "UPDATE Usuario SET Email = ?, Nome = ?, Senha = ?, Nivel = ? WHERE IdUsuario = ?";           
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+            if (transacao != null)
+                comando.Transaction = transacao as OleDbTransaction;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
+
+            OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
+            pEmail.Value = usuario.Email;
+            comando.Parameters.Add(pEmail); 
+            
+            OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
+            pNome.Value = usuario.Nome;
+            comando.Parameters.Add(pNome);
+
+            OleDbParameter pSenha = new OleDbParameter("Senha", OleDbType.VarChar);
+            pSenha.Value = usuario.Senha;
+            comando.Parameters.Add(pSenha);
+
+            OleDbParameter pNivel = new OleDbParameter("Nivel", OleDbType.VarChar);
+            pNivel.Value = usuario.Nivel;
+            comando.Parameters.Add(pNivel);
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
         }
 
 

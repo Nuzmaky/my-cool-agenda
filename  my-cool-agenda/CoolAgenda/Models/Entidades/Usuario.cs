@@ -23,7 +23,8 @@ namespace CoolAgenda.Models
             get { return idUsuario; }
             set
             {
-                idUsuario = value;               
+                if (value > 0)
+                    idUsuario = value;              
             }
         }
 
@@ -34,7 +35,8 @@ namespace CoolAgenda.Models
             get { return email; }
             set
             {
-                email = value;
+                if (value != null && value.Length < 100)
+                    email = value;
             }
         }
 
@@ -45,7 +47,7 @@ namespace CoolAgenda.Models
             get { return senha; }
             set
             {
-                if (value.Length < 50)
+                if (value != null && value.Length < 50)
                     senha = value;
             }
 
@@ -57,7 +59,8 @@ namespace CoolAgenda.Models
             get { return nome; }
             set
             {
-                nome = value;
+                if (value != null && value.Length < 100)
+                    nome = value;
             }
         }
 
@@ -67,8 +70,8 @@ namespace CoolAgenda.Models
             get { return nivel; }
             set
             {
-                if (value != null && value.Length <= 1)
-                    nivel = value.ToUpper();
+                if (value != null && value.Length < 2)
+                nivel = value;
             }
         }
 

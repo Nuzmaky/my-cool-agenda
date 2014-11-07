@@ -16,7 +16,7 @@ namespace CoolAgenda.Models
             get { return idGrupo; }
             set
             {
-                if (idGrupo > 0)
+                if (value > 0)
                     idGrupo = value;
             }
         }
@@ -27,7 +27,7 @@ namespace CoolAgenda.Models
             get { return nome; }
             set
             {
-                if (nome != null && value.Length <= 50)
+                if (value != null && value.Length <= 50)
                     nome = value;
             }
 

@@ -19,7 +19,8 @@ namespace CoolAgenda.Models
             get { return idTelefone; }
             set
             {
-                idTelefone = value;
+                if (value > 0)
+                    idTelefone = value;
             }
         }
 
@@ -27,7 +28,11 @@ namespace CoolAgenda.Models
         public int IdContato
         {
             get { return idContato; }
-            set { idContato = value; }
+            set
+            {
+                if (value > 0)
+                    idContato = value;
+            }
         }
 
 

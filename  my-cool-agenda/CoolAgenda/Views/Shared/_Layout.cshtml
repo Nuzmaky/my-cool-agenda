@@ -15,17 +15,20 @@
 </head>
 <body>
     @{
-        if (1 > 0)
-        {
+        var usuario = Session["Usuario"] as CoolAgenda.Models.Usuario;
+            
+        if (usuario != null)
+        {       
         <div id="barrausuario">
             <ul id="menu">
-                <li><a href="#">Nome da Pessoa</a></li>
-                <li><a href="#">Sair</a></li>
+                <li><a href="#">@usuario.Nome</a></li>
+                <li><a href="#">@Html.ActionLink("Meus Dados","Index","Usuario")</a></li> 
+                <li><a href="#">@Html.ActionLink("Sair","Sair","Home")</a></li> 
             </ul>
         </div>
         }
     }
-
+    
     <div class="container">
         @RenderBody()
     </div>

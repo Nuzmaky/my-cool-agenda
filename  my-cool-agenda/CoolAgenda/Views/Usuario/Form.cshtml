@@ -31,6 +31,11 @@
                     @Html.LabelFor(m => m.Senha)
                     @Model.ListaUsuario[i].Senha
                 </td>
+
+                <td>
+                    @Html.LabelFor(m => m.Nivel)
+                    @Model.ListaUsuario[i].Nivel
+                </td>
             </tr>
         }
     </table>       
