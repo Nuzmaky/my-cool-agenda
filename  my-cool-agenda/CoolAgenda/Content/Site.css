@@ -1,44 +1,31 @@
-﻿html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    font-family: 'Lato', Calibri, Arial, sans-serif;
-    overflow: hidden;
+﻿/********PRINCIPAIS********/
+html, body {
+    width: 100%; height: 100%; margin: 0; font-family: 'Lato', Calibri, Arial, sans-serif; overflow: hidden;
 }
 
 a {
-    color: red;
-    text-decoration: none;
+    color: red; text-decoration: none;
+}
+
+.container {
+    margin-top:40px;
 }
 
 /********TELA LOGIN********/
 .fantasma {
-    position: absolute;
-    left: -100%;
+    position: absolute; left: -100%;
 }
 
 .framed {
-    position: absolute;
-    top: 42%;
-    left: 50%;
-    width: 15rem;
-    margin-left: -7.5rem;
+    position: absolute; top: 42%; left: 50%; width: 15rem; margin-left: -7.5rem;
 }
 
 .formLogin {
-    margin-top: -4.5em;
-    transition: 1s ease-in-out;
+    margin-top: -4.5em; transition: 1s ease-in-out;
 }
 
 .inputLogin {
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    font-size: 1.125rem;
-    width: 100%;
-    height: 3rem;
-    color: #444;
-    background-color: rgba(255,255,255,0.8);
-    border: 0;
+    -moz-box-sizing: border-box; box-sizing: border-box; font-size: 1.125rem; width: 100%; height: 3rem; color: #444; background-color: rgba(255,255,255,0.8); border: 0; 
     border-top: 1px solid rgba(255,255,255,0.3);
     padding: 0 1rem;
 }
@@ -48,18 +35,12 @@ a {
     }
 
 .inputLogin--cima {
-    border-radius: 0.5rem 0.5rem 0 0;
-    border-top: 0;
+    border-radius: 0.5rem 0.5rem 0 0; border-top: 0;
 }
 
 .inputLogin--submit {
-    background-color: rgba(92,168,214,0.9);
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    border-top: 0;
-    border-radius: 0 0 0.5rem 0.5rem;
-    margin-bottom: 1rem;
+    background-color: rgba(92,168,214,0.9); color: #fff; font-weight: bold; cursor: pointer;
+    border-top: 0; border-radius: 0 0 0.5rem 0.5rem; margin-bottom: 1rem;
 }
 
     .inputLogin--submit:hover {
@@ -67,15 +48,11 @@ a {
     }
 
 .textLogin {
-    color: #fff;
-    text-shadow: 0 1px 1px rgba(0,0,0,0.8);
-    text-decoration: none;
+    color: #fff; text-shadow: 0 1px 1px rgba(0,0,0,0.8); text-decoration: none;
 }
 
 .textLogin--small {
-    opacity: 0.85;
-    font-size: 0.75rem;
-    cursor: pointer;
+    opacity: 0.85; font-size: 0.75rem; cursor: pointer;
 }
 
     .textLogin--small:hover {
@@ -83,129 +60,60 @@ a {
     }
 
 .textLogin--config {
-    width: 200%;
-    margin: 0 0 5px -50%;
-    font-size: 1.9rem;
-    line-height: 1.125;
-    font-weight: bold;
+    width: 200%;  margin: 0 0 5px -50%; font-size: 1.9rem; line-height: 1.125; font-weight: bold;
 }
 
 .textLogin--centered {
-    display: block;
-    text-align: center;
+    display: block; text-align: center;
 }
 
 .textLogin--border-right {
-    border-right: 1px solid rgba(255,255,255,0.5);
-    margin-right: 0.75rem;
-    padding-right: 0.75rem;
+    border-right: 1px solid rgba(255,255,255,0.5); margin-right: 0.75rem; padding-right: 0.75rem;
 }
 
 .admin {
-    position: absolute;
-    right: 1.125rem;
-    bottom: 1.125rem;
+    position: absolute; right: 1.125rem; bottom: 1.125rem;
 }
 
 .fullscreen-bg {
-    position: fixed;
-    z-index: -1;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position: fixed; z-index: -1; top: 0; right: 0; bottom: 0; left: 0;
     background: #213C60 url(../Images/background.png) repeat center top;
 }
 
 #mudar--login:checked ~ .form--signup {
-    left: 200%;
-    visibility: hidden;
+    left: 200%;  visibility: hidden;
 }
 
 #mudar--admin:checked ~ .form--login {
-    left: -100%;
-    visibility: hidden;
+    left: -100%; visibility: hidden;
 }
 
 /********BARRA USUARIO********/
 #barrausuario {
-    background-color: #000;
-    height: 28px;
-    color: #FFF;
-    text-align: right;
-    position: fixed;
-    width: 98%;
-    z-index: 999;
-    margin-left:1%;
+    background-color: #000; height: 28px; color: #FFF; text-align: right; position: fixed;
+    width: 98%; -index: 999; margin-left:1%;
 }
 
     #barrausuario ul {
-        position: absolute;
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        right: 0;
+        position: absolute; margin: 0; padding: 0; list-style: none; right: 0;
     }
 
         #barrausuario ul li {
-            display: block;
-            position: relative;
-            float: left;
+            display: block; position: relative; float: left;
         }
 
             #barrausuario ul li a {
-                display: block;
-                text-decoration: none;
-                color: #ffffff;
-                padding: 4px 10px 4px 10px;
-                background: #000;
-                margin-left: 1px;
-                white-space: nowrap;
+                display: block; text-decoration: none; color: #ffffff; padding: 4px 10px 4px 10px;
+                background: #000; margin-left: 1px; white-space: nowrap;
             }
 
                 #barrausuario ul li a:hover {
-                    background: #222;
-                    text-decoration: underline;
+                    background: #222; text-decoration: underline;
                 }
-
-    .black_overlay{
-        display: none;
-        position: absolute;
-        top: 0%;
-        left: 0%;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-        z-index:1001;
-        -moz-opacity: 0.8;
-        opacity:.80;
-        filter: alpha(opacity=80);
-    }
-    .white_content {
-        display: none;
-        position: absolute;
-        top: 25%;
-        left: 40%;
-        width: 20%;
-        height: 40%;
-        padding: 16px;
-        border: 16px solid #3276b1;
-        background-color: white;
-        z-index:1002;
-        overflow: auto;
-    }
-
-.container {
-    margin-top:40px;
-}
-
 
 /****MENU****/
 nav {
-  font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
-  line-height: 1.5;
-  margin: 0 auto; /*for display only*/
-  width: 100%;
+  font-family: Helvetica, Arial, "Lucida Grande", sans-serif; line-height: 1.5; margin: 0 auto; width: 100%;
   -webkit-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
      -moz-box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
           box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
@@ -213,36 +121,21 @@ nav {
 }
  
 .menu-item {
-  background: #fff;
-  width: 90%; 
+  background: #fff; width: 90%; 
 }
 
-/*Menu Header Styles*/
+/*Menu Header Estilos*/
 .menu-item h4 {
-  color: #fff;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 7px 12px;
-  background: #a90329;
+  color: #fff;  font-size: 15px; font-weight: 500; padding: 7px 12px; background: #a90329; border-bottom: 1px solid rgba(0,0,0,0.3);
+  border-top: 1px solid rgba(255,255,255,0.2);
 }
 
 .menu-item h4 a {
-  color: white;
-  display: block;
-  text-decoration: none;
-  width: 90%;
+  color: white; display: block; text-decoration: none; width: 90%;
 }
 
-/*Menu Header Styles*/
 .menu-item h4 {
-  border-bottom: 1px solid rgba(0,0,0,0.3);
-  border-top: 1px solid rgba(255,255,255,0.2);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 7px 12px;
-   
-  /*Gradient*/
+    /*COR DEGRADE*/
   background: #a90329; /* Old browsers */
   background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a90329), color-stop(44%,#8f0222), color-stop(100%,#6d0019)); /* Chrome,Safari4+ */
@@ -264,53 +157,22 @@ nav {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc002c', endColorstr='#6d0019',GradientType=0 ); /* IE6-9 */
 }
 
-/*ul Styles*/
+/*ul Estilos*/
 .menu-item ul {
-  background: #fff;
-  font-size: 13px;
-  line-height: 30px;
-  list-style-type: none;
-  overflow: hidden;
-  padding: 0px;
+  background: #fff; font-size: 13px; line-height: 30px; list-style-type: none; overflow: hidden; padding: 0px;
 }
  
 .menu-item ul a {
-  margin-left: 20px;
-  text-decoration: none;
-  color: #aaa;
-  display: block;
-  width: 200px;
+  margin-left: 20px; text-decoration: none; color: #aaa; display: block; width: 200px;
 }
  
-/*li Styles*/
+/*li Estilos*/
 .menu-item li {
   border-bottom: 1px solid #eee;
 }
  
 .menu-item li:hover {
   background: #eee;
-}
-
-/*ul Styles*/
-.menu-item ul {
-  background: #fff;
-  font-size: 13px;
-  line-height: 30px;
-  height: 0px; /*Collapses the menu*/
-  list-style-type: none;
-  overflow: hidden;
-  padding: 0px;
-}
-
-/*ul Styles*/
-.menu-item ul {
-  background: #fff;
-  font-size: 13px;
-  line-height: 30px;
-  height: 0px;
-  list-style-type: none;
-  overflow: hidden;
-  padding: 0px;
 }
 
 #agendasSubMenu {

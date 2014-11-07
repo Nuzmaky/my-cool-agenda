@@ -28,7 +28,7 @@ namespace CoolAgenda.Models
         public DateTime DataInicial
         {
             get { return dataInicial; }
-            set { dataFinal = value; }
+            set { dataInicial = value; }
         }
 
         // DATA FINAL

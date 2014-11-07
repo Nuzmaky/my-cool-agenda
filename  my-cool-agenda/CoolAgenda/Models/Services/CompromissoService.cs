@@ -54,7 +54,7 @@ namespace CoolAgenda.Models
         {
             List<Validacao> erros = new List<Validacao>();
 
-            bool dataInvalida = entidade.DataInicial <= DateTime.Now || entidade.DataInicial >= entidade.DataFinal;
+            bool dataInvalida = entidade.DataInicial >= entidade.DataFinal;
             if (dataInvalida)
                 erros.Add(new Validacao("Não é possível cadastrar compromisso na data informada"));
 

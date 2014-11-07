@@ -9,9 +9,9 @@ namespace CoolAgenda.ViewModels.Compromisso
 {
     public class CadastrarVM
     {
-        public bool Edicao { get; set; }
+       // public bool Edicao { get; set; }
 
-        public int IdCompromisso { get; set; }
+        //public int IdCompromisso { get; set; }
 
         [Display(Name = "Nome *")]
         [Required(ErrorMessage = "Insira um nome para o Compromisso")]
@@ -21,12 +21,14 @@ namespace CoolAgenda.ViewModels.Compromisso
 
         [Display(Name = "Data Inicial  *")]
         [Required(ErrorMessage = "Insira uma data e horário inicial para o Compromisso")]
-        [DisplayFormat(DataFormatString = "dd/mm/yyy hh24:mi:ss")]
+        //[DisplayFormat(DataFormatString = "dd/mm/yyy hh24:mi:ss")]
+        [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
         public string DataInicial { get; set; }
 
         [Display(Name = "Data Final  *")]
         [Required(ErrorMessage = "Insira uma data e horário final para o Compromisso")]
-        [DisplayFormat(DataFormatString = "dd/mm/yyy hh24:mi:ss")]
+        //[DisplayFormat(DataFormatString = "dd/mm/yyy hh24:mi:ss")]
+        [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
         public string DataFinal { get; set; }
     }
 }

@@ -33,14 +33,32 @@ namespace CoolAgenda.Controllers
             return PartialView();
         }
 
+        /*public ActionResult Cadastrar(int? id)
+        {
+            CadastrarVM vm;
+            if (id.HasValue)
+            {
+              //vm = CadastrarVMEdicao(id.Value);
+               // if (vm == null)
+                    return new HttpNotFoundResult();
+            }
+            else
+            {
+                vm = CadastrarVMNovo();
+            }
+
+            return View(vm);
+        }*/
+
         [HttpPost]
         public ActionResult Cadastrar(CadastrarVM vm)
         {
+            //vm.Edicao = false;
             if (ModelState.IsValid)
             {
                 Compromisso reg = new Compromisso();
 
-                reg.IdCompromisso = vm.IdCompromisso;
+               // reg.IdCompromisso = vm.IdCompromisso;
                 reg.NomeCompromisso = vm.NomeCompromisso;
                 reg.DataInicial = DateTime.Parse(vm.DataInicial);
                 reg.DataFinal = DateTime.Parse(vm.DataFinal);
@@ -49,12 +67,12 @@ namespace CoolAgenda.Controllers
 
                 if (erros.Count == 0)
                 {
-                    if (vm.Edicao)
+                   /* if (vm.Edicao)
                         compromissoService.Atualizar(reg);
-                    else
+                    else */
                         compromissoService.Adicionar(reg);
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index","Agenda");
                 }
                 else
                 {
@@ -65,7 +83,28 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
+        // MÉTODOS A SEREM CHAMADOS
+        /*
+        private CadastrarVM CadastrarVMNovo()
+        {
+            CadastrarVM vm = new CadastrarVM();
+            vm.Edicao = false;
+            return vm;
+        }
 
+        
+        private CadastrarVM CadastrarVMEdicao(int id)
+        {
+            Compromisso reg = compromissoService.BuscarPorId(id);
+            CadastrarVM vm = null;
+            if (registro != null)
+            {
+                vm = ConverterFormVM(registro);
+                vm.Edicao = true;
+                PopulaItensFormVM(vm);
+            }
+            return vm;
+        } */
     }
 
 }
