@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
 
 namespace CoolAgenda.Models
@@ -11,8 +14,9 @@ namespace CoolAgenda.Models
         private string email;
         private string senha;
         private string nome;
-
+        
         private string nivel;
+        private string ativo;
 
         //Lista
         public List<Usuario> listaUsuario = new List<Usuario>();
@@ -74,6 +78,17 @@ namespace CoolAgenda.Models
                 nivel = value;
             }
         }
+        public string Ativo
+        {
+            get { return ativo; }
+            set
+            {
+                if (value != null && value.Length < 2)
+                    ativo = value;
+            }
+        }
+
+
 
     }
 }

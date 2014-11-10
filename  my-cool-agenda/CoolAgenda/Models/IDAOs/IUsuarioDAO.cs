@@ -11,6 +11,8 @@ namespace CoolAgenda.Models
     {
         void Insert(Usuario usuario);
 
+        void AtivaCadastro(Usuario usuario);
+
         List<Usuario> Select();
     }
 }

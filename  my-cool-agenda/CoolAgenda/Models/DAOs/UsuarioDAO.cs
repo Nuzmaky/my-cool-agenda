@@ -15,7 +15,7 @@ namespace CoolAgenda.Models
         //Insert
         public void Insert(Usuario user)
         {
-            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?, ?)";
+            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel, Ativo) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?, ?, 'N')";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
@@ -33,7 +33,6 @@ namespace CoolAgenda.Models
 
             OleDbParameter pNivel = new OleDbParameter("Nivel", OleDbType.VarChar);
             pNivel.Value = user.Nivel;    
-
             comando.Parameters.Add(pNivel);
 
             comando.ExecuteNonQuery();
@@ -55,6 +54,8 @@ namespace CoolAgenda.Models
                 ListaUsuario.Add(ConverterParaTipoClasse(dr));
             }
 
+            dr.Close();
+
             return ListaUsuario;
         }
 
@@ -62,7 +63,7 @@ namespace CoolAgenda.Models
         //Update
         public void Update(Usuario usuario, DbTransaction transacao)
         {
-            SQL = "UPDATE Usuario SET Email = ?, Nome = ?, Senha = ?, Nivel = ? WHERE IdUsuario = ?";           
+            SQL = "UPDATE Usuario SET Email = ?, Nome = ?, Senha = ?, Nivel = ?, Ativo = ? WHERE IdUsuario = ?";           
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -74,7 +75,6 @@ namespace CoolAgenda.Models
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
             pIdUsuario.Value = usuario.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
-
 
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
             pEmail.Value = usuario.Email;
@@ -92,9 +92,80 @@ namespace CoolAgenda.Models
             pNivel.Value = usuario.Nivel;
             comando.Parameters.Add(pNivel);
 
+            OleDbParameter pAtivo = new OleDbParameter("Ativo", OleDbType.VarChar);
+            pAtivo.Value = usuario.Ativo;
+            comando.Parameters.Add(pAtivo);
+
             // Update
             comando.ExecuteNonQuery();
             comando.Dispose();
+        }
+
+
+        // Coloca Cadastro como Pendente
+        public void CadastroPendente(Usuario usuario)
+        {
+            SQL = "UPDATE Usuario SET Ativo = 'P' WHERE IdUsuario = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        // Ativa cadastro
+        public void AtivaCadastro(Usuario usuario)
+        {
+            SQL = "UPDATE Usuario SET Ativo = 'S' WHERE IdUsuario = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);          
+            
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public bool VerificaCadastroAtivo(Usuario usuario)
+        {
+            Usuario registro = null;
+            SQL = "SELECT Ativo FROM Usuario WHERE IdUsuario = ?;";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterParaTipoClasse(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            if (usuario.Ativo == "N")
+                return false;
+            else
+                return true;
         }
 
 
@@ -104,11 +175,12 @@ namespace CoolAgenda.Models
 
             Usuario user = new Usuario();
 
-            user.IdUsuario = int.Parse(dr["Idusuario"].ToString());
+            user.IdUsuario = int.Parse(dr["IdUsuario"].ToString());
             user.Email = dr["Email"].ToString();
             user.Nome = dr["Nome"].ToString();
             user.Senha = dr["Senha"].ToString();
             user.Nivel = dr["Nivel"].ToString();
+            user.Ativo = dr["Ativo"].ToString();
 
             return user;
         }

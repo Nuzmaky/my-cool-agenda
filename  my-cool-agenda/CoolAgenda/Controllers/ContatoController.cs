@@ -34,7 +34,7 @@ namespace CoolAgenda.Controllers
             contato.IdUsuario = idUsuario;
 
             contatoDAO.Insert(contato);
-            contatoVM.ListaContato = contatoDAO.Select(); 
+            contatoVM.ListaContato = contatoDAO.Select();
             return View(contatoVM);
         }
     }

@@ -1,0 +1,25 @@
+﻿@model CoolAgenda.ViewModels.UsuarioVM
+@{
+    ViewBag.Title = "Dados de Ativação de Cadastro";
+}
+
+<h2>Dados de Ativação de Cadastro</h2>
+
+
+<h3>Por favor, confirme seus dados para ativação do cadastro.</h3>
+
+@using(Html.BeginForm("Index","Home",FormMethod.Post))
+{
+    @Html.Label("E-mail: ")
+    @Html.TextBoxFor(m => m.Email) <br />        
+    
+    @Html.Label("Senha: ")
+    @Html.PasswordFor(m => m.Senha) <br />     
+    
+    <input type="submit" name="btOK" value="Cadastrar!" />
+}
+
+<br />
+<br />
+
+

@@ -361,6 +361,9 @@
     <Content Include="Views\Erro\NotFound.cshtml" />
     <Content Include="Views\Grupo\Index.cshtml" />
     <Content Include="Views\Grupo\Form.cshtml" />
+    <Content Include="Views\Usuario\AtivaCadastro.cshtml" />
+    <Content Include="Views\Usuario\CadastroInativo.cshtml" />
+    <Content Include="Views\Usuario\DadosAtivacaoCadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

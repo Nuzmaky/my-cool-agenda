@@ -13,11 +13,20 @@ namespace CoolAgenda.Controllers
     {
         //
         // GET: /Usuario/
+        private IUsuarioService usuarioService;
 
+        // Instancia o Service usuario
+        public UsuarioController()
+        {
+            usuarioService = new UsuarioService();
+        }
+
+        //Objetos
         Usuario usuario = new Usuario(); 
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
+        // Cadastro de Usuário
         [FiltroAutenticacao("A")]
         public ActionResult Index(UsuarioVM userVM)
         {            
@@ -25,7 +34,7 @@ namespace CoolAgenda.Controllers
         }
 
 
-        
+        // View de retorno de cadastro.
         [HttpPost]
         public ActionResult Form(Usuario usuario, UsuarioVM usuarioVM)
         {
@@ -40,9 +49,48 @@ namespace CoolAgenda.Controllers
             else
                 usuario.Nivel = "U";
 
+            // Insere no Banco
             usuarioDAO.Insert(usuario);
+
+            // Envial E-mail de Confirmação
+            UsuarioService.EnviaEmailCadastro(usuarioVM.Email, usuarioVM.Senha, usuarioVM.Nome);
+
+            //Lista os usuários cadastrados
             usuarioVM.ListaUsuario = usuarioDAO.Select();            
             return View(usuarioVM);            
+        }
+
+        // Cadastro Inativos
+        [FiltroAutenticacao]
+        public ActionResult CadastroInativo()
+        {
+            ViewBag.Inativo = "Seu cadastro está inativo. Ative clicando no link enviado por e-mail na hora de seu cadastro.";
+            return View();
+        }
+
+        [FiltroAutenticacao]
+        public ActionResult AtivaCadastro(Usuario usuario)
+        {
+            // Pega o usuário na sessão
+            Usuario usuarioSession = Session["Usuario"] as Usuario;
+            string email = usuarioSession.Email;
+                        
+            bool ativo = usuarioService.AtivarCadastro(email);
+            if (ativo)
+            {
+                ViewBag.Sucesso = "Usuário ativado com sucesso!";
+                return View();
+            }
+            else
+                ViewBag.Mensagem = "Não é possível ativar o registro solicitado. Contate a área de suporte.";
+            
+            return View(usuario);            
+        }
+
+        
+        public ActionResult DadosAtivacaoCadastro()
+        {
+            return View();
         }
 
     }

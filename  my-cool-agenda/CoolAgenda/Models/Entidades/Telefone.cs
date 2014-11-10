@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Net.Mail;
 
 namespace CoolAgenda.Models
 {
     public class Telefone
     {
-
         private int idTelefone;
         private int idContato; //FK
         private string numeroTelefone;
-
 
         // ID
         public int IdTelefone
