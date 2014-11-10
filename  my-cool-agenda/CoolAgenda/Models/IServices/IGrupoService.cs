@@ -10,5 +10,18 @@ namespace CoolAgenda.Models
 {
     public interface IGrupoService
     {
+        List<Grupo> Listar();
+
+        List<Validacao> ValidarEntidade(Grupo entidade);
+
+        List<Validacao> ValidaAdicionar(Grupo entidade);
+
+        void Adicionar(Grupo entidade);
+
+        void Atualizar(Grupo entidade);
+
+        List<Validacao> ValidaAtualizar(Grupo entidade);
+
+        Grupo BuscarPorId(int id);
     }
 }

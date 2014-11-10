@@ -13,9 +13,9 @@ namespace CoolAgenda.Models
         private string SQL;
 
         //Insert
-        public void Insert(Grupo grupo)
+        public void Adicionar(Grupo grupo)
         {
-            SQL = "INSERT INTO Grupo (IdGrupo, Nome) VALUES (SeqGrupo.NEXTVAL, ?)";
+            SQL = "INSERT INTO Grupo (IdGrupo, Nome, CNPJ, FlagAtivo) VALUES (SeqGrupo.NEXTVAL, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
@@ -23,72 +23,80 @@ namespace CoolAgenda.Models
             pNome.Value = grupo.Nome;
             comando.Parameters.Add(pNome);
 
+            OleDbParameter pCNPJ = new OleDbParameter("CNPJ", OleDbType.VarChar);
+            pCNPJ.Value = grupo.CNPJ;
+            comando.Parameters.Add(pCNPJ);
+
+            OleDbParameter pFlagAtivo = new OleDbParameter("pFlagAtivo", OleDbType.VarChar);
+            pFlagAtivo.Value = grupo.FlagAtivo;
+            comando.Parameters.Add(pFlagAtivo);
+
             comando.ExecuteNonQuery();
             comando.Dispose();
         }
 
         //Select
-        public List<Grupo> Select()
+        public List<Grupo> Listar()
         {
-            List<Grupo> ListaGrupo = new List<Grupo>();
-            string SQL = "Select * From Grupo";
-            OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            String sqlConsulta = "Select * from Grupo";
 
-            OleDbDataReader dr = Select.ExecuteReader();
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
 
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<Grupo> registros = new List<Grupo>();
             while (dr.Read())
             {
-                ListaGrupo.Add(ConverterParaTipoClasse(dr));
+                Grupo registro = ConverterDataReaderParaObj(dr);
+                registros.Add(registro);
             }
+            dr.Close();
+            comando.Dispose();
 
-            return ListaGrupo;
+            return registros;
         }
 
+        private Grupo ConverterDataReaderParaObj(OleDbDataReader dr)
+        {
+            Grupo registro = new Grupo();
+            registro.IdGrupo = Int32.Parse(dr["IdGrupo"].ToString());
+            registro.Nome = dr["Nome"].ToString();
+            registro.CNPJ = dr["CNPJ"].ToString();
+            registro.FlagAtivo = dr["FlagAtivo"].ToString();
+            return registro;
+        }
 
         //Update
-        public void Update(Grupo grupo, DbTransaction transacao)
+        public void Atualizar(Grupo grupo)
         {
-            SQL = "UPDATE Grupo SET IdGrupo = ?, Nome = ?";
+            SQL = "UPDATE Grupo SET Nome = ?, CNPJ = ?, FlagAtivo = ? where IdGrupo = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
-            if (transacao != null)
-                comando.Transaction = transacao as OleDbTransaction;
-
-            OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.Integer);
-            pIdGrupo.Value = grupo.IdGrupo;
-            comando.Parameters.Add(pIdGrupo);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = grupo.Nome;
             comando.Parameters.Add(pNome);
 
+            OleDbParameter pCNPJ = new OleDbParameter("CNPJ", OleDbType.VarChar);
+            pCNPJ.Value = grupo.CNPJ;
+            comando.Parameters.Add(pCNPJ);
+
+            OleDbParameter pFlagAtivo = new OleDbParameter("FlagAtivo", OleDbType.VarChar);
+            pFlagAtivo.Value = grupo.FlagAtivo;
+            comando.Parameters.Add(pFlagAtivo);
+
+            OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.Integer);
+            pIdGrupo.Value = grupo.IdGrupo;
+            comando.Parameters.Add(pIdGrupo);
+
             // Update
-            comando.ExecuteNonQuery();
-            comando.Dispose();
-        }
-
-
-
-        //Delete
-        public void DeleteById(int id, DbTransaction transacao)
-        {
-            SQL = "DELETE Grupo WHERE IdGrupo = ?";
-
-            // Configura o comando
-            OleDbCommand comando = new OleDbCommand();
-            comando.Connection = Conexao.getConexao() as OleDbConnection;
-            comando.CommandText = SQL;
-            if (transacao != null)
-                comando.Transaction = transacao as OleDbTransaction;
-
-            OleDbParameter pId = new OleDbParameter("IdGrupo", OleDbType.VarChar);
-            pId.Value = id;
-            comando.Parameters.Add(pId);
-
-            // Delete
             comando.ExecuteNonQuery();
             comando.Dispose();
         }
@@ -104,6 +112,30 @@ namespace CoolAgenda.Models
             return grupo;
         }
 
+        public Grupo BuscarPorId(int id)
+        {
+            Grupo registro = null;
+            string sqlBuscar = "select * from Grupo where IdGrupo = ?";
 
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdGrupo", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterDataReaderParaObj(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
+        }
     }
 }

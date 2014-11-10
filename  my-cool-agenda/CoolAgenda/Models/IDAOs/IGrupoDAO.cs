@@ -9,12 +9,12 @@ namespace CoolAgenda.Models
 {
     public interface IGrupoDAO
     {
-        void Insert(Grupo grupo);
+        void Adicionar(Grupo entidade);
 
-        void Update(Grupo grupo, DbTransaction transacao);
+        void Atualizar(Grupo entidade);
 
-        void DeleteById(int id, DbTransaction transacao);
+        List<Grupo> Listar();
 
-        List<Grupo> Select();
+        Grupo BuscarPorId(int id);
     }
 }

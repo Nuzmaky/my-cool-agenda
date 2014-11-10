@@ -5156,7 +5156,7 @@ $.extend(DayGrid.prototype, {
 		var classes = this.getSegClasses(seg, isDraggable, isResizable);
 		var skinCss = this.getEventSkinCss(event);
 		var timeHtml = '';
-		var titleHtml;
+		var NomeCompromissoHtml;
 
 		classes.unshift('fc-day-grid-event');
 
@@ -5165,9 +5165,9 @@ $.extend(DayGrid.prototype, {
 			timeHtml = '<span class="fc-time">' + htmlEscape(view.getEventTimeText(event)) + '</span>';
 		}
 
-		titleHtml =
-			'<span class="fc-title">' +
-				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
+		NomeCompromissoHtml =
+			'<span class="fc-NomeCompromisso">' +
+				(htmlEscape(event.NomeCompromisso || '') || '&nbsp;') + // we always want one line of height
 			'</span>';
 		
 		return '<a class="' + classes.join(' ') + '"' +
@@ -5182,8 +5182,8 @@ $.extend(DayGrid.prototype, {
 			'>' +
 				'<div class="fc-content">' +
 					(isRTL ?
-						titleHtml + ' ' + timeHtml : // put a natural space in between
-						timeHtml + ' ' + titleHtml   //
+						NomeCompromissoHtml + ' ' + timeHtml : // put a natural space in between
+						timeHtml + ' ' + NomeCompromissoHtml   //
 						) +
 				'</div>' +
 				(isResizable ?
@@ -5627,14 +5627,14 @@ $.extend(DayGrid.prototype, {
 	renderSegPopoverContent: function(date, segs) {
 		var view = this.view;
 		var isTheme = view.opt('theme');
-		var title = date.format(view.opt('dayPopoverFormat'));
+		var NomeCompromisso = date.format(view.opt('dayPopoverFormat'));
 		var content = $(
 			'<div class="fc-header ' + view.widgetHeaderClass + '">' +
 				'<span class="fc-close ' +
 					(isTheme ? 'ui-icon ui-icon-closethick' : 'fc-icon fc-icon-x') +
 				'"></span>' +
-				'<span class="fc-title">' +
-					htmlEscape(title) +
+				'<span class="fc-NomeCompromisso">' +
+					htmlEscape(NomeCompromisso) +
 				'</span>' +
 				'<div class="fc-clear"/>' +
 			'</div>' +
@@ -6339,9 +6339,9 @@ $.extend(TimeGrid.prototype, {
 						'</div>' :
 						''
 						) +
-					(event.title ?
-						'<div class="fc-title">' +
-							htmlEscape(event.title) +
+					(event.NomeCompromisso ?
+						'<div class="fc-NomeCompromisso">' +
+							htmlEscape(event.NomeCompromisso) +
 						'</div>' :
 						''
 						) +

@@ -56,7 +56,7 @@ namespace CoolAgenda.Models
 
             bool dataInvalida = entidade.DataInicial >= entidade.DataFinal;
             if (dataInvalida)
-                erros.Add(new Validacao("Não é possível cadastrar compromisso na data informada"));
+                erros.Add(new Validacao("Data Inicial maior que a Data Final"));
 
             return erros;
         }

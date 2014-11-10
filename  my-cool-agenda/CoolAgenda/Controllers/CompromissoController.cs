@@ -72,7 +72,7 @@ namespace CoolAgenda.Controllers
                     else */
                         compromissoService.Adicionar(reg);
 
-                    return RedirectToAction("Index","Agenda");
+                        return Json(new { redirectTo = Url.Action("Index", "Agenda") });
                 }
                 else
                 {
@@ -80,7 +80,7 @@ namespace CoolAgenda.Controllers
                 }
             }
 
-            return View(vm);
+            return PartialView(vm);
         }
 
         // MÉTODOS A SEREM CHAMADOS

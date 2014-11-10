@@ -1,15 +1,43 @@
-﻿@model CoolAgenda.ViewModels.GrupoVM
+﻿@model CoolAgenda.ViewModels.GrupoVM.GrupoIndexVM
 @{
     ViewBag.Title = "Grupo";
 }
 
-<h2>Grupo</h2>
 
-@using(Html.BeginForm("Form","Grupo",FormMethod.Post))
-{
-    
-    @Html.Label("Nome: ")
-    @Html.TextBoxFor(m => m.Nome) <br />
-    
-    <input type="submit" name="btOK" value="Cadastrar!" />
-}
+<a href="@Url.Action("Form")"> Novo</a>
+
+<h2>Grupo</h2>
+    @{
+        if (Model.TotalRegistros > 0)
+        {
+        
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>CNPJ</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+            @for (int i = 0; i < Model.ListaGrupo.Count; i++)
+            {
+                    
+                <tr>
+                    <td>@Model.ListaGrupo[i].Nome</td>
+                    <td>@Model.ListaGrupo[i].CNPJ</td>
+                    <td class="opcoes2"><img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaGrupo[i].IdGrupo })</td>
+                    <td class="opcoes">
+                        <img class="no-border" src="../Imagens/excluir.png" /><a href="#" onclick="RemoverRegistro(@Model.ListaGrupo[i].IdGrupo);"> Remover</a>
+                    </td>
+
+                </tr>
+             
+            }
+        </table>
+        
+        }
+        else
+        {
+        <p>Não existe nenhum registro cadastrado.</p>
+        }
+    }
+    </table>     

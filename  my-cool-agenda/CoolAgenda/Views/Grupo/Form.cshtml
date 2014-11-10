@@ -1,23 +1,47 @@
-﻿@model CoolAgenda.ViewModels.GrupoVM
+﻿@model CoolAgenda.ViewModels.GrupoVM.GrupoFormVM
 @{
     ViewBag.Title = "Grupo";
 }
-
+    @{
+        if (Model.Edicao)
+        {
+            ViewBag.Title = "Editar Grupo";
+        <h1>Edite os dados do Grupo</h1>
+        }
+        else
+        {
+            ViewBag.Title = "Cadastrar Grupo";
+        <h1>Informe os dados do Grupo</h1>
+        }
+    }
 <h2>Grupo</h2>
 
-    <table>
-        @for (int i = 0; i < Model.ListaGrupo.Count; i++)
-        {
-            <tr>
-                <td> 
-                     @Html.LabelFor(m =>m.IdGrupo)
-                     @Model.ListaGrupo[i].IdGrupo
-                </td>
+@using(Html.BeginForm("Form","Grupo",FormMethod.Post))
+{
+    @Html.ValidationSummary()
 
-                <td>
-                     @Html.LabelFor(m => m.Nome)
-                     @Model.ListaGrupo[i].Nome                 
-                </td>                
-            </tr>
-        }
-    </table>     
+    @Html.HiddenFor(m => m.Edicao)
+    @Html.HiddenFor(m => m.IdGrupo)
+
+    @Html.LabelFor(m => m.Nome)
+    @Html.TextBoxFor(m => m.Nome) <br />
+    
+    @Html.LabelFor(m => m.CNPJ)
+    @Html.TextBoxFor(m => m.CNPJ, new { @class = "CNPJ" }) <br />
+    
+    @Html.CheckBoxFor(m => m.FlagAtivo)
+    @Html.LabelFor(m => m.FlagAtivo, new { @style = "display:inline; margin-left:2px" })
+    
+    <input type="submit" name="btOK" value="Cadastrar!" />
+}
+
+@Html.ActionLink("Voltar", "Index")
+
+
+<script>
+
+    $(document).ready(function () {
+        $(".CNPJ").mask("00.000.000/0000-00");
+    });
+
+</script>

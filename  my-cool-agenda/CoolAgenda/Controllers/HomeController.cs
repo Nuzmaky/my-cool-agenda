@@ -45,7 +45,7 @@ namespace CoolAgenda.Controllers
                 // Redireciona para as actions padrões de acordo com o nivel do usuário
                 // Se for um ADM, libera acesso
                 if (Autenticacao.VerificaAdm(nivel))
-                    return RedirectToAction("Index", "Usuario");
+                    return RedirectToAction("Index", "Grupo");
                 else
                 {
                     // Recebe a situação do Cadastro

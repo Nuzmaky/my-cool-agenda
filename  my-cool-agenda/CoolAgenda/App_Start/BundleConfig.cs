@@ -11,7 +11,8 @@ namespace CoolAgenda
             bundles.Add(new ScriptBundle("~/bundles/scripts").Include(
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery-ui-{version}.js",
-                        "~/Scripts/bootstrap.js"));
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/jquery.mask.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/Scripts/moment.min.js"));

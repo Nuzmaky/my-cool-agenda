@@ -94,7 +94,46 @@ input[type="text"].validation-summary-valid {
 <script>
 
     $(document).ready(function () {
-        $(".infobox").prepend("<span class='infoimage'>&nbsp;</span>");
         $(".errorbox").prepend("<span class='errorimage'><span class='errorhead'>Ops, existem problemas</span></span>");
     });
+
+    $(document).ready(function () {
+        $('#btnPopupSave').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Cadastrar", "Compromisso")',
+                data: $('form').serialize(),
+                success: function (result) {
+                    if (result.redirectTo) {
+                        window.location.href = result.redirectTo;
+                    } else {
+                        $("#popupEventForm").html(result);
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+    });
+
+
+    $('#btnPopupCancel').click(function () {
+        resetValidation();
+        $('#popupEventForm').hide();  
+    });
+
+    function resetValidation() {
+        //Remove validacao dos input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Remove validation das mensagens dps dos input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Remove o validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+        $('#validationSummary').css('display','none');
+    }
 </script>
