@@ -2,44 +2,48 @@
     ViewBag.Title = "Agenda";
 }
 
-<div style="float: left; width: 13%; background: #FFF; margin-left: 1%">
-    <nav>
-        <div class="menu-item alpha">
-            <h4><a href="#" onclick="ShowEventPopup();">Novo Compromisso</a></h4>
-        </div>
-        <div class="menu-item alpha">
-            <h4><a href="#">Nova Tarefa</a></h4>
-        </div>
+<div id="paginaAgenda">
+    <div style="float: left; width: 13%; background: #FFF; margin-left: 1%">
+        <nav>
+            <div class="menu-item alpha">
+                <h4><a href="#" onclick="ShowEventPopup();">Novo Compromisso</a></h4>
+            </div>
+            <div class="menu-item alpha">
+                <h4><a href="#">Nova Tarefa</a></h4>
+            </div>
 
-        <div class="menu-item">
-            <h4 id="agendasMenu" ><a href="#">Minhas Agendas</a></h4>
-            <ul id="agendasSubMenu">
-                <li><a href="#">Pessoal</a></li>
-                <li><a href="#">Agenda1</a></li>
-                <li><a href="#">Agenda2</a></li>
-            </ul>
-        </div>
+            <div class="menu-item">
+                <h4 id="agendasMenu"><a href="#">Minhas Agendas</a></h4>
+                <ul id="agendasSubMenu">
+                    <li><a href="#">Pessoal</a></li>
+                    <li><a href="#">Agenda1</a></li>
+                    <li><a href="#">Agenda2</a></li>
+                </ul>
+            </div>
 
-        <div class="menu-item">
-            <h4 id="tarefasMenu"><a href="#">Tarefas</a></h4>
-            <ul id="tarefasSubMenu">
-                <li><input type="checkbox" style="float:left"/><a class="checkList" href="#">11111111</a></li>
-                <li><input type="checkbox" style="float:left"/><a class="checkList" href="#">22222222</a></li>
-                <li><input type="checkbox" style="float:left"/><a class="checkList" href="#">3333333</a></li>
-            </ul>
-        </div>
+            <div class="menu-item">
+                <h4 id="tarefasMenu"><a href="#">Tarefas</a></h4>
+                <ul id="tarefasSubMenu">
+                    <li>
+                        <input type="checkbox" style="float: left" /><a class="checkList" href="#">11111111</a></li>
+                    <li>
+                        <input type="checkbox" style="float: left" /><a class="checkList" href="#">22222222</a></li>
+                    <li>
+                        <input type="checkbox" style="float: left" /><a class="checkList" href="#">3333333</a></li>
+                </ul>
+            </div>
 
-    </nav>
+        </nav>
+    </div>
+
+    <div id='calendar' style="float: right; width: 85%; background: #FFF; margin-right: 1%;"></div>
+
+    <div id="popupEventForm" class="modal hide" style="display: none;">
+
+        @Html.Action("Cadastrar", "Compromisso")
+    </div>
+
 </div>
-
-<div id='calendar' style="float: right; width: 85%; background: #FFF; margin-right: 1%;"></div>
-
-<div id="popupEventForm" class="modal hide" style="display: none;">
-
-            @Html.Action("Cadastrar", "Compromisso")
-</div>
-
-
 @section scripts{
 
     <script>

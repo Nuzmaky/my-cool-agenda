@@ -2,11 +2,11 @@
 @{
     ViewBag.Title = "Grupo";
 }
+<div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
 
+    <a href="@Url.Action("Form")">Novo</a>
 
-<a href="@Url.Action("Form")"> Novo</a>
-
-<h2>Grupo</h2>
+    <h2>Grupo</h2>
     @{
         if (Model.TotalRegistros > 0)
         {
@@ -16,7 +16,7 @@
                 <th>Nome</th>
                 <th>CNPJ</th>
                 <th>Editar</th>
-                <th>Excluir</th>
+                <th>Ativar/Inativar</th>
             </tr>
             @for (int i = 0; i < Model.ListaGrupo.Count; i++)
             {
@@ -24,9 +24,17 @@
                 <tr>
                     <td>@Model.ListaGrupo[i].Nome</td>
                     <td>@Model.ListaGrupo[i].CNPJ</td>
-                    <td class="opcoes2"><img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaGrupo[i].IdGrupo })</td>
+                    <td class="opcoes2">
+                        <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaGrupo[i].IdGrupo })</td>
                     <td class="opcoes">
-                        <img class="no-border" src="../Imagens/excluir.png" /><a href="#" onclick="RemoverRegistro(@Model.ListaGrupo[i].IdGrupo);"> Remover</a>
+                        @if (Model.ListaGrupo[i].FlagAtivo.Equals("S"))
+                        {
+                            <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaGrupo[i].IdGrupo);"> Desativar</a>
+                        }
+                        else
+                        {
+                            <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaGrupo[i].IdGrupo);"> Ativar</a>
+                        }
                     </td>
 
                 </tr>
@@ -41,3 +49,5 @@
         }
     }
     </table>     
+
+</div>

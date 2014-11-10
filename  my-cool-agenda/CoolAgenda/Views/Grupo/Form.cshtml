@@ -2,6 +2,9 @@
 @{
     ViewBag.Title = "Grupo";
 }
+
+<div id="paginas">
+
     @{
         if (Model.Edicao)
         {
@@ -14,30 +17,30 @@
         <h1>Informe os dados do Grupo</h1>
         }
     }
-<h2>Grupo</h2>
+    <h2>Grupo</h2>
 
-@using(Html.BeginForm("Form","Grupo",FormMethod.Post))
-{
-    @Html.ValidationSummary()
+    @using (Html.BeginForm("Form", "Grupo", FormMethod.Post))
+    {
+        @Html.ValidationSummary()
 
-    @Html.HiddenFor(m => m.Edicao)
-    @Html.HiddenFor(m => m.IdGrupo)
+        @Html.HiddenFor(m => m.Edicao)
+        @Html.HiddenFor(m => m.IdGrupo)
 
-    @Html.LabelFor(m => m.Nome)
-    @Html.TextBoxFor(m => m.Nome) <br />
+        @Html.LabelFor(m => m.Nome)
+        @Html.TextBoxFor(m => m.Nome) <br />
     
-    @Html.LabelFor(m => m.CNPJ)
-    @Html.TextBoxFor(m => m.CNPJ, new { @class = "CNPJ" }) <br />
+        @Html.LabelFor(m => m.CNPJ)
+        @Html.TextBoxFor(m => m.CNPJ, new { @class = "CNPJ" }) <br />
     
-    @Html.CheckBoxFor(m => m.FlagAtivo)
-    @Html.LabelFor(m => m.FlagAtivo, new { @style = "display:inline; margin-left:2px" })
+        @Html.CheckBoxFor(m => m.FlagAtivo)
+        @Html.LabelFor(m => m.FlagAtivo, new { @style = "display:inline; margin-left:2px" })
     
-    <input type="submit" name="btOK" value="Cadastrar!" />
-}
+        <input type="submit" name="btOK" value="Salvar!" />
+    }
 
-@Html.ActionLink("Voltar", "Index")
+    @Html.ActionLink("Voltar", "Index")
 
-
+</div>
 <script>
 
     $(document).ready(function () {

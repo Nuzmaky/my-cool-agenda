@@ -306,8 +306,10 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Images\ativar.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\btadd.png" />
+    <Content Include="Images\desativar.png" />
     <Content Include="Images\Err-24x24.png" />
     <Content Include="Images\info-24x24.png" />
     <Content Include="Scripts\bootstrap.js" />

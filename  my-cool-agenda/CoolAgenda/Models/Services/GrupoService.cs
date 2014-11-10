@@ -46,7 +46,7 @@ namespace CoolAgenda.Models
                 erros.Add(new Validacao("Já existe um registro com o nome informado."));
 
             bool existeCNPJ = grupoDAO.Listar().Any(
-                p => p.CNPJ.Equals(entidade.CNPJ));
+                p => p.CNPJ.Equals(entidade.CNPJ) && p.IdGrupo != entidade.IdGrupo);
 
             if (existeCNPJ)
                 erros.Add(new Validacao("Já existe uma empresa com o CNPJ informado."));

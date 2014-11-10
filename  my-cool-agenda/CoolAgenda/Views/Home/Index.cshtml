@@ -3,9 +3,6 @@
     ViewBag.Title = "Login";
 }
 
-    <input type="radio" checked id="mudar--login" name="mudar" class="fantasma" />
-    <input type="radio" id="mudar--admin" name="mudar" class="fantasma" />           
-
     <div class="fullscreen-bg"></div>    
 
 
@@ -16,44 +13,3 @@
         @Html.PasswordFor(m => m.Senha, new { @class = "inputLogin", placeholder = "Senha", required = ""})
         <input type="submit" value="Entrar" class="inputLogin inputLogin--submit" />
     }
-
-    @using(Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "formLogin form--signup framed" }))
-    {
-        <h2 class="textLogin textLogin--centered textLogin--config">Administrador</h2>    
-        @Html.TextBoxFor(m => m.Email, "", new { @class = "inputLogin inputLogin--cima", placeholder = "Email" , required="" })      
-        @Html.PasswordFor(m => m.Senha, new { @class = "inputLogin", placeholder = "Senha" })
-        <input type="submit" value="Entrar" class="inputLogin inputLogin--submit" />
-    }
-        
-          
-    <div class="admin form--login">
-        <label for="mudar--admin" class="textLogin textLogin--small textLogin--centered">Admin</label>
-    </div>
-    
-    <div class="admin form--signup">
-        <label for="mudar--login" class="textLogin textLogin--small textLogin--centered">Email</label>
-    </div>
-
-
-
-
-
-
-
-<!-- 
-    <form class="formLogin form--login framed">
-        <h2 class="textLogin textLogin--centered textLogin--config">Cool Agenda</h2>
-        <input type="email" placeholder="Email" class="inputLogin inputLogin--cima" required="" />
-        <input type="password" placeholder="Senha" class="inputLogin" required="" />
-        <input type="submit" value="Entrar" class="inputLogin inputLogin--submit" />  
-    </form>  
-    
-    <form class="formLogin form--signup framed">
-        <h2 class="textLogin textLogin--centered textLogin--config">Administrador</h2>
-        <input type="email" placeholder="Email" class="inputLogin inputLogin--cima" required="" />
-        <input type="password" placeholder="Senha" class="inputLogin" required="" />
-        <input type="submit" value="Entrar" class="inputLogin inputLogin--submit" />
-    </form> -->
-   
- 
-
