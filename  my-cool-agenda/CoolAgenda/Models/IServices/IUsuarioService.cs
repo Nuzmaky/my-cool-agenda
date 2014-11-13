@@ -15,8 +15,14 @@ namespace CoolAgenda.Models
 
         bool AtivarCadastro(string email);
 
-        List<ValidationResult> ValidaUsuario(string email, string senha);
+        List<Validacao> ValidaUsuario(string email, string senha);
 
         List<Usuario> ListarUsuario();
+
+        List<Validacao> ValidaEntidadeUsuario(Usuario user, bool edicao);
+
+        List<Validacao> ValidaAdicionarUser(Usuario user);
+
+        List<Validacao> ValidaAtualizarUser(Usuario user);
     }
 }

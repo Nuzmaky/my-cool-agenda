@@ -202,6 +202,7 @@
     <Compile Include="Models\DAOs\Conexao.cs" />
     <Compile Include="Models\DAOs\ContatoDAO.cs" />
     <Compile Include="Models\DAOs\GrupoDAO.cs" />
+    <Compile Include="Models\DAOs\GrupoUsuarioDAO.cs" />
     <Compile Include="Models\DAOs\NotaDAO.cs" />
     <Compile Include="Models\DAOs\TarefaDAO.cs" />
     <Compile Include="Models\DAOs\TelefoneDAO.cs" />
@@ -209,6 +210,7 @@
     <Compile Include="Models\Entidades\Compromisso.cs" />
     <Compile Include="Models\Entidades\Contato.cs" />
     <Compile Include="Models\Entidades\Grupo.cs" />
+    <Compile Include="Models\Entidades\GrupoUsuario.cs" />
     <Compile Include="Models\Entidades\Nota.cs" />
     <Compile Include="Models\Entidades\Tarefa.cs" />
     <Compile Include="Models\Entidades\Telefone.cs" />
@@ -216,6 +218,7 @@
     <Compile Include="Models\IDAOs\ICompromissoDAO.cs" />
     <Compile Include="Models\IDAOs\IContatoDAO.cs" />
     <Compile Include="Models\IDAOs\IGrupoDAO.cs" />
+    <Compile Include="Models\IDAOs\IGrupoUsuarioDAO.cs" />
     <Compile Include="Models\IDAOs\INotaDAO.cs" />
     <Compile Include="Models\IDAOs\ITarefaDAO.cs" />
     <Compile Include="Models\IDAOs\ITelefoneDAO.cs" />
@@ -223,6 +226,7 @@
     <Compile Include="Models\IServices\ICompromissoService.cs" />
     <Compile Include="Models\IServices\IContatoService.cs" />
     <Compile Include="Models\IServices\IGrupoService.cs" />
+    <Compile Include="Models\IServices\IGrupoUsuarioService.cs" />
     <Compile Include="Models\IServices\INotaService.cs" />
     <Compile Include="Models\IServices\ITarefaService.cs" />
     <Compile Include="Models\IServices\ITelefoneService.cs" />
@@ -231,6 +235,7 @@
     <Compile Include="Models\Services\CompromissoService.cs" />
     <Compile Include="Models\Services\ContatoService.cs" />
     <Compile Include="Models\Services\GrupoService.cs" />
+    <Compile Include="Models\Services\GrupoUsuarioService.cs" />
     <Compile Include="Models\Services\NotaService.cs" />
     <Compile Include="Models\Services\TarefaService.cs" />
     <Compile Include="Models\Services\TelefoneService.cs" />

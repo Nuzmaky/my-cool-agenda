@@ -35,6 +35,11 @@ namespace CoolAgenda.Models
 
         void AddUsuario(Usuario user, DbTransaction transaction);
 
+        // Grupo Usuario
+
+        void AddGrupoUser(GrupoUsuario grupoUser, DbTransaction transaction);
+
+
 
     }
 }

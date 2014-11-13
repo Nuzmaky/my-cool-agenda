@@ -25,24 +25,25 @@ namespace CoolAgenda.Models
         //Autentica o Usuário
         public Usuario AutenticaUsuario (string email, string senha)
         {
-            return usuarioDAO.Select().Find(
+            return usuarioDAO.Listar().Find(
                         m => (m.Email.Equals(email) && m.Senha.Equals(senha)));
         }
 
         //Valida o Usuario - ERROS
-        public List<ValidationResult> ValidaUsuario(string email, string senha)
+        public List<Validacao> ValidaUsuario(string email, string senha)
         {
-            List<ValidationResult> erros = new List<ValidationResult>();
+            List<Validacao> erros = new List<Validacao>();
 
-            Usuario usuario = usuarioDAO.Select().Find(
+            Usuario usuario = usuarioDAO.Listar().Find(
                         m => (m.Email.Equals(email) && m.Senha.Equals(senha)));
 
             if (usuario == null)
             {
-                erros.Add(new ValidationResult("Usuário e/ou senha inválidos."));
+                erros.Add(new Validacao("Usuário e/ou senha inválidos."));
             }    
             else
             {
+                //TODO USUARIOS P E N
             }
 
             return erros;
@@ -51,7 +52,7 @@ namespace CoolAgenda.Models
         //Lista de Usuarios
         public List<Usuario> ListarUsuario()
         {
-            return usuarioDAO.Select();
+            return usuarioDAO.Listar();
         }
 
 
@@ -112,7 +113,7 @@ namespace CoolAgenda.Models
         //Ativar Cadastro
         public bool AtivarCadastro(string email)
         {
-            Usuario usuario = usuarioDAO.Select().Find(u => u.Email.Equals(email));
+            Usuario usuario = usuarioDAO.Listar().Find(u => u.Email.Equals(email));
 
             if (usuario != null)
             {
@@ -122,7 +123,52 @@ namespace CoolAgenda.Models
             return false;
         }
 
+        // Cadastrar Usuario
+        public List<Validacao> ValidaEntidadeUsuario(Usuario user, bool edicao)
+        {
+            List<Validacao> erros = new List<Validacao>();
 
+            if (edicao)
+            {
+                List<Validacao> errosAtualizar = ValidaAtualizarUser(user);
+                if (errosAtualizar != null)
+                    erros.AddRange(errosAtualizar);
+            }
+            else
+            {
+                List<Validacao> errosAdicionar = ValidaAdicionarUser(user);
+                if (errosAdicionar != null)
+                    erros.AddRange(errosAdicionar);                
+            }
+
+            return erros;
+        }
+
+        public List<Validacao> ValidaAdicionarUser(Usuario user)
+        {
+            List<Validacao> erros = new List<Validacao>();
+
+            bool existeEmail = usuarioDAO.Listar().Any(
+                p => p.Email.Equals(user.Email, StringComparison.InvariantCultureIgnoreCase));
+
+            if (existeEmail)
+                erros.Add(new Validacao("Email já cadastrado."));
+
+            return erros;
+        }
+
+        public List<Validacao> ValidaAtualizarUser(Usuario user)
+        {
+            List<Validacao> erros = new List<Validacao>();
+
+            bool existeEmail = usuarioDAO.Listar().Any(
+                p => p.Email.Equals(user.Email, StringComparison.InvariantCultureIgnoreCase));
+
+            if (existeEmail)
+                erros.Add(new Validacao("Email já cadastrado."));
+
+            return erros;
+        }
 
     }
 }

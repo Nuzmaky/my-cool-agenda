@@ -13,11 +13,13 @@ namespace CoolAgenda.Models
     {
         private IGrupoDAO grupoDAO;
         private IUsuarioDAO usuarioDAO;
+        private IGrupoUsuarioDAO grupoUsuarioDAO;
 
         public GrupoService()
         {
             grupoDAO = new GrupoDAO();
             usuarioDAO = new UsuarioDAO();
+            grupoUsuarioDAO = new GrupoUsuarioDAO();
         }
 
         public List<Grupo> Listar()
@@ -27,6 +29,7 @@ namespace CoolAgenda.Models
         
         public void Adicionar(Grupo grupo, Usuario user)
         {
+
             DbTransaction transaction = Conexao.getConexao().BeginTransaction();
             try
             {
@@ -37,6 +40,13 @@ namespace CoolAgenda.Models
                 int idUsuario = ProximoIdUser(transaction);
                 user.IdUsuario = idUsuario;
                 AddUsuario(user, transaction);
+
+                GrupoUsuario grupoUser = new GrupoUsuario();
+                grupoUser.IdGrupo = idGrupo;
+                grupoUser.IdUsuario = idUsuario;
+                grupoUser.Ativo = "S";
+                grupoUser.Administrador = "A";
+                AddGrupoUser(grupoUser, transaction);
 
                 transaction.Commit();
             }
@@ -65,6 +75,11 @@ namespace CoolAgenda.Models
         public void AddUsuario(Usuario user, DbTransaction transaction)
         {
             usuarioDAO.Adicionar(user, transaction);
+        }
+
+        public void AddGrupoUser(GrupoUsuario grupoUser, DbTransaction transaction)
+        {
+            grupoUsuarioDAO.Adicionar(grupoUser, transaction);
         }
 
         public void Atualizar(Grupo entidade)

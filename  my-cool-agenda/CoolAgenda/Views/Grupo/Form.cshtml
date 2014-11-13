@@ -32,9 +32,15 @@
         @Html.LabelFor(m => m.CNPJ)
         @Html.TextBoxFor(m => m.CNPJ, new { @class = "CNPJ" }) <br />
     
+        if (!Model.Edicao)
+        {
         @Html.LabelFor(m => m.Email)
         @Html.TextBoxFor(m => m.Email) <br />
-        
+        }
+        else
+        {
+            @Html.HiddenFor(m => m.Email, new { @Value = "default@default.com.br" });
+        }
         @Html.CheckBoxFor(m => m.FlagAtivo)
         @Html.LabelFor(m => m.FlagAtivo, new { @style = "display:inline; margin-left:2px" })   <br />
         <br />

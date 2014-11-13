@@ -59,7 +59,8 @@ namespace CoolAgenda.Controllers
                 Usuario user = ConverterFormVMUsuario(vm);
 
                 var erros = grupoService.ValidarEntidade(grupo);
-                if (erros.Count == 0)
+                var erros2 = usuarioService.ValidaEntidadeUsuario(user, vm.Edicao);
+                if (erros.Count == 0 && erros2.Count == 0)
                 {
                     if (vm.Edicao)
                         grupoService.Atualizar(grupo);
@@ -71,6 +72,7 @@ namespace CoolAgenda.Controllers
                 else
                 {
                     ModelState.AddModelErrors(erros);
+                    ModelState.AddModelErrors(erros2);
                 }
             }
 

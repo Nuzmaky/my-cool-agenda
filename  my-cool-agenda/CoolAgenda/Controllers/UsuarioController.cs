@@ -56,7 +56,7 @@ namespace CoolAgenda.Controllers
             UsuarioService.EnviaEmailCadastro(usuarioVM.Email, usuarioVM.Senha, usuarioVM.Nome);
 
             //Lista os usuários cadastrados
-            usuarioVM.ListaUsuario = usuarioDAO.Select();            
+            usuarioVM.ListaUsuario = usuarioDAO.Listar();            
             return View(usuarioVM);            
         }
 
