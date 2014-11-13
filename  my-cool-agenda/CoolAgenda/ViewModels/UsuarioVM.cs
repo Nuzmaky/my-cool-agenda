@@ -9,6 +9,8 @@ namespace CoolAgenda.ViewModels
 {
     public class UsuarioVM
     {
+        public bool Edicao { get; set; }
+
         [Display(Name = "Código: ")]
         public int IdUsuario { get; set; }
 
@@ -29,5 +31,6 @@ namespace CoolAgenda.ViewModels
 
 
         public List<Usuario> ListaUsuario { get; set; }
+        public int TotalRegistros { get; set; }
     }
 }

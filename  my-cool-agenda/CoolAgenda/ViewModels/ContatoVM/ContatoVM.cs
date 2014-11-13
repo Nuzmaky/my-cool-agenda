@@ -6,13 +6,16 @@ using System.Linq;
 using System.Web;
 
 namespace CoolAgenda.ViewModels
-{
+{    
     public class ContatoVM
     {
+
+        public bool Edicao { get; set; }
+
         [Display(Name = "Código: ")]
         public int IdContato { get; set; }
 
-        [Display(Name = "Código: ")]
+        [Display(Name = "Código do Usuário: ")]
         public int IdUsuario { get; set; }
 
         [Required(ErrorMessage = "Insira um Nome.")]
@@ -26,6 +29,12 @@ namespace CoolAgenda.ViewModels
         [Display(Name = "Endereço: ")]
         public string Endereco { get; set; }
 
+        [StringLength(14, MinimumLength = 13, ErrorMessage = "Insira o telefone corretamente.")]
+        [Required(ErrorMessage = "Insira um telefone.")]
+        [Display(Name = "Telefone *")]
+        public string Telefone { get; set; }
+
         public List<Contato> ListaContato { get; set; }
+        public int TotalRegistros { get; set; }
     }
 }

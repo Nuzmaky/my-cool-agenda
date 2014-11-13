@@ -238,7 +238,7 @@
     <Compile Include="Models\Services\Utilidades\Validacao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Compromisso\CadastrarVM.cs" />
-    <Compile Include="ViewModels\ContatoVM.cs" />
+    <Compile Include="ViewModels\ContatoVM\ContatoVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoFormVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoIndexVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />

@@ -2,27 +2,45 @@
 @{
     ViewBag.Title = "Usuários";
 }
+<div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
 
-<h2>Usuários</h2>
+    <a href="@Url.Action("Form")">Novo Usuário</a>
+    
+    <h2>Usuários</h2>
+           
+    @{
+        if (Model.TotalRegistros > 0)
+        {
+            <table>
+                <tr>
+                    <th>E-mail</th>
+                    <th>Nome</th>
+                    <th>Senha</th>                    
+                </tr>
+            </table>
+        }
+    }
 
-@using(Html.BeginForm("Form","Usuario",FormMethod.Post))
-{
-    @Html.Label("E-mail: ")
-    @Html.TextBoxFor(m => m.Email) <br />
+    @using(Html.BeginForm("Form","Usuario",FormMethod.Post))
+    {
+        @Html.Label("E-mail: ")
+        @Html.TextBoxFor(m => m.Email) <br />
+            
+        @Html.Label("Nome: ")
+        @Html.TextBoxFor(m => m.Nome) <br />
         
-    @Html.Label("Nome: ")
-    @Html.TextBoxFor(m => m.Nome) <br />
+        @Html.Label("Senha: ")
+        @Html.PasswordFor(m => m.Senha) <br /> 
+        
+        @Html.Label("Usuário Administrador: ", new { @style = "display:inline; margin-left:10px" })
+        @Html.CheckBoxFor(m => m.Nivel)        
+        
+        <input type="submit" name="btOK" value="Cadastrar!" />
     
-    @Html.Label("Senha: ")
-    @Html.PasswordFor(m => m.Senha) <br /> 
+    }
     
-    @Html.Label("Usuário Administrador: ", new { @style = "display:inline; margin-left:10px" })
-    @Html.CheckBoxFor(m => m.Nivel)        
+    <br />
+    <br />
     
-    <input type="submit" name="btOK" value="Cadastrar!" />
-}
-
-<br />
-<br />
-
-
+    
+    </div>

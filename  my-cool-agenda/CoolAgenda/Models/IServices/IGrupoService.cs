@@ -11,7 +11,7 @@ namespace CoolAgenda.Models
     public interface IGrupoService
     {
         List<Grupo> Listar();
-
+         
         List<Validacao> ValidarEntidade(Grupo entidade);
 
         List<Validacao> ValidaAdicionar(Grupo entidade);

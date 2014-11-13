@@ -8,7 +8,7 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public class ContatoDAO
+    public class ContatoDAO : IContatoDAO
     {
         private string SQL;          
 
@@ -36,6 +36,8 @@ namespace CoolAgenda.Models
             comando.Parameters.Add(pEndereco);            
 
             comando.ExecuteNonQuery();
+
+            comando.CommandText = "";
             comando.Dispose();
         }
 
@@ -58,20 +60,14 @@ namespace CoolAgenda.Models
 
 
         //Update
-        public void Update(Contato contato, DbTransaction transacao)
+        public void Update(Contato contato)
         {
-            SQL = "UPDATE Contato SET Nome = ?, Email = ?, Endereco = ? WHERE IdContato = ?";
+            SQL = "UPDATE Contato SET Nome = ?, Email = ?, Endereco = ? WHERE IdContato = ? and IdUsuario = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
-            if (transacao != null)
-                comando.Transaction = transacao as OleDbTransaction;
-
-            OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
-            pIdContato.Value = contato.IdContato;
-            comando.Parameters.Add(pIdContato);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = contato.Nome;
@@ -85,15 +81,22 @@ namespace CoolAgenda.Models
             pEndereco.Value = contato.Endereco;
             comando.Parameters.Add(pEndereco);
 
+            OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
+            pIdContato.Value = contato.IdContato;
+            comando.Parameters.Add(pIdContato);
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = contato.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
             // Update
             comando.ExecuteNonQuery();
             comando.Dispose();
         }
 
 
-
         //Delete
-        public void DeleteById(int id, DbTransaction transacao)
+        public void DeleteById(int id)
         {
             SQL = "DELETE Contato WHERE IdContato = ?";
 
@@ -101,8 +104,6 @@ namespace CoolAgenda.Models
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao() as OleDbConnection;
             comando.CommandText = SQL;
-            if (transacao != null)
-                comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pId = new OleDbParameter("IdContato", OleDbType.VarChar);
             pId.Value = id;
@@ -112,6 +113,34 @@ namespace CoolAgenda.Models
             comando.ExecuteNonQuery();
             comando.Dispose();
         }
+
+        public Contato BuscarPorId(int id)
+        {
+            Contato registro = null;
+            string sqlBuscar = "select * from Contato where IdContato = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdContato", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterParaTipoClasse(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
+        }
+
+
 
 
         //Conversão
@@ -126,11 +155,5 @@ namespace CoolAgenda.Models
 
             return contato;
         }
-
-
-
-
-
-
     }
 }

@@ -10,5 +10,20 @@ namespace CoolAgenda.Models
 {
     public interface IContatoService
     {
+        List<Contato> Select();
+
+        List<Validacao> ValidarEntidade(Contato entidade);
+
+        List<Validacao> ValidaAdicionar(Contato entidade);
+
+        List<Validacao> ValidaAtualizar(Contato entidade);
+
+        void Insert(Contato entidade, List<Telefone> telefones);
+
+        void Update(Contato entidade);
+
+        void DeleteById(int id);
+
+        Contato BuscarPorId(int id);
     }
 }

@@ -3,38 +3,46 @@
     ViewBag.Title = "Contato";
 }
 
-<h2>Contato</h2>
+<div id="paginas">
 
-<h1>Inserido com Sucesso! </h1>
-
-    <table>
-        @for (int i = 0; i < Model.ListaContato.Count; i++)
+    @{
+        if (Model.Edicao)
         {
-            <tr>
-                <td> 
-                     @Html.LabelFor(m =>m.IdContato)
-                     @Model.ListaContato[i].IdContato
-                </td>
-
-                <td> 
-                    @Html.LabelFor(m => m.IdUsuario)
-                    @Model.ListaContato[i].IdUsuario                
-                </td>
-
-                <td>
-                     @Html.LabelFor(m => m.Nome)
-                     @Model.ListaContato[i].Nome                 
-                </td>                
-
-                <td>
-                    @Html.LabelFor(m => m.Email)
-                    @Model.ListaContato[i].Email
-                </td>
-
-                <td>
-                    @Html.LabelFor(m => m.Endereco)
-                    @Model.ListaContato[i].Endereco
-                </td>
-            </tr>
+            ViewBag.Title = "Editar Contato";
+        <h1>Edite os dados do Contato</h1>
         }
-    </table>   
+        else
+        {
+            ViewBag.Title = "Cadastrar Contato";
+        <h1>Informe os dados do Contato</h1>
+        }
+    }
+    <h2>Contato</h2>
+
+
+    @using(Html.BeginForm("Form","Contato",FormMethod.Post))
+    {
+        @Html.ValidationSummary()
+        
+        @Html.HiddenFor(m => m.Edicao)
+        @Html.HiddenFor(m => m.IdContato)
+        @Html.HiddenFor(m => m.IdUsuario)
+    
+        @Html.Label("Nome: ")
+        @Html.TextBoxFor(m => m.Nome) <br />
+        
+        @Html.Label("E-mail: ")
+        @Html.TextBoxFor(m => m.Email) <br /> 
+        
+        @Html.Label("Telefone: ")      
+        @Html.TextBoxFor(m => m.Telefone)
+        
+        @Html.Label("Endereço: ")
+        @Html.TextBoxFor(m => m.Endereco) <br /> 
+    
+        <input type="submit" name="btOK" value="Cadastrar!" />
+    }
+
+    @Html.ActionLink("Voltar", "Index")
+
+</div>
