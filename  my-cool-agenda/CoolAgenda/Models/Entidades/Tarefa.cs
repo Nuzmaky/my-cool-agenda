@@ -7,90 +7,16 @@ namespace CoolAgenda.Models
 {
     public class Tarefa
     {
-        private int idTarefa;
-        private int idCompromisso; // FK
-        private int idUsuario; // FK
-        private string nome;
-        private string descricao;
-        private DateTime dataInicial;
-        private DateTime dataFinal;
-
-        
-        //ID
-        public int IdTarefa
-        {
-            get { return idTarefa; }
-            set
-            {
-                if (value > 0)
-                    idTarefa = value;
-            }
-        }
-
-
-        //NOME
-        public string Nome
-        {
-            get { return nome; }
-            set
-            {
-                if (value != null && value.Length < 50)
-                    nome = value;
-            }
-        }
-
-        //DESCRIÇÃO
-        public string Descricao
-        {
-            get { return descricao; }
-            set
-            {
-                if (value.Length < 100)
-                    descricao = value;
-            }
-        }
-
-        //ID COMPROMISSO _ FK
-        public int IdCompromisso
-        {
-            get { return idCompromisso; }
-            set
-            {
-                if (value > 0)
-                    idCompromisso = value;
-            }
-        }
-
-
-        // ID USUARIO _ FK
-        public int IdUsuario
-        {
-            get { return idUsuario; }
-            set
-            {
-                if (value > 0)
-                    idUsuario = value;
-            }
-        }
-
-
-
-        //DATA INICIAL
-        public DateTime DataInicial
-        {
-            get { return dataInicial; }
-            set { value = dataInicial; }
-        }
-
-        //DATA FINAL
-        public DateTime DataFinal
-        {
-            get { return dataFinal; }
-            set { value = dataFinal; }
-        }
-
-
-
+        public bool Edicao { get; set; }
+        public int IdTarefa { get; set; }
+        public int IdCompromisso { get; set; }
+        public int IdUsuario { get; set; }
+        public string NomeTarefa { get; set; }
+        public string DescTarefa { get; set; }
+        public string DataInicial { get; set; }
+        public string DataFinal { get; set; }
+        public string Ativo { get; set; }
 
     }
+
 }

@@ -10,22 +10,10 @@ namespace CoolAgenda.Controllers
 {
     public class TarefaController : Controller
     {
-        //
-        // GET: /Contato/
-
-        Tarefa tarefa = new Tarefa();
-        TarefaDAO tarefaDao = new TarefaDAO();
-
-        public ActionResult Index(Tarefa tarefa)
+        public ActionResult Index()
         {
-            return View(tarefa);
+            return View();
         }
 
-        [HttpPost]
-        public ActionResult Form(Tarefa tarefa)
-        {
-           tarefaDao.Insert(tarefa);
-           return View(tarefa);
-        }
     }
 }

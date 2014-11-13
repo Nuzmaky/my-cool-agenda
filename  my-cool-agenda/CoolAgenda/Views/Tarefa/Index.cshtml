@@ -1,0 +1,129 @@
+﻿@model CoolAgenda.ViewModels.TarefaVM.TarefaVM
+
+    <h3>Nova Tarefa</h3>
+
+    @using (Html.BeginForm("Index", "Tarefa", FormMethod.Post,))
+    {
+            @Html.LabelFor(m => m.NomeTarefa)
+            @Html.TextBoxFor(m =>m.NomeTarefa)
+
+            @Html.LabelFor(m => m.
+
+            @Html.LabelFor(m => m.DataInicial)
+            @Html.TextBoxFor(m => m.DataInicial)
+            
+            @Html.LabelFor(m => m.DataFinal, new { @style = "width:100px" })
+            @Html.TextBoxFor(m => m.DataFinal, new{ @id="Data" }))
+
+    }
+
+<div class="modal-footer">
+    <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn">Cancelar</button>
+    <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="EventForm" />
+</div>
+
+
+<style>
+    .validation-summary-errors {
+        margin-left:30px;
+    }
+    .errorbox {
+        border: solid 1px red;
+        padding: 5px 8px 5px 8px;
+        text-align: left;
+        vertical-align: middle;
+        background-color: #F1E7D1;
+    }
+
+    .errorimage {
+        padding: 5px 15px 5px 15px;
+        background: #F1E7D1 url(/images/err-24x24.png) no-repeat;
+        background-position: left center;
+        vertical-align: middle;
+        display: inline-block;
+        height: 100%;
+    }
+
+    .errorhead {
+        color: #CC0000;
+        font-weight: bold;
+        font-size: 15px;
+        padding-left: 18px;
+    }
+
+    /********************************************************
+VALIDAÇÕES
+*********************************************************/
+
+input[type="text"] .field-validation-error {
+    color: #f00;
+}
+
+input[type="text"].field-validation-valid {
+    display: none;
+}
+
+input[type="text"].input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+input[type="text"].validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+input[type="text"].validation-summary-valid {
+    display: none;
+}
+
+</style>
+
+<script>
+
+    $(document).ready(function () {
+        $(".errorbox").prepend("<span class='errorimage'><span class='errorhead'>Ops, existem problemas</span></span>");
+    });
+
+
+
+    $(document).ready(function () {
+        $('#btnPopupSave').click(function (e) {
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Index", "Tarefa")',
+                data: $('form').serialize(),
+                success: function (result) {
+                    if (result.redirectTo) {
+                        window.location.href = result.redirectTo;
+                    } else {
+                        $("#popupEventForm").html(result);
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+    });
+
+
+    $('#btnPopupCancel').click(function () {
+        resetValidation();
+        $('#popupEventForm').hide();
+    });
+
+    function resetValidation() {
+        //Remove validacao dos input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Remove validation das mensagens dps dos input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Remove o validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+        $('#validationSummary').css('display', 'none');
+    }
+</script>
