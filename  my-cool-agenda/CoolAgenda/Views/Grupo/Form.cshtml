@@ -32,9 +32,12 @@
         @Html.LabelFor(m => m.CNPJ)
         @Html.TextBoxFor(m => m.CNPJ, new { @class = "CNPJ" }) <br />
     
+        @Html.LabelFor(m => m.Email)
+        @Html.TextBoxFor(m => m.Email) <br />
+        
         @Html.CheckBoxFor(m => m.FlagAtivo)
-        @Html.LabelFor(m => m.FlagAtivo, new { @style = "display:inline; margin-left:2px" })
-    
+        @Html.LabelFor(m => m.FlagAtivo, new { @style = "display:inline; margin-left:2px" })   <br />
+        <br />
         <input type="submit" name="btOK" value="Salvar!" />
     }
 

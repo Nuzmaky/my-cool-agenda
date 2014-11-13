@@ -4,26 +4,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.OleDb;
+using System.Data.Common;
 
 namespace CoolAgenda.Models
 {
     public class GrupoService : IGrupoService
     {
         private IGrupoDAO grupoDAO;
+        private IUsuarioDAO usuarioDAO;
 
         public GrupoService()
         {
             grupoDAO = new GrupoDAO();
+            usuarioDAO = new UsuarioDAO();
         }
 
         public List<Grupo> Listar()
         {
             return grupoDAO.Listar();
         }
-
-        public void Adicionar(Grupo entidade)
+        
+        public void Adicionar(Grupo grupo, Usuario user)
         {
-            grupoDAO.Adicionar(entidade);
+            DbTransaction transaction = Conexao.getConexao().BeginTransaction();
+            try
+            {
+                int idGrupo = ProximoIdGrupo(transaction);
+                grupo.IdGrupo = idGrupo;
+                AddGrupo(grupo, transaction);
+
+                int idUsuario = ProximoIdUser(transaction);
+                user.IdUsuario = idUsuario;
+                AddUsuario(user, transaction);
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+
+        public int ProximoIdGrupo(DbTransaction transaction)
+        {
+            return grupoDAO.ProximoIdGrupo(transaction);
+        }
+
+        public int ProximoIdUser(DbTransaction transaction)
+        {
+            return usuarioDAO.ProximoIdUser(transaction);
+        }
+
+        public void AddGrupo(Grupo grupo, DbTransaction transaction)
+        {
+            grupoDAO.Adicionar(grupo, transaction);
+        }
+
+        public void AddUsuario(Usuario user, DbTransaction transaction)
+        {
+            usuarioDAO.Adicionar(user, transaction);
         }
 
         public void Atualizar(Grupo entidade)
@@ -91,6 +132,7 @@ namespace CoolAgenda.Models
 
             if (existeCNPJ)
                 erros.Add(new Validacao("Já existe uma empresa com o CNPJ informado."));
+
 
             return erros;
         }

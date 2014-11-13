@@ -13,11 +13,17 @@ namespace CoolAgenda.Models
         private string SQL;
 
         //Insert
-        public void Insert(Usuario user)
+        public void Adicionar(Usuario user, DbTransaction transaction = null)
         {
-            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel, Ativo) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?, ?, 'N')";
+            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel, Ativo) VALUES (?, ?, ?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = user.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
 
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
             pEmail.Value = user.Email;
@@ -35,23 +41,28 @@ namespace CoolAgenda.Models
             pNivel.Value = user.Nivel;    
             comando.Parameters.Add(pNivel);
 
+            OleDbParameter pAtivo = new OleDbParameter("Nivel", OleDbType.VarChar);
+            pAtivo.Value = user.Ativo;
+            comando.Parameters.Add(pAtivo);
+
             comando.ExecuteNonQuery();
             comando.Dispose();
         }
 
        
         //Select
-        public List<Usuario> Select()
+        public List<Usuario> Listar()
         {
-            List<Usuario> ListaUsuario = new List<Usuario>();
             string SQL = "Select * From Usuario";
             OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
             OleDbDataReader dr = Select.ExecuteReader();
 
+            List<Usuario> ListaUsuario = new List<Usuario>();
             while (dr.Read())
             {
-                ListaUsuario.Add(ConverterParaTipoClasse(dr));
+                Usuario reg = ConverterParaTipoClasse(dr);
+                ListaUsuario.Add(reg);
             }
 
             dr.Close();
@@ -172,7 +183,6 @@ namespace CoolAgenda.Models
         //Conversão
         public Usuario ConverterParaTipoClasse(OleDbDataReader dr)
         {
-
             Usuario user = new Usuario();
 
             user.IdUsuario = int.Parse(dr["IdUsuario"].ToString());
@@ -185,6 +195,30 @@ namespace CoolAgenda.Models
             return user;
         }
 
+        public int ProximoIdUser(DbTransaction transaction = null)
+        {
+            SQL = "select seqUsuario.nextval from dual";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            if (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["NEXTVAL"]);
+                dr.Close();
+                comando.Dispose();
+                return id;
+            }
+
+            dr.Close();
+            comando.Dispose();
+            throw new Exception("Erro ao recuperar o próximo ID do Usuario.");
+        }
 
     }
 }

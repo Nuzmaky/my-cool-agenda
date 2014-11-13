@@ -13,11 +13,17 @@ namespace CoolAgenda.Models
         private string SQL;
 
         //Insert
-        public void Adicionar(Grupo grupo)
+        public void Adicionar(Grupo grupo, DbTransaction transaction = null)
         {
-            SQL = "INSERT INTO Grupo (IdGrupo, Nome, CNPJ, FlagAtivo) VALUES (SeqGrupo.NEXTVAL, ?, ?, ?)";
+            SQL = "INSERT INTO Grupo (IdGrupo, Nome, CNPJ, Ativo) VALUES (?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
+
+            OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.Integer);
+            pIdGrupo.Value = grupo.IdGrupo;
+            comando.Parameters.Add(pIdGrupo);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = grupo.Nome;
@@ -27,9 +33,9 @@ namespace CoolAgenda.Models
             pCNPJ.Value = grupo.CNPJ;
             comando.Parameters.Add(pCNPJ);
 
-            OleDbParameter pFlagAtivo = new OleDbParameter("pFlagAtivo", OleDbType.VarChar);
-            pFlagAtivo.Value = grupo.FlagAtivo;
-            comando.Parameters.Add(pFlagAtivo);
+            OleDbParameter Ativo = new OleDbParameter("Ativo", OleDbType.VarChar);
+            Ativo.Value = grupo.FlagAtivo;
+            comando.Parameters.Add(Ativo);
 
             comando.ExecuteNonQuery();
             comando.Dispose();
@@ -66,14 +72,14 @@ namespace CoolAgenda.Models
             registro.IdGrupo = Int32.Parse(dr["IdGrupo"].ToString());
             registro.Nome = dr["Nome"].ToString();
             registro.CNPJ = dr["CNPJ"].ToString();
-            registro.FlagAtivo = dr["FlagAtivo"].ToString();
+            registro.FlagAtivo = dr["Ativo"].ToString();
             return registro;
         }
 
         //Update
         public void Atualizar(Grupo grupo)
         {
-            SQL = "UPDATE Grupo SET Nome = ?, CNPJ = ?, FlagAtivo = ? where IdGrupo = ?";
+            SQL = "UPDATE Grupo SET Nome = ?, CNPJ = ?, Ativo = ? where IdGrupo = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -88,9 +94,9 @@ namespace CoolAgenda.Models
             pCNPJ.Value = grupo.CNPJ;
             comando.Parameters.Add(pCNPJ);
 
-            OleDbParameter pFlagAtivo = new OleDbParameter("FlagAtivo", OleDbType.VarChar);
-            pFlagAtivo.Value = grupo.FlagAtivo;
-            comando.Parameters.Add(pFlagAtivo);
+            OleDbParameter pAtivo = new OleDbParameter("Ativo", OleDbType.VarChar);
+            pAtivo.Value = grupo.FlagAtivo;
+            comando.Parameters.Add(pAtivo);
 
             OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.Integer);
             pIdGrupo.Value = grupo.IdGrupo;
@@ -137,5 +143,31 @@ namespace CoolAgenda.Models
 
             return registro;
         }
+
+        public int ProximoIdGrupo(DbTransaction transaction = null)
+        {
+                SQL = "select seqGrupo.nextval from dual";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            if (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["NEXTVAL"]);
+                dr.Close();
+                comando.Dispose();
+                return id;
+            }
+
+            dr.Close();
+            comando.Dispose();
+            throw new Exception("Erro ao recuperar o próximo ID do Grupo.");
+        }
+
     }
 }

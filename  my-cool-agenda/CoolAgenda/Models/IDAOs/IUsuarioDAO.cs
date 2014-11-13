@@ -9,10 +9,12 @@ namespace CoolAgenda.Models
 {
     public interface IUsuarioDAO
     {
-        void Insert(Usuario usuario);
+        void Adicionar(Usuario usuario, DbTransaction transaction);
+
+        int ProximoIdUser(DbTransaction transaction);
 
         void AtivaCadastro(Usuario usuario);
 
-        List<Usuario> Select();
+        List<Usuario> Listar();
     }
 }

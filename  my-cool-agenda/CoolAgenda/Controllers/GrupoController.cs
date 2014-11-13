@@ -16,14 +16,14 @@ namespace CoolAgenda.Controllers
     {
         //
         // GET: /Grupo/
-        Grupo grupo = new Grupo();
-        GrupoDAO grupoDAO = new GrupoDAO();
 
         IGrupoService grupoService;
+        IUsuarioService usuarioService;
 
         public GrupoController()
         {
             grupoService = new GrupoService();
+            usuarioService = new UsuarioService();
         }
 
         [FiltroAutenticacao]
@@ -55,15 +55,16 @@ namespace CoolAgenda.Controllers
         {
             if (ModelState.IsValid)
             {
-                Grupo registro = ConverterFormVM(vm);
+                Grupo grupo = ConverterFormVM(vm);
+                Usuario user = ConverterFormVMUsuario(vm);
 
-                var erros = grupoService.ValidarEntidade(registro);
+                var erros = grupoService.ValidarEntidade(grupo);
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
-                        grupoService.Atualizar(registro);
+                        grupoService.Atualizar(grupo);
                     else
-                        grupoService.Adicionar(registro);
+                        grupoService.Adicionar(grupo, user);
 
                     return RedirectToAction("Index");
                 }
@@ -127,6 +128,18 @@ namespace CoolAgenda.Controllers
             reg.FlagAtivo = (vm.FlagAtivo ? "S" : "N");
             
             return reg;
+        }
+
+        private Usuario ConverterFormVMUsuario(GrupoFormVM vm)
+        {
+            Usuario user = new Usuario();
+            user.Nome = vm.Nome;
+            user.Email = vm.Email;
+            user.Senha = "admin";
+            user.Nivel = "U";
+            user.Ativo = "S";
+
+            return user;
         }
 
         private string RemoverFormatacaoCNPJ(string cpnjFormatado)

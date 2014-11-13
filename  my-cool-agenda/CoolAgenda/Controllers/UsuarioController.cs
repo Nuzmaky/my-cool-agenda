@@ -50,7 +50,7 @@ namespace CoolAgenda.Controllers
                 usuario.Nivel = "U";
 
             // Insere no Banco
-            usuarioDAO.Insert(usuario);
+            usuarioDAO.Adicionar(usuario);
 
             // Envial E-mail de Confirmação
             UsuarioService.EnviaEmailCadastro(usuarioVM.Email, usuarioVM.Senha, usuarioVM.Nome);

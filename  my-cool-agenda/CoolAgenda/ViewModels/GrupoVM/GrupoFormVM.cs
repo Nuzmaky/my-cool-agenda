@@ -27,5 +27,13 @@ namespace CoolAgenda.ViewModels.GrupoVM
 
         [Display(Name = "Ativo")]
         public bool FlagAtivo { get; set; }
+
+        [EmailAddress]
+        [StringLength(100, MinimumLength = 8, ErrorMessage = "O email deve ter no mínimo 8 e no máximo 100 caracteres.")]
+        [Required(ErrorMessage = "Insira um email.")]
+        [Display(Name = "E-mail *")]
+        public string Email { get; set; }
+
+
     }
 }
