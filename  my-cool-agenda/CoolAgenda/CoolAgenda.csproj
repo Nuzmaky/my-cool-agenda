@@ -246,6 +246,7 @@
     <Compile Include="ViewModels\ContatoVM\ContatoVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoFormVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoIndexVM.cs" />
+    <Compile Include="ViewModels\TarefaVM\TarefaVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +327,8 @@
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
     <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Content\jquery.simple-dtpicker.css" />
+    <Content Include="Scripts\jquery.simple-dtpicker.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -365,6 +368,7 @@
     <Content Include="Views\Usuario\AtivaCadastro.cshtml" />
     <Content Include="Views\Usuario\CadastroInativo.cshtml" />
     <Content Include="Views\Usuario\DadosAtivacaoCadastro.cshtml" />
+    <Content Include="Views\Tarefa\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

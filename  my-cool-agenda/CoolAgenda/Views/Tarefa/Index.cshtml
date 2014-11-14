@@ -2,18 +2,22 @@
 
     <h3>Nova Tarefa</h3>
 
-    @using (Html.BeginForm("Index", "Tarefa", FormMethod.Post,))
+    @using (Html.BeginForm("Index", "Tarefa", FormMethod.Post))
     {
             @Html.LabelFor(m => m.NomeTarefa)
             @Html.TextBoxFor(m =>m.NomeTarefa)
 
-            @Html.LabelFor(m => m.
+            @Html.LabelFor(m => m.DescTarefa)
+            @Html.TextBoxFor(m =>m.DescTarefa)
+
+            @Html.LabelFor(m => m.IdCompromisso)
+            @Html.DropDownListFor(m => m.IdCompromisso, (SelectList)ViewBag.Compromissos)
 
             @Html.LabelFor(m => m.DataInicial)
             @Html.TextBoxFor(m => m.DataInicial)
             
             @Html.LabelFor(m => m.DataFinal, new { @style = "width:100px" })
-            @Html.TextBoxFor(m => m.DataFinal, new{ @id="Data" }))
+            @Html.TextBoxFor(m => m.DataFinal, new{ @id="Data" })
 
     }
 
