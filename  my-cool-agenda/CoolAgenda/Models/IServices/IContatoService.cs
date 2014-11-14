@@ -18,6 +18,8 @@ namespace CoolAgenda.Models
 
         List<Validacao> ValidaAtualizar(Contato entidade);
 
+        List<Validacao> ValidaAdicionarUsuario(string email);
+
         void Insert(Contato entidade, List<Telefone> telefones);
 
         void Update(Contato entidade);

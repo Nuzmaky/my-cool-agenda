@@ -30,11 +30,22 @@ namespace CoolAgenda.ViewModels
         public string Endereco { get; set; }
 
         [StringLength(14, MinimumLength = 13, ErrorMessage = "Insira o telefone corretamente.")]
-        [Required(ErrorMessage = "Insira um telefone.")]
+        [Required(ErrorMessage = "Insira a primeira opção de telefone.")]
         [Display(Name = "Telefone *")]
-        public string Telefone { get; set; }
+        public string telefoneUm { get; set; }
+
+        [StringLength(14, MinimumLength = 13, ErrorMessage = "Insira o telefone corretamente.")]
+        [Display(Name = "Telefone opcional")]
+        public string telefoneDois { get; set; }
+
+        [Display(Name = "Ativo. ")]
+        public bool Ativo { get; set; }
+
+        [Display(Name = "Mensagem: ")]
+        public string CorpoEmail { get; set; }
 
         public List<Contato> ListaContato { get; set; }
+        public List<Telefone> ListaTelefone { get; set; }
         public int TotalRegistros { get; set; }
     }
 }

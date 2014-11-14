@@ -9,7 +9,7 @@ namespace CoolAgenda.Models
     public class Conexao
     {
         private static OleDbConnection conexao;
-        private static string strConexao = "Provider=MSDAORA;Data Source=localhost;Persist Security Info=True;User ID=piycq;Password=piycq";
+        private static string strConexao = "Provider=OraOleDB.Oracle;Data Source=localhost;Persist Security Info=True;User ID=piycq;Password=piycq";
 
         // Conexao
         public static OleDbConnection getConexao()

@@ -9,7 +9,7 @@ namespace CoolAgenda.Models
 {
     public interface IContatoDAO
     {
-        void Insert(Contato entidade);
+        void Insert(Contato entidade, DbTransaction transacao);
                             
         void Update(Contato entidade);
 

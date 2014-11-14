@@ -4,16 +4,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
+using System.Data.Common;
+
 
 namespace CoolAgenda.Models
 {
     public class ContatoService : IContatoService
     {
         private IContatoDAO contatoDAO;
+        private ITelefoneDAO telefoneDAO;
+        private IUsuarioDAO usuarioDAO;
+        private IUsuarioService usuarioService;
 
         public ContatoService()
         {
             contatoDAO = new ContatoDAO();
+            telefoneDAO = new TelefoneDAO();
+            usuarioDAO = new UsuarioDAO();
+            usuarioService = new UsuarioService();
         }
 
         public List<Contato> Select()
@@ -21,9 +32,40 @@ namespace CoolAgenda.Models
             return contatoDAO.Select();
         }
 
-        public void Insert(Contato entidade, List<Telefone> telefone)
+        public void InsertContato(Contato contato, DbTransaction transacao)
         {
-            contatoDAO.Insert(entidade);
+            contatoDAO.Insert(contato, transacao);
+        }
+
+        public void Insert(Contato contato, List<Telefone> telefones)
+        {
+            DbTransaction transacao = Conexao.getConexao().BeginTransaction();
+            try
+            {
+                int idContato=0;
+                contato.IdContato = idContato;
+                InsertContato(contato, transacao);
+
+                foreach (var telefone in telefones)
+                {
+                    telefone.IdContato = idContato;
+                    InsertContato(contato, transacao);
+                }
+
+                // Se chegar até aqui deu tudo certo
+                // então realiza o Commit 
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                transacao.Rollback();
+                throw;
+            }
+        }
+
+        public void InsertTelefone(Telefone entidade)
+        {
+            telefoneDAO.Insert(entidade);
         }
 
         public void Update(Contato entidade)
@@ -40,6 +82,61 @@ namespace CoolAgenda.Models
         {
             return contatoDAO.BuscarPorId(id);
         }
+
+        // Envia e-mail de confirmação de Cadastro
+        public static void EnviaEmailCadastro(string email, string nome, string senha)
+        {
+            Contato contato = new Contato();
+            //objeto responsável pela mensagem de email
+            MailMessage objEmail = new MailMessage();
+
+            //rementente do email
+            objEmail.From = new MailAddress("mateus.quintino@gmail.com", "Cool Agenda");
+
+            //destinatário(s) do email(s). Obs. pode ser mais de um, pra isso basta repetir a linha
+            //abaixo com outro endereço
+            objEmail.To.Add(email);
+
+            //prioridade do email
+            objEmail.Priority = MailPriority.Normal;
+
+            //utilize true pra ativar html no conteúdo do email, ou false, para somente texto      
+            objEmail.IsBodyHtml = false;
+
+            //Assunto do email        
+            objEmail.Subject = "Cool Agenda - Convite";
+
+            //corpo do email a ser enviado        
+            objEmail.Body = "Olá " + nome + "! Você acaba de ser convidado para participar da Cool Agenda! \n " +
+                            "\n \nPara confirmar a sua participação, clique no link logo abaixo, e confirme seu cadastro. \n \n" +
+                            "Seus dados de login são: \n" +
+                            "\nEmail: " + email +
+                            "\nSenha: " + senha +
+                            "\n\nCaso o link não esteja funcionando, copie e cole na barra de endereços do seu navegador. " +
+                            "http://localhost:52333/Usuario/DadosAtivacaoCadastro";
+
+            //codificação do ASSUNTO do email para que os caracteres acentuados serem reconhecidos.
+            objEmail.SubjectEncoding = Encoding.GetEncoding("ISO-8859-1");
+
+            //codificação do CORPO do email para que os caracteres acentuados serem reconhecidos.
+            objEmail.BodyEncoding = Encoding.GetEncoding("ISO-8859-1");
+
+            //cria o objeto responsável pelo envio do email
+            SmtpClient objSmtp = new SmtpClient();
+
+            //endereço do servidor SMTP(para mais detalhes leia abaixo do código)
+            objSmtp.Host = "smtp.gmail.com";
+
+            //para envio de email autenticado, coloque login e senha de seu servidor de email
+            //para detalhes leia abaixo do código
+            objSmtp.Credentials = new NetworkCredential("mateus.quintino@gmail.com", "quintinuvy");
+            objSmtp.EnableSsl = true;
+            objSmtp.Port = 587;
+
+            //envia o email
+            objSmtp.Send(objEmail);
+        }
+
 
 
         public List<Validacao> ValidaAtualizar(Contato entidade)
@@ -83,6 +180,17 @@ namespace CoolAgenda.Models
             List<Validacao> erros = new List<Validacao>();
 
             bool existeEmail = contatoDAO.Select().Any(e => e.Nome.Equals(entidade.Email, StringComparison.InvariantCultureIgnoreCase));
+            if (existeEmail)
+                erros.Add(new Validacao("Já existe um registro com o e-mail informado."));
+
+            return erros;
+        }
+
+        public List<Validacao> ValidaAdicionarUsuario(string email)
+        {
+            List<Validacao> erros = new List<Validacao>();
+
+            bool existeEmail = usuarioDAO.Listar().Any(e => e.Email.Equals(email, StringComparison.InvariantCultureIgnoreCase));
             if (existeEmail)
                 erros.Add(new Validacao("Já existe um registro com o e-mail informado."));
 

@@ -19,7 +19,7 @@ namespace CoolAgenda.Models
 
         public UsuarioService()
         {
-            usuarioDAO = new UsuarioDAO();
+            usuarioDAO = new UsuarioDAO();            
         }
     
         //Autentica o Usuário
@@ -59,7 +59,7 @@ namespace CoolAgenda.Models
         // Envia e-mail de confirmação de Cadastro
         public static void EnviaEmailCadastro(string email, string senha, string nome)
         {
-            Usuario usuario = new Usuario();
+            Usuario usuario = new Usuario();            
             //objeto responsável pela mensagem de email
             MailMessage objEmail = new MailMessage();
 

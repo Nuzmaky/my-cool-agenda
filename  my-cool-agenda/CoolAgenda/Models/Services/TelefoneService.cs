@@ -9,5 +9,17 @@ namespace CoolAgenda.Models
 {
     public class TelefoneService : ITelefoneService
     {
+
+        private ITelefoneDAO telefoneDAO;
+
+        public TelefoneService()
+        {
+            telefoneDAO = new TelefoneDAO();
+        }
+
+        public List<Telefone> Select()
+        {
+            return telefoneDAO.Select();
+        }
     }
 }

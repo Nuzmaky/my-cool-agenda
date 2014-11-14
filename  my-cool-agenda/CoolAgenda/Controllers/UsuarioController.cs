@@ -45,7 +45,7 @@ namespace CoolAgenda.Controllers
             
             //SE FOR USUARIO, CADASTRO COM NIVEL DE USUARIO            
             if (usuarioVM.Nivel)
-                usuario.Nivel = "A";
+                usuario.Nivel = "A"; // Tenho que ajustar ainda
             else
                 usuario.Nivel = "U";
 
@@ -68,7 +68,7 @@ namespace CoolAgenda.Controllers
             return View();
         }
 
-        [FiltroAutenticacao]
+        
         public ActionResult AtivaCadastro(Usuario usuario)
         {
             // Pega o usuário na sessão
@@ -88,9 +88,10 @@ namespace CoolAgenda.Controllers
         }
 
         
-        public ActionResult DadosAtivacaoCadastro()
+        public ActionResult DadosAtivacaoCadastro(UsuarioVM vm, Usuario usuario)
         {
-            return View();
+            usuario.clicouAtivacao = vm.clicouAtivacao;
+            return View(vm);
         }
 
     }

@@ -9,5 +9,7 @@ namespace CoolAgenda.Models
 {
     public interface ITelefoneDAO
     {
+        void Insert(Telefone entidade);
+        List<Telefone> Select();
     }
 }

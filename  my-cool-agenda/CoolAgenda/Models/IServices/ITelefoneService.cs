@@ -10,5 +10,6 @@ namespace CoolAgenda.Models
 {
     public interface ITelefoneService
     {
+        List<Telefone> Select();
     }
 }

@@ -129,7 +129,7 @@ namespace CoolAgenda.Models
             tarefa.NomeTarefa = dr["Nome"].ToString();
             tarefa.DescTarefa = dr["Descrição"].ToString();
             tarefa.DataInicial = dr["dataInicial"].ToString();
-            tarefa.DataFinal = (dr["dataFinal"].ToString();
+            tarefa.DataFinal = dr["dataFinal"].ToString();
 
             return tarefa;
         }

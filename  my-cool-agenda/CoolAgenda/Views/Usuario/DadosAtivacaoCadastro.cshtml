@@ -14,9 +14,16 @@
     @Html.TextBoxFor(m => m.Email) <br />        
     
     @Html.Label("Senha: ")
-    @Html.PasswordFor(m => m.Senha) <br />     
+    @Html.PasswordFor(m => m.Senha) <br />    
+    
+    @Html.HiddenFor(m => m.clicouAtivacao, new { @id = "clicouAtivacao" })
+    
+    <script>
+        $("#clicouAtivacao").val(true);
+    </script>
     
     <input type="submit" name="btOK" value="Cadastrar!" />
+    
 }
 
 <br />

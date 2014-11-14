@@ -18,6 +18,8 @@ namespace CoolAgenda.Models
         private string nivel;
         private string ativo;
 
+        public bool clicouAtivacao { get; set; }
+
         //Lista
         public List<Usuario> listaUsuario = new List<Usuario>();
 

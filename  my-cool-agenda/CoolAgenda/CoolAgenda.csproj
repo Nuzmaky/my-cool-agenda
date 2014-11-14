@@ -368,6 +368,7 @@
     <Content Include="Views\Usuario\AtivaCadastro.cshtml" />
     <Content Include="Views\Usuario\CadastroInativo.cshtml" />
     <Content Include="Views\Usuario\DadosAtivacaoCadastro.cshtml" />
+    <Content Include="Views\Contato\Convida.cshtml" />
     <Content Include="Views\Tarefa\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

@@ -34,8 +34,11 @@
         @Html.Label("E-mail: ")
         @Html.TextBoxFor(m => m.Email) <br /> 
         
-        @Html.Label("Telefone: ")      
-        @Html.TextBoxFor(m => m.Telefone)
+        @Html.Label("Telefone Um: ")      
+        @Html.TextBoxFor(m => m.telefoneUm, new { @class = "TELEFONE" })
+
+        @Html.Label("Telefone Dois: ")      
+        @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" })
         
         @Html.Label("Endereço: ")
         @Html.TextBoxFor(m => m.Endereco) <br /> 
@@ -46,3 +49,13 @@
     @Html.ActionLink("Voltar", "Index")
 
 </div>
+
+@section scripts 
+{
+    <script type="text/javascript">
+
+        function ConfiguraMascaras() {
+            $(".TELEFONE").mask("(00) 90000-0000");
+        }
+    </script>
+}

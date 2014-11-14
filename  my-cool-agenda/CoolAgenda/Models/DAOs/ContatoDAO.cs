@@ -13,11 +13,16 @@ namespace CoolAgenda.Models
         private string SQL;          
 
         //Insert
-        public void Insert(Contato contato)
+        public void Insert(Contato contato, DbTransaction transacao = null)
         {            
             SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Email, Endereco) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?)";
 
-            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+            if (transacao != null)
+                comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = contato.IdUsuario;
@@ -139,8 +144,6 @@ namespace CoolAgenda.Models
 
             return registro;
         }
-
-
 
 
         //Conversão

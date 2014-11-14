@@ -17,6 +17,7 @@
                 <th>IdUsuario</th> 
                 <th>Nome</th>
                 <th>Email</th>
+                <th>Telefone</th>
                 <th>Endereço</th>
             </tr>
     
@@ -27,9 +28,12 @@
                 <td>@Model.ListaContato[i].IdUsuario</td>
                 <td>@Model.ListaContato[i].Nome</td>                
                 <td>@Model.ListaContato[i].Email</td>
+                
                 <td>@Model.ListaContato[i].Endereco</td>
                 <td class="opcoes2">
-                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})</td>
+                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})
+                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
+                </td>
             </tr>
              
             }

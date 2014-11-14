@@ -29,8 +29,11 @@ namespace CoolAgenda.ViewModels
         [Display(Name = "Usuário Administrador. ")]
         public bool Nivel { get; set; }
 
+        [Display(Name = "Mensagem: ")]
+        public string CorpoEmail { get; set; }
 
         public List<Usuario> ListaUsuario { get; set; }
         public int TotalRegistros { get; set; }
+        public bool clicouAtivacao { get; set; }
     }
 }

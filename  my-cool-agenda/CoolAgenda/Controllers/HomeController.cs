@@ -27,9 +27,10 @@ namespace CoolAgenda.Controllers
         //Autenticação
         [HttpPost]
         public ActionResult Index(Usuario usuario, UsuarioDAO usuarioDAO)
-        {
+        {            
             string email = usuario.Email;
-            string senha = usuario.Senha;            
+            string senha = usuario.Senha;
+            bool clicouAtivacao = usuario.clicouAtivacao;
 
             var erros = usuarioService.ValidaUsuario(email, senha);
             if (erros.Count == 0)
@@ -58,12 +59,22 @@ namespace CoolAgenda.Controllers
                     if (Autenticacao.VerificaCadastroAtivo(ativo))
                         return RedirectToAction("Index", "Agenda");
                     else
+                    {
+                        // Deixa Cadastro pendente
+                        if (clicouAtivacao)                        
+                        usuarioDAO.CadastroPendente(u.IdUsuario);
+                        
+                        u = usuarioService.AutenticaUsuario(email, senha);
+                        Session["Usuario"] = u;
+                        ativo = u.Ativo;
+                        
                         //Verifica se o cadastro está pendente ((P)clicou no link) e ativa.
                         if (Autenticacao.VerificaCadastroPendente(ativo))
                             return RedirectToAction("AtivaCadastro", "Usuario");
                         else
-                        // Exibe que o cadastro está Inativo(N).
-                        return RedirectToAction("CadastroInativo", "Usuario");
+                            // Exibe que o cadastro está Inativo(N).
+                            return RedirectToAction("CadastroInativo", "Usuario");
+                    }
                 }
             }
             

@@ -15,15 +15,11 @@ namespace CoolAgenda.Models
         //Insert
         public void Adicionar(Usuario user, DbTransaction transaction = null)
         {
-            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel, Ativo) VALUES (?, ?, ?, ?, ?, ?)";
+            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
             if (transaction != null)
                 comando.Transaction = transaction as OleDbTransaction;
-
-            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
-            pIdUsuario.Value = user.IdUsuario;
-            comando.Parameters.Add(pIdUsuario);
 
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
             pEmail.Value = user.Email;
@@ -40,10 +36,6 @@ namespace CoolAgenda.Models
             OleDbParameter pNivel = new OleDbParameter("Nivel", OleDbType.VarChar);
             pNivel.Value = user.Nivel;    
             comando.Parameters.Add(pNivel);
-
-            OleDbParameter pAtivo = new OleDbParameter("Nivel", OleDbType.VarChar);
-            pAtivo.Value = user.Ativo;
-            comando.Parameters.Add(pAtivo);
 
             comando.ExecuteNonQuery();
             comando.Dispose();
@@ -114,7 +106,7 @@ namespace CoolAgenda.Models
 
 
         // Coloca Cadastro como Pendente
-        public void CadastroPendente(Usuario usuario)
+        public void CadastroPendente(int id)
         {
             SQL = "UPDATE Usuario SET Ativo = 'P' WHERE IdUsuario = ?";
 
@@ -124,7 +116,7 @@ namespace CoolAgenda.Models
             comando.CommandText = SQL;
 
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
-            pIdUsuario.Value = usuario.IdUsuario;
+            pIdUsuario.Value = id;
             comando.Parameters.Add(pIdUsuario);
 
             // Update
