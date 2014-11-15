@@ -27,7 +27,7 @@ namespace CoolAgenda.Controllers
 
 
         // Cadastro de Usuário
-        [FiltroAutenticacao("A")]
+        [FiltroAutenticacao]
         public ActionResult Index(UsuarioVM userVM)
         {            
             return View(userVM);

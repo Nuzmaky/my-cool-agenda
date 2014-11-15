@@ -10,12 +10,13 @@ using System.Globalization;
 
 namespace CoolAgenda.Controllers
 {
-    [FiltroAutenticacao("U")]
+    
     public class AgendaController : Controller
     {
         //
         // GET: /Agenda/
 
+        [FiltroAutenticacao("U")]
         public ActionResult Index()
         {
             return View();

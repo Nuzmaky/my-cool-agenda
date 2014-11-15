@@ -1,4 +1,5 @@
-﻿using CoolAgenda.Models;
+﻿using CoolAgenda.Filters;
+using CoolAgenda.Models;
 using CoolAgenda.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace CoolAgenda.Controllers
 {
     public class TarefaController : Controller
     {
+        [FiltroAutenticacao("U")]
         public ActionResult Index()
         {
             return View();
