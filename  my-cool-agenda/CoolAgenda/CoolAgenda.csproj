@@ -370,6 +370,7 @@
     <Content Include="Views\Usuario\DadosAtivacaoCadastro.cshtml" />
     <Content Include="Views\Contato\Convida.cshtml" />
     <Content Include="Views\Tarefa\Index.cshtml" />
+    <Content Include="Views\Tarefa\Form.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

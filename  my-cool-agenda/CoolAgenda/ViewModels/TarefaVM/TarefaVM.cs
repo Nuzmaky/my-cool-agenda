@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CoolAgenda.Models;
 
 namespace CoolAgenda.ViewModels.TarefaVM
 {
@@ -42,6 +43,11 @@ namespace CoolAgenda.ViewModels.TarefaVM
 
         public string Ativo { get; set; }
 
+        public List<Tarefa> ListaTarefa { get; set; }
+        public int TotalRegistros { get; set; }
+
     }
+
+
 }
     

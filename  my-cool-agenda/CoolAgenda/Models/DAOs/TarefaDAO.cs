@@ -15,22 +15,19 @@ namespace CoolAgenda.Models
         //Insert
         public void Adcionar(Tarefa tarefa)
         {
-            SQL = "INSERT into TAREFA (idTarefa, IdCompromisso, idUsuario, Nome, Descricao, dataInicial, datafinal, ativo) VALUES (SeqTarefa.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, 'S')";
+            SQL = "INSERT into TAREFA (idTarefa, IdCompromisso, idUsuario, Nome, Descricao, dataInicial, datafinal, ativo) VALUES (SeqTarefa.NEXTVAL, 0, 2, ?, ?, ?, ?,'S')";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
-            OleDbParameter pIdTarefa = new OleDbParameter("IdTarefa", OleDbType.VarChar);
-            pIdTarefa.Value = tarefa.IdTarefa;
-            comando.Parameters.Add(pIdTarefa);
-            //int user = Convert.ToInt32(Session["Usuario]);
+            //OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.VarChar);
+            //if (tarefa.IdCompromisso == null) { tarefa.IdCompromisso = 0; }
+            //pIdCompromisso.Value = tarefa.IdCompromisso;
+            //comando.Parameters.Add(pIdCompromisso);
 
-            OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.VarChar);
-            pIdCompromisso.Value = tarefa.IdCompromisso;
-            comando.Parameters.Add(pIdCompromisso);
-
-            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
-            pIdUsuario.Value = tarefa.IdUsuario;
-            comando.Parameters.Add(pIdUsuario);
+            //OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
+            //if (tarefa.IdUsuario == null) { tarefa.IdUsuario = 0; }
+            //pIdUsuario.Value = tarefa.IdUsuario;
+            //comando.Parameters.Add(pIdUsuario);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = tarefa.NomeTarefa;
@@ -48,6 +45,8 @@ namespace CoolAgenda.Models
             OleDbParameter pDataFinal = new OleDbParameter("DataFinal", OleDbType.VarChar);
             pDataInicial.Value = tarefa.DataFinal;
             comando.Parameters.Add(pDataFinal);
+
+
 
             comando.ExecuteNonQuery();
             comando.Dispose();
@@ -127,17 +126,17 @@ namespace CoolAgenda.Models
             tarefa.IdCompromisso = int.Parse(dr["IdCompromisso"].ToString());
             tarefa.IdUsuario = int.Parse(dr["Idusuario"].ToString()); dr["IdUsuario"].ToString();
             tarefa.NomeTarefa = dr["Nome"].ToString();
-            tarefa.DescTarefa = dr["Descrição"].ToString();
+            tarefa.DescTarefa = dr["Descricao"].ToString();
             tarefa.DataInicial = dr["dataInicial"].ToString();
             tarefa.DataFinal = dr["dataFinal"].ToString();
 
             return tarefa;
         }
         
-            public List<Compromisso> populaCompromissos(Tarefa tarefa)
+            public List<Tarefa> populaTarefas(Tarefa tarefa)
         {
-            List<Compromisso> listaCompromisso = new List<Compromisso>();
-            string SQL = "Select C.Idcompromisso, C.nome from Compromisso C,compromissousuario CU where CU.idusuario = ?;";
+            List<Tarefa> listaTarefa = new List<Tarefa>();
+            string SQL = "Select C.Idtarefa, C.nomeTarefa from Tarefa C, where C.idtarefa = ?;";
             OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
             
             OleDbParameter pidusuario = new OleDbParameter("Descricao", OleDbType.VarChar);
@@ -148,19 +147,45 @@ namespace CoolAgenda.Models
 
             while (dr.Read())
             {
-                listaCompromisso.Add(ConverteCompTare(dr));
+                listaTarefa.Add(ConverteCompTare(dr));
             }
 
-            return listaCompromisso;
+            return listaTarefa;
         }
 
-        public Compromisso ConverteCompTare(OleDbDataReader dr)
+        public Tarefa ConverteCompTare(OleDbDataReader dr)
         {
-            Compromisso compromisso = new Compromisso();
-            compromisso.IdCompromisso = int.Parse(dr["IdCompromisso"].ToString());
-            compromisso.NomeCompromisso = dr["nome"].ToString();
+            Tarefa tarefa = new Tarefa();
+            tarefa.IdCompromisso = int.Parse(dr["IdCompromisso"].ToString());
+            tarefa.NomeTarefa = dr["nome"].ToString();
 
-            return compromisso;
+            return tarefa;
+        }
+
+        public Tarefa BuscarPorId(int id)
+        {
+            Tarefa registro = null;
+            string sqlBuscar = "select * from Tarefa where IdTarefa = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdTarefa", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterParaTipoClasse(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
         }
         
 

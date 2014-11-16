@@ -10,18 +10,19 @@ namespace CoolAgenda.Models
 {
     public interface ITarefaService
     {
-        //List<Tarefa> Listar();
+        List<Tarefa> Listar();
 
-        //List<Validacao> ValidarEntidade(Tarefa entidade);
+        List<Validacao> ValidarEntidade(Tarefa entidade);
 
-        //List<Validacao> ValidaAdicionar(Tarefa entidade);
+        List<Validacao> ValidaAdicionar(Tarefa entidade);
 
-        //void Adicionar(Tarefa entidade);
+        void Adicionar(Tarefa entidade);
 
-        //void Atualizar(Tarefa entidade);
+        void Atualizar(Tarefa entidade);
 
-        //List<Validacao> ValidaAtualizar(Tarefa entidade);
+        List<Validacao> ValidaAtualizar(Tarefa entidade);
 
-        //Tarefa BuscarPorId(int id);
-    }
+        Tarefa BuscarPorId(int id);
+
+   }
 }

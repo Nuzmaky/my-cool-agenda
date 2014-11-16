@@ -1,0 +1,70 @@
+﻿@model CoolAgenda.ViewModels.TarefaVM.TarefaVM
+@{
+    ViewBag.Title = "Tarefa";
+}
+
+<div id="paginas">
+
+    @{
+        if (Model.Edicao)
+        {
+            ViewBag.Title = "Editar Tarefa";
+        <h1>Edite os dados da Tarefa</h1>
+        }
+        else
+        {
+            ViewBag.Title = "Cadastrar Tarefa";
+        <h1>Informe os dados da Tarefa</h1>
+        }
+    }
+    <h2>Tarefa</h2>
+
+    @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post))
+    {
+        @Html.ValidationSummary()
+
+        @Html.HiddenFor(m => m.Edicao)
+        @Html.HiddenFor(m => m.IdTarefa)
+        @Html.HiddenFor(m=>m.IdUsuario)
+
+        @Html.LabelFor(m => m.NomeTarefa)
+        @Html.TextBoxFor(m => m.NomeTarefa) <br />
+        
+        @Html.LabelFor(m => m.DescTarefa)
+        @Html.TextAreaFor(m => m.DescTarefa) <br />
+        
+        @Html.LabelFor(m => m.DataInicial)
+        @Html.TextBoxFor(m => m.DataInicial) <br />
+        
+        @Html.LabelFor(m => m.DataFinal)
+        @Html.TextBoxFor(m => m.DataFinal) <br />
+    
+
+    
+        if (!Model.Edicao)
+        {
+            @Html.HiddenFor(m=>m.Ativo, new{@id="flgAtivo"})
+
+        <script>
+            $("#flgAtivo").val = "S";
+        </script>
+        }
+        
+        else{
+            @Html.LabelFor(m => m.Ativo, new { @style = "display:inline; margin-left:2px" })
+            <input type="checkbox" id="Ativo" /><br /><br />
+            <script>
+                if ($("#ativo").checked) {
+                    $("#flgAtivo").val = "S";
+                }
+            </script>
+        }
+       
+        <input type="submit" name="btOK" value="Salvar!" />
+    }
+
+    @Html.ActionLink("Voltar", "Index")
+
+</div>
+   
+
