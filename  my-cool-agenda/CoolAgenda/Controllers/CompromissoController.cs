@@ -10,16 +10,20 @@ using CoolAgenda.Filters;
 
 namespace CoolAgenda.Controllers
 {
+    [FiltroAutenticacao("U")]
     public class CompromissoController : Controller
     {
         private ICompromissoService compromissoService;
+        private ICompromissoUsuarioService compromissoUsuarioService;
+        private IGrupoUsuarioService grupoUsuarioService;
 
         public CompromissoController()
         {
             compromissoService = new CompromissoService();
+            compromissoUsuarioService = new CompromissoUsuarioService();
+            grupoUsuarioService = new GrupoUsuarioService();
         }
 
-        [FiltroAutenticacao]
         public ActionResult Index()
         {
             return View();
@@ -32,7 +36,13 @@ namespace CoolAgenda.Controllers
              * View parcial que só pode receber ser exibida sub-requisição,
              * ou seja, essa action só poderá ser solicitada como parte de outra solicitação
              */
-            return PartialView();
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+
+            CadastrarVM vm = CadastrarVMNovo();
+            vm.ListarGrupo = grupoUsuarioService.ComboListarGruposUsuario(idUser);
+
+            return PartialView(vm);
         }
 
         /*public ActionResult Cadastrar(int? id)
@@ -58,12 +68,10 @@ namespace CoolAgenda.Controllers
             //vm.Edicao = false;
             if (ModelState.IsValid)
             {
-                Compromisso reg = new Compromisso();
+                Compromisso reg = ConverterFormVM(vm);
+                //CompromissoUsuario compromissoUser = ConverterFormVMCompromissoUser(vm);
 
                // reg.IdCompromisso = vm.IdCompromisso;
-                reg.NomeCompromisso = vm.NomeCompromisso;
-                reg.DataInicial = DateTime.Parse(vm.DataInicial);
-                reg.DataFinal = DateTime.Parse(vm.DataFinal);
 
                 List<Validacao> erros = compromissoService.ValidarEntidade(reg);
 
@@ -82,19 +90,48 @@ namespace CoolAgenda.Controllers
                 }
             }
 
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+
+            vm.ListarGrupo = grupoUsuarioService.ComboListarGruposUsuario(idUser);
+
+            PopularItensCadastrarVM(vm);
             return PartialView(vm);
         }
 
+        public JsonResult PegaUsuarios(int grupoID)
+        {
+            //Get the events
+            //You may get from the repository also
+            var eventos = from e in grupoUsuarioService.ListarUsuarioPorGrupo(grupoID)
+                          select new
+                          {
+                              id = e.IdUsuario,
+                              first_name = e.Usuario.Nome,
+                              email = e.Usuario.Email,
+                              url = "/Images/default_profile_2_normal.png"
+                          };
+
+            var rows = eventos.ToArray();
+
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
         // MÉTODOS A SEREM CHAMADOS
-        /*
+        
         private CadastrarVM CadastrarVMNovo()
         {
             CadastrarVM vm = new CadastrarVM();
-            vm.Edicao = false;
+            PopularItensCadastrarVM(vm);
             return vm;
         }
 
-        
+        private void PopularItensCadastrarVM(CadastrarVM vm)
+        {
+            vm.ListarCores = compromissoService.ListarCores();
+        }
+
+        /*
         private CadastrarVM CadastrarVMEdicao(int id)
         {
             Compromisso reg = compromissoService.BuscarPorId(id);
@@ -107,6 +144,30 @@ namespace CoolAgenda.Controllers
             }
             return vm;
         } */
+
+        private Compromisso ConverterFormVM(CadastrarVM vm)
+        {
+            Compromisso reg = new Compromisso();
+            reg.NomeCompromisso = vm.NomeCompromisso;
+            reg.DataInicial = DateTime.Parse(vm.DataInicial);
+            reg.DataFinal = DateTime.Parse(vm.DataFinal);
+            reg.Cor = vm.Cor;
+            reg.DiaInteiro = vm.DiaInteiro;
+
+            return reg;
+        }
+
+        //private CompromissoUsuario ConverterFormVMCompromissoUser(CadastrarVM vm)
+        //{
+        //    CompromissoUsuario compromissoUser = new CompromissoUsuario();
+        //    compromissoUser.IdUsuario = vm.Nome;
+        //    compromissoUser.IdGrupo = vm.Email;
+        //    compromissoUser.Criador = "S";
+        //    compromissoUser.Nivel = "U";
+        //    compromissoUser.Ativo = "S";
+
+        //    return user;
+        //}
     }
 
 }

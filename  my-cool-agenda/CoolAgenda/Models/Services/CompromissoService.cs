@@ -71,5 +71,28 @@ namespace CoolAgenda.Models
 
             return erros;
         }
+
+        public List<SelectListItem> ListarCores()
+        {
+            List<SelectListItem> itens = new List<SelectListItem>();
+
+            itens.Add(new SelectListItem { Text = "Azul Escuro", Value = "#5484ed" });
+            itens.Add(new SelectListItem { Text = "Verde", Value = "#7bd148" });
+            itens.Add(new SelectListItem { Text = "Azul", Value = "#a4bdfc" });
+            itens.Add(new SelectListItem { Text = "Turquoise", Value = "#46d6db" });
+            itens.Add(new SelectListItem { Text = "Verde-Claro", Value = "#7ae7bf" });
+            itens.Add(new SelectListItem { Text = "Verde Escuro", Value = "#51b749" });
+            itens.Add(new SelectListItem { Text = "Armarelo", Value = "#fbd75b" });
+            itens.Add(new SelectListItem { Text = "Laranja", Value = "#ffb878" });
+            itens.Add(new SelectListItem { Text = "Vermelho", Value = "#dc2127" });
+            itens.Add(new SelectListItem { Text = "Roxo", Value = "#dbadff" });
+
+            return itens;
+        }
+
+        public List<Compromisso> Listar()
+        {
+            return compromissoDAO.Listar();
+        }
     }
 }

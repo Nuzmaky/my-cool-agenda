@@ -26,7 +26,6 @@ namespace CoolAgenda.Controllers
             usuarioService = new UsuarioService();
         }
 
-        [FiltroAutenticacao]
         public ActionResult Index()
         {
             GrupoIndexVM vm = ConstruirIndexVM();

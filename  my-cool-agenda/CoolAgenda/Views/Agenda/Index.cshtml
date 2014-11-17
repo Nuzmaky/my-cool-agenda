@@ -1,4 +1,5 @@
-﻿@{
+﻿@model CoolAgenda.ViewModels.AgendaVM.AgendaDadosVM
+@{
     ViewBag.Title = "Agenda";
 }
 
@@ -14,11 +15,22 @@
 
             <div class="menu-item">
                 <h4 id="agendasMenu"><a href="#">Minhas Agendas</a></h4>
-                <ul id="agendasSubMenu">
-                    <li><a href="#">Pessoal</a></li>
-                    <li><a href="#">Agenda1</a></li>
-                    <li><a href="#">Agenda2</a></li>
-                </ul>
+                @{
+                    
+                    if (Model.TotalRegistros > 0)
+                    {
+                    <ul id="agendasSubMenu">
+                        @for (int i = 0; i < Model.TotalRegistros; i++)
+                        {
+                            <li><a href="#">@Model.Lista[i].Grupo.Nome</a></li>             
+                        }
+                    </ul>
+                    }
+                    else
+                    {
+                    <p>Nenhum registro encontrado.</p>
+                    }    
+                }
             </div>
 
             <div class="menu-item">
@@ -56,20 +68,38 @@
                     right: 'month,agendaWeek,agendaDay'
                 },
                 defaultView: 'month',
-                editable: true,
+                eventLimit: true,
+                editable: false,
                 allDaySlot: true,
                 selectable: true,
-                slotMinutes: 15,
+                slotMinutes: 30,
                 aspectRatio: 1.8,
-                dayClick: function ShowEventPopup() {
-                    ClearPopupFormValues();
-                    $('#popupEventForm').show();
-                    $('#eventTitle').focus();
+                timeFormat: 'H:mm',
+                timezone: "local",
+                eventClick: function (calEvent, jsEvent, view) {
+                    alert('You clicked on event id: ' + calEvent.id
+                        + "\nSpecial ID: " + calEvent.someKey
+                        + "\nAnd the title is: " + calEvent.title);
+                },
+                dayClick: function (date, view) {
+                    $('#txDataInicial').val(date.format('DD/MM/YYYY hh:mm'));
+                    $('#txDataFinal').val(date.format('DD/MM/YYYY hh:mm'));;
+                    ShowEventPopup(date);
+                },
+                dayRender: function () {
+                    highlight();
                 },
                 events: "/Agenda/GetEvents/"
             });
 
+            highlight();
         });
+
+        function ShowEventPopup(date) {
+            ClearPopupFormValues();
+            $('#popupEventForm').show();
+            $('#nomeCompromisso').focus();
+        }
 
         function ClearPopupFormValues() {
             $('#NomeCompromisso').val("");
@@ -90,17 +120,31 @@
             });
         });
 
-        function ShowEventPopup() {
-            $('#popupEventForm').show();
-        }
-
         $('#tarefasSubMenu input:checkbox').change(function () {
             if ($(this).is(':checked')) {
                 $('.checkList').css('text-decoration', 'line-through')
             } else {
                 $('.checkList').css('text-decoration', 'none')
             }
-        })
+        });
+
+        function highlight() {
+            $('td.fc-day').mouseover(function () {
+                var strDate = $(this).data('date');
+                $(this).addClass('fc-highlight');
+            });
+            $('td.fc-day-number').mouseover(function () {
+                var strDate = $(this).data('date');
+                $("td.fc-day").filter("[data-date='" + strDate + "']").addClass('fc-highlight');
+            });
+            $('td.fc-day').mouseout(function () {
+                $(this).removeClass('fc-highlight');
+            })
+            $('td.fc-day-number').mouseout(function () {
+                var strDate = $(this).data('date');
+                $("td.fc-day").filter("[data-date='" + strDate + "']").removeClass('fc-highlight');
+            })
+        };
 
     </script>
 }

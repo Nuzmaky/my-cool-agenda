@@ -169,5 +169,30 @@ namespace CoolAgenda.Models
             throw new Exception("Erro ao recuperar o próximo ID do Grupo.");
         }
 
+        public Grupo BuscarPorIdAtivo(int id)
+        {
+            Grupo registro = null;
+            string sqlBuscar = "select * from Grupo where IdGrupo = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdGrupo", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterDataReaderParaObj(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
+        }
     }
 }

@@ -1,4 +1,7 @@
-﻿/********PRINCIPAIS********/
+﻿/********************************************************
+PRINCIPAIS
+*********************************************************/
+
 html, body {
     width: 100%;
     margin: 0;
@@ -24,22 +27,39 @@ a {
     margin-top: 10px;
 }
 
-/********TELA LOGIN********/
-
-.framed {
+#paginasErro {
     position: absolute;
-    top: 42%;
-    left: 50%;
-    width: 15rem;
-    margin-left: -7.5rem;
+    top: 30%;
+    left: 25%;
+    width: 40%;
+    min-width:400px;
+    margin-top: 10px;
+    text-align:center;
 }
 
-.formLogin {
+#imgPin {
+    width:100px;
+}
+
+#imgErro {
+    margin-left:60px;
+    width:200px;
+}
+/********************************************************
+LOGIN
+*********************************************************/
+
+#frmLogin {
+    position: absolute;
+    top: 42%;
+    left: 48%;
+    width: 19rem;
+    margin-left: -7.5rem;
     margin-top: -4.5em;
     transition: 1s ease-in-out;
 }
 
-.inputLogin {
+#inputEmail {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 1.125rem;
@@ -50,18 +70,46 @@ a {
     border: 0;
     border-top: 1px solid rgba(255,255,255,0.3);
     padding: 0 1rem;
-}
-
-    .inputLogin:focus {
-        outline: none;
-    }
-
-.inputLogin--cima {
     border-radius: 0.5rem 0.5rem 0 0;
     border-top: 0;
+    margin-bottom: 0px;
 }
 
-.inputLogin--submit {
+#inputSenha {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 1.125rem;
+    width: 100%;
+    height: 3rem;
+    color: #444;
+    background-color: rgba(255,255,255,0.8);
+    border: 0;
+    border-top: 1px solid rgba(255,255,255,0.3);
+    padding: 0 1rem;
+    margin-bottom: 0px;
+    border-radius: 0;
+}
+
+#inputEmail:focus {
+    outline: none;
+}
+
+#inputSenha:focus {
+    outline: none;
+}
+
+#inputEnviar:focus {
+    outline: none;
+}
+
+#inputEnviar {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 1.125rem;
+    width: 100%;
+    height: 3rem;
+    border: 0;
+    padding: 0 1rem;
     background-color: rgba(92,168,214,0.9);
     color: #fff;
     font-weight: bold;
@@ -69,45 +117,24 @@ a {
     border-top: 0;
     border-radius: 0 0 0.5rem 0.5rem;
     margin-bottom: 1rem;
+    margin-bottom: 5px;
 }
 
-    .inputLogin--submit:hover {
+    #inputEnviar:hover {
         background-color: #3276b1;
     }
 
-.textLogin {
+#textLogin {
     color: #fff;
     text-shadow: 0 1px 1px rgba(0,0,0,0.8);
     text-decoration: none;
-}
-
-.textLogin--small {
-    opacity: 0.85;
-    font-size: 0.75rem;
-    cursor: pointer;
-}
-
-    .textLogin--small:hover {
-        opacity: 1;
-    }
-
-.textLogin--config {
     width: 200%;
     margin: 0 0 5px -50%;
     font-size: 1.9rem;
     line-height: 1.125;
     font-weight: bold;
-}
-
-.textLogin--centered {
     display: block;
     text-align: center;
-}
-
-.textLogin--border-right {
-    border-right: 1px solid rgba(255,255,255,0.5);
-    margin-right: 0.75rem;
-    padding-right: 0.75rem;
 }
 
 .fullscreen-bg {
@@ -120,7 +147,9 @@ a {
     background: #213C60 url(../Images/background.png) repeat center top;
 }
 
-/********BARRA USUARIO********/
+/********************************************************
+BARRA USUARIO
+*********************************************************/
 #barrausuario {
     background: #a90329; /* Old browsers */
     background: -moz-linear-gradient(top, #a90329 0%, #8f0222 44%, #6d0019 100%); /* FF3.6+ */
@@ -182,7 +211,10 @@ a {
         white-space: nowrap;
     }
 
-/****MENU****/
+/********************************************************
+MENU
+*********************************************************/
+
 nav {
     font-family: Helvetica, Arial, "Lucida Grande", sans-serif;
     line-height: 1.5;
@@ -272,4 +304,58 @@ nav {
 
 #tarefasSubMenu {
     height: 100%;
+}
+
+/********************************************************
+VALIDAÇÕES
+*********************************************************/
+
+.validation-summary-errors {
+    margin-left: 30px;
+}
+
+.errorbox {
+    border: solid 1px red;
+    padding: 5px 8px 5px 8px;
+    text-align: left;
+    vertical-align: middle;
+    background-color: #F1E7D1;
+}
+
+.errorimage {
+    padding: 5px 15px 5px 15px;
+    background: #F1E7D1 url(/images/err-24x24.png) no-repeat;
+    background-position: left center;
+    vertical-align: middle;
+    display: inline-block;
+    height: 100%;
+}
+
+.errorhead {
+    color: #CC0000;
+    font-weight: bold;
+    font-size: 15px;
+    padding-left: 18px;
+}
+
+input[type="text"] .field-validation-error {
+    color: #f00;
+}
+
+input[type="text"].field-validation-valid {
+    display: none;
+}
+
+input[type="text"].input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
+input[type="text"].validation-summary-errors {
+    font-weight: bold;
+    color: #f00;
+}
+
+input[type="text"].validation-summary-valid {
+    display: none;
 }

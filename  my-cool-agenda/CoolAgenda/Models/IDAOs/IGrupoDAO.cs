@@ -18,5 +18,8 @@ namespace CoolAgenda.Models
         List<Grupo> Listar();
 
         Grupo BuscarPorId(int id);
+
+        Grupo BuscarPorIdAtivo(int id);
+
     }
 }

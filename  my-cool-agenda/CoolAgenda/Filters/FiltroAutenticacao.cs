@@ -19,11 +19,12 @@ namespace CoolAgenda.Filters
         /// Papeis:
         /// U = Usuario
         /// A = Administrador
+        /// T = Todos os níveis
         /// </summary>
         /// <param name="papeis"></param>
         /// 
 
-        public FiltroAutenticacao(string papeis = "U")
+        public FiltroAutenticacao(string papeis = "T")
         {
             Niveis = papeis;
         }
@@ -70,7 +71,7 @@ namespace CoolAgenda.Filters
         {
             string[] papeisAceitos = Niveis.Split(',');
 
-            if (papeisAceitos.Contains("U", StringComparer.InvariantCultureIgnoreCase))
+            if (papeisAceitos.Contains("T", StringComparer.InvariantCultureIgnoreCase))
                 return true;
             else
                 return papeisAceitos.Contains(nivel);

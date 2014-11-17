@@ -1,6 +1,6 @@
 ﻿using CoolAgenda.Filters;
 using CoolAgenda.Models;
-using CoolAgenda.ViewModels;
+using CoolAgenda.ViewModels.AgendaVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,65 +10,71 @@ using System.Globalization;
 
 namespace CoolAgenda.Controllers
 {
-    
+    [FiltroAutenticacao("U")]
     public class AgendaController : Controller
     {
         //
         // GET: /Agenda/
+        private IGrupoUsuarioService grupoUsuarioService;
+        private ICompromissoService compromissoService;
 
-        [FiltroAutenticacao("U")]
+        public AgendaController()
+        {
+            compromissoService = new CompromissoService();
+            grupoUsuarioService = new GrupoUsuarioService();
+        }
+
+        [FiltroAutenticacao]
         public ActionResult Index()
         {
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+
+            var usuarioGrupos = grupoUsuarioService.ListarGruposPessoa(idUser);
+
+            AgendaDadosVM vm = new AgendaDadosVM();
+            vm.Lista = usuarioGrupos;
+            vm.TotalRegistros = usuarioGrupos.Count;
+
+            if (vm.TotalRegistros == 0)
+            {
+                return RedirectToAction("SemGrupos",
+                    new { titulo = "Erro", mensagem = "Seu cadastro não possue vínculos a nenhum grupo, ou o Grupo está Inativo. Em caso de dúvidas entre em contato com o Administrador." });
+            }
+            else
+            {
+                return View(vm);
+            }
+        }
+
+        public ActionResult SemGrupos(string titulo, string mensagem)
+        {
+            ViewBag.Titulo = titulo;
+            ViewBag.Mensagem = mensagem;
             return View();
         }
 
-        public JsonResult GetEvents(DateTime start, DateTime end)
+        public JsonResult GetEvents()
         {
-            var fromDate = ToUnixTimespan(start);
-            var toDate = ToUnixTimespan(end);
 
             //Get the events
             //You may get from the repository also
-            var eventList = GetEvents();
+            var eventos = from e in compromissoService.Listar()
+                          select new
+                          {
+                              id = e.IdCompromisso,
+                              title = e.NomeCompromisso,
+                              start = e.DataInicial,
+                              end = e.DataFinal,
+                              color = e.Cor,
+                              allDay = e.DiaInteiro
+                          };
 
-            var rows = eventList.ToArray();
+            var rows = eventos.ToArray();
+
             return Json(rows, JsonRequestBehavior.AllowGet);
         }
 
-        private List<Compromisso> GetEvents()
-        {
-            List<Compromisso> eventList = new List<Compromisso>();
 
-            Compromisso newEvent = new Compromisso
-            {
-                IdCompromisso = 10,
-                NomeCompromisso = "Event 1",
-                DataInicial = DateTime.Now.AddDays(0),
-                DataFinal = DateTime.Now.AddDays(1),
-            };
-
-
-            eventList.Add(newEvent);
-
-            newEvent = new Compromisso
-            {
-                IdCompromisso = 11,
-                NomeCompromisso = "Event 3",
-                DataInicial = DateTime.Now.AddDays(2),
-                DataFinal = DateTime.Now.AddDays(3),
-            };
-
-            eventList.Add(newEvent);
-
-            return eventList;
-        }
-
-        private long ToUnixTimespan(DateTime date)
-        {
-            TimeSpan tspan = date.ToUniversalTime().Subtract(
-            new DateTime(1970, 1, 1, 0, 0, 0));
-
-            return (long)Math.Truncate(tspan.TotalSeconds);
-        }
     }
 }

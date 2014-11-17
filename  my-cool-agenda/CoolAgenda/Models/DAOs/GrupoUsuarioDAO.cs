@@ -12,6 +12,15 @@ namespace CoolAgenda.Models
     {
         private string SQL;
 
+        private IGrupoDAO grupoDAO;
+        private IUsuarioDAO usuarioDAO;
+
+        public GrupoUsuarioDAO()
+        {
+            grupoDAO = new GrupoDAO();
+            usuarioDAO = new UsuarioDAO();
+        }
+
         //Insert
         public void Adicionar(GrupoUsuario grupoUser, DbTransaction transaction = null)
         {
@@ -41,5 +50,84 @@ namespace CoolAgenda.Models
             comando.Dispose();
         }
 
+        public List<GrupoUsuario> ListarGruposPessoa(int idUser)
+        {
+            String sqlConsulta = "select * from usergrupo where usergrupoativo='S' and grupoativo = 'S' and IdUsuario = " + idUser;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<GrupoUsuario> registros = new List<GrupoUsuario>();
+            while (dr.Read())
+            {
+                GrupoUsuario registro = ConverterDataReaderParaObj(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            foreach (var registro in registros)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registros;
+        }
+
+        private GrupoUsuario ConverterDataReaderParaObj(OleDbDataReader dr)
+        {
+            GrupoUsuario grupoUser = new GrupoUsuario();
+            grupoUser.IdUsuario = Int32.Parse(dr["IdUsuario"].ToString());
+            grupoUser.IdGrupo = Int32.Parse(dr["IdGrupo"].ToString());
+            grupoUser.Administrador = dr["Administrador"].ToString();
+            grupoUser.Ativo = dr["usergrupoativo"].ToString();
+            return grupoUser;
+        }
+
+        private void CarregarComposicao(GrupoUsuario grupoUser)
+        {
+            int idGrupo = grupoUser.IdGrupo;
+            Grupo grupo = grupoDAO.BuscarPorIdAtivo(idGrupo);
+            grupoUser.Grupo = grupo;
+
+            int idUsuario = grupoUser.IdUsuario;
+            Usuario user = usuarioDAO.BuscarPorId(idUsuario);
+            grupoUser.Usuario = user;
+
+        }
+
+        public List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo)
+        {
+            String sqlConsulta = "select * from usergrupo where usergrupoativo='S' and grupoativo = 'S' and IdGrupo = " + idGrupo;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<GrupoUsuario> registros = new List<GrupoUsuario>();
+            while (dr.Read())
+            {
+                GrupoUsuario registro = ConverterDataReaderParaObj(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            foreach (var registro in registros)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registros;
+        }
     }
 }

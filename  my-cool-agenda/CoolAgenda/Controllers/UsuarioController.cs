@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace CoolAgenda.Controllers
 {
+    [FiltroAutenticacao("U")]
     public class UsuarioController : Controller
     {
         //
@@ -27,7 +28,6 @@ namespace CoolAgenda.Controllers
 
 
         // Cadastro de Usuário
-        [FiltroAutenticacao]
         public ActionResult Index(UsuarioVM userVM)
         {            
             return View(userVM);

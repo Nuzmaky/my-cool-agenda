@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Não faz parte a Grupos";
+}
+
+<div id="paginasErro">
+    <div>
+        <img id="imgErro" src="~/Images/erro.png" />
+    </div>
+    <div style="width: 100px; height: 100px; float: left">
+        <img id="imgPin" src="~/Images/pinguim.png" />
+    </div>
+    <div style="margin-top:20px">
+        <p>@ViewBag.Mensagem</p>
+    </div>
+    <div>
+        @Html.ActionLink("Sair", "Sair", "Home")
+    </div>
+</div>

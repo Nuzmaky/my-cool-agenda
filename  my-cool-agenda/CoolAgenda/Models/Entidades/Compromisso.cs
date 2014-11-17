@@ -11,6 +11,9 @@ namespace CoolAgenda.Models
         private string nomeCompromisso;
         private DateTime dataInicial;
         private DateTime dataFinal;
+        private string cor;
+        private string ativo;
+        private bool diaInteiro;
 
 
         // ID 
@@ -48,5 +51,43 @@ namespace CoolAgenda.Models
                     nomeCompromisso = value;
             }
         }
+
+        //COR
+        public string Cor
+        {
+            get { return cor; }
+            set
+            {
+                if (value != null && value.Length <= 10)
+                    cor = value;
+            }
+        }
+
+        //ATIVO
+        public string Ativo
+        {
+            get { return ativo; }
+            set
+            {
+                if (value != null && value.Length == 1)
+                {
+                    string vFlagUpper = value.ToUpper();
+                    if (vFlagUpper.Equals("S") || vFlagUpper.Equals("N"))
+                        ativo = vFlagUpper;
+                }
+            }
+
+        }
+
+        public bool DiaInteiro
+        {
+            get { return diaInteiro; }
+            set
+            {
+                diaInteiro = value;
+            }
+
+        }
+
     }
 }

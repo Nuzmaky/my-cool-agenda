@@ -1,15 +1,30 @@
-﻿@model CoolAgenda.ViewModels.UsuarioVM
+﻿@model CoolAgenda.ViewModels.HomeVM.LoginVM
 @{
     ViewBag.Title = "Login";
 }
 
-    <div class="fullscreen-bg"></div>    
+<div class="fullscreen-bg"></div>
 
 
-    @using(Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "formLogin form--login framed" }))
-    {
-        <h2 class="textLogin textLogin--centered textLogin--config">Cool Agenda</h2>    
-        @Html.TextBoxFor(m => m.Email, "", new { @class = "inputLogin inputLogin--cima", placeholder = "Email" , required = "" })        
-        @Html.PasswordFor(m => m.Senha, new { @class = "inputLogin", placeholder = "Senha", required = ""})
-        <input type="submit" value="Entrar" class="inputLogin inputLogin--submit" />
-    }
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { id = "frmLogin" }))
+{
+    <h2 id="textLogin">Cool Agenda</h2>
+    @Html.TextBoxFor(m => m.Email, "", new { id = "inputEmail", placeholder = "Email" })   
+    @Html.PasswordFor(m => m.Senha, new { id = "inputSenha", placeholder = "Senha" })
+    <input type="submit" value="Entrar" id="inputEnviar" />
+    
+    string display = ViewData.ModelState.IsValid ? "none" : "block";
+    <div class="errorbox" id="validationSummary" style="display:@display;">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".errorbox").prepend("<span class='errorimage'><span class='errorhead'>Ops, existem problemas</span></span>");
+    });
+
+    setTimeout(function () {
+        $('.errorbox').fadeOut('slow');
+    }, 3000);
+</script>

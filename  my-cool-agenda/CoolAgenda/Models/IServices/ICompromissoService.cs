@@ -19,5 +19,9 @@ namespace CoolAgenda.Models
         void Atualizar(Compromisso entidade);
 
         List<Validacao> ValidaAtualizar(Compromisso entidade);
+
+        List<SelectListItem> ListarCores();
+
+        List<Compromisso> Listar();
     }
 }

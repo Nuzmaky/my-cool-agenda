@@ -7,12 +7,8 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public interface ICompromissoDAO
+    public interface ICompromissoUsuarioDAO
     {
-        void Adicionar(Compromisso entidade);
 
-        void Atualizar(Compromisso entidade);
-
-        List<Compromisso> Listar();
     }
 }

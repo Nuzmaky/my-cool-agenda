@@ -16,5 +16,7 @@ namespace CoolAgenda.Models
         void AtivaCadastro(Usuario usuario);
 
         List<Usuario> Listar();
+
+        Usuario BuscarPorId(int id);
     }
 }

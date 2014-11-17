@@ -11,23 +11,43 @@
     @using (Html.BeginForm("Cadastrar", "Compromisso", FormMethod.Post, new { id = "EventForm", @class = "well" }))
     {
         string display = ViewData.ModelState.IsValid ? "none" : "block";
-      /*  <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
+        <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
             @Html.ValidationSummary()
         </div>
-       */
+       
         // @Html.HiddenFor(m => m.Edicao)
         // @Html.HiddenFor(m => m.IdCompromisso)
         <div style="width: 50%;">
             @Html.LabelFor(m => m.NomeCompromisso, new { @style = "width:50%" })
-            @Html.TextBoxFor(m => m.NomeCompromisso)
+            @Html.TextBoxFor(m => m.NomeCompromisso, new { id = "nomeCompromisso" })
 
             @Html.LabelFor(m => m.DataInicial, new { @style = "width:50%" })
-            @Html.TextBoxFor(m => m.DataInicial)
-
-            @Html.LabelFor(m => m.DataFinal, new { @style = "width:100px" })
-            @Html.TextBoxFor(m => m.DataFinal)
+            @Html.TextBoxFor(m => m.DataInicial, new { id = "txDataInicial", @class = "datetimepicker-pt-br" })
         </div>
+        <div style="width: 100%;">
+            <span style="float: left; margin-right: 20px">
+            @Html.LabelFor(m => m.DataFinal, new { @style = "width:50%" })
+            @Html.TextBoxFor(m => m.DataFinal, new { id = "txDataFinal", @class = "datetimepicker-pt-br2" })
+                </span>
+            <br />
 
+
+            @Html.CheckBoxFor(m => m.DiaInteiro, new { @style = "float:left; margin-right: 7px; margin-top: 15px" })
+            <div style="margin-top: 12px; margin-bottom:12px">Dia Inteiro </div>
+
+            <span style="float: left; margin-right: 20px">
+                @Html.LabelFor(m => m.Grupo)
+                @Html.DropDownListFor(m => m.Grupo, Model.ListarGrupo, new { id = "mostraGrupo" })<br />
+            </span>
+
+            @Html.LabelFor(m => m.Cor)
+            @Html.DropDownListFor(m => m.Cor, Model.ListarCores)
+
+            @Html.LabelFor(m => m.IdUsuarios, new { @style = "margin-top: 3px" })
+            @Html.TextBoxFor(m => m.IdUsuarios, new { id = "usuariosdoGrupo" })
+
+            <input type="button" value="Submit" />
+        </div>
     }
 </div>
 <div class="modal-footer">
@@ -35,67 +55,53 @@
     <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="EventForm" />
 </div>
 
-
-<style>
-    .validation-summary-errors {
-        margin-left:30px;
-    }
-    .errorbox {
-        border: solid 1px red;
-        padding: 5px 8px 5px 8px;
-        text-align: left;
-        vertical-align: middle;
-        background-color: #F1E7D1;
-    }
-
-    .errorimage {
-        padding: 5px 15px 5px 15px;
-        background: #F1E7D1 url(/images/err-24x24.png) no-repeat;
-        background-position: left center;
-        vertical-align: middle;
-        display: inline-block;
-        height: 100%;
-    }
-
-    .errorhead {
-        color: #CC0000;
-        font-weight: bold;
-        font-size: 15px;
-        padding-left: 18px;
-    }
-
-    /********************************************************
-VALIDAÇÕES
-*********************************************************/
-
-input[type="text"] .field-validation-error {
-    color: #f00;
-}
-
-input[type="text"].field-validation-valid {
-    display: none;
-}
-
-input[type="text"].input-validation-error {
-    border: 1px solid #f00;
-    background-color: #fee;
-}
-
-input[type="text"].validation-summary-errors {
-    font-weight: bold;
-    color: #f00;
-}
-
-input[type="text"].validation-summary-valid {
-    display: none;
-}
-
-</style>
-
 <script>
+    $(document).ready(function () {
+        $("input[type=button]").click(function () {
+            alert("Would submit: " + $(this).siblings("#usuariosdoGrupo").val());
+        });
+
+        ConfiguraUsuarios();
+    });
+
+    $(document).ready(function () {
+        $("#usuariosdoGrupo").tokenInput(["/Compromisso/GetEvents?"
+        ], {
+            propertyToSearch: "first_name",
+            resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+            tokenFormatter: function (item) { return "<li><p>" + item.first_name + "</p></li>" },
+        });
+    });
+
 
     $(document).ready(function () {
         $(".errorbox").prepend("<span class='errorimage'><span class='errorhead'>Ops, existem problemas</span></span>");
+    });
+
+    $(document).ready(function () {
+        jQuery(".datetimepicker-pt-br").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/Y H:i',
+            step: 30
+        });
+
+        jQuery(".datetimepicker-pt-br2").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/Y H:i',
+            minDate: 0,
+            step: 30
+        });
+
+        if (isDate($("#txDataInicial").val())) {
+            $("#txDataInicial").datetimepicker({
+                startDate: $("#txDataInicial").val()
+            });
+        }
+        if (isDate($("#txDataFinal").val())) {
+            $("#txDataFinal").datetimepicker({
+                startDate: $("#txDataFinal").val()
+            });
+        }
     });
 
     $(document).ready(function () {
@@ -122,7 +128,7 @@ input[type="text"].validation-summary-valid {
 
     $('#btnPopupCancel').click(function () {
         resetValidation();
-        $('#popupEventForm').hide();  
+        $('#popupEventForm').hide();
     });
 
     function resetValidation() {
@@ -135,6 +141,64 @@ input[type="text"].validation-summary-valid {
         //Remove o validation summary 
         $('.validation-summary-errors').addClass('validation-summary-valid');
         $('.validation-summary-errors').removeClass('validation-summary-errors');
-        $('#validationSummary').css('display','none');
+        $('#validationSummary').css('display', 'none');
     }
+
+    setTimeout(function () {
+        $('.errorbox').fadeOut('slow');
+    }, 6000);
+
+    $('select[name="Cor"]').simplecolorpicker({ theme: 'regularfont' });
+
+    //função que valida uma dateTime
+    function isDate(dataHora) {
+        var dataValida = true;
+
+        try {
+            var arrayDataHora = dataHora.split(" ");
+            var arrayDiaMesAno = arrayDataHora[0].split("/");
+            var arrayHoraMinuto = arrayDataHora[1].split(":");
+
+            if (parseInt(arrayDiaMesAno[0]) <= 0 || parseInt(arrayDiaMesAno[0]) > 31) {
+                dataValida = false;
+            }
+            if (parseInt(arrayDiaMesAno[1]) <= 0 || parseInt(arrayDiaMesAno[1]) > 12) {
+                dataValida = false;
+            }
+            if (parseInt(arrayDiaMesAno[2]) <= 1900 || parseInt(arrayDiaMesAno[2]) > 3000) {
+                dataValida = false;
+            }
+            if (parseInt(arrayHoraMinuto[0]) < 0 || parseInt(arrayHoraMinuto[0]) > 24) {
+                dataValida = false;
+            }
+            if (parseInt(arrayHoraMinuto[1]) < 0 || parseInt(arrayHoraMinuto[1]) > 59) {
+                dataValida = false;
+            }
+        }
+        catch (err) {
+            dataValida = false;
+        }
+        return dataValida;
+    }
+
+    function ConfiguraUsuarios() {
+        $("#mostraGrupo").change(function () {
+
+            var grupoSelecionado = $(this).val()
+            alert(grupoSelecionado);
+            $.get('@Url.Action("PegaUsuarios")', { grupoID: grupoSelecionado }, function (data) {
+                    ListaUsuarios(data);
+                });
+
+            });
+    }
+
+    function ListaUsuarios(data) {
+        var list = data;
+
+        $.each(data, function( id, first_name ) {
+            alert(id + ": " + first_name);
+        });
+    }
+
 </script>

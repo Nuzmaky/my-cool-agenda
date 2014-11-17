@@ -10,5 +10,9 @@ namespace CoolAgenda.Models
     public interface IGrupoUsuarioDAO
     {
         void Adicionar(GrupoUsuario grupoUser, DbTransaction transaction);
+
+        List<GrupoUsuario> ListarGruposPessoa(int idUser);
+
+        List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo);
     }
 }

@@ -15,11 +15,15 @@ namespace CoolAgenda.Models
         //Insert
         public void Adicionar(Usuario user, DbTransaction transaction = null)
         {
-            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel) VALUES (SeqUsuario.NEXTVAL, ?, ?, ?, ?)";
+            SQL = "INSERT INTO Usuario (IdUsuario, Email, Nome, Senha, Nivel) VALUES (?, ?, ?, ?, ?)";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
             if (transaction != null)
                 comando.Transaction = transaction as OleDbTransaction;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = user.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
 
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
             pEmail.Value = user.Email;
@@ -212,5 +216,30 @@ namespace CoolAgenda.Models
             throw new Exception("Erro ao recuperar o próximo ID do Usuario.");
         }
 
+        public Usuario BuscarPorId(int id)
+        {
+            Usuario registro = null;
+            string sqlBuscar = "select * from Usuario where IdUsuario = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterParaTipoClasse(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
+        }
     }
 }

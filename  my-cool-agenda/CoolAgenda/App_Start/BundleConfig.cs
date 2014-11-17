@@ -12,7 +12,11 @@ namespace CoolAgenda
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/bootstrap.js",
-                        "~/Scripts/jquery.mask.js"));
+                        "~/Scripts/jquery.mask.js",
+                        "~/Scripts/jquery.simplecolorpicker.js",
+                        "~/Scripts/jquery.simple-dtpicker.js",
+                        "~/Scripts/jquery.datetimepicker.js",
+                        "~/Scripts/jquery.tokeninput.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/Scripts/moment.min.js"));
@@ -27,7 +31,11 @@ namespace CoolAgenda
             // CSS
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/site.css",
-                "~/Content/bootstrap.css"));
+                "~/Content/bootstrap.css",
+                "~/Content/jquery.simplecolorpicker.css",
+                "~/Content/jquery.simple-dtpicker.css",
+                "~/Content/jquery.datetimepicker.css",
+                "~/Content/token-input.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",
