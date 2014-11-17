@@ -135,11 +135,11 @@ namespace CoolAgenda.Controllers
 
         private ContatoVM ConstruirContatoVM(int id)
         {
-            ContatoVM vm = new ContatoVM();
+            ContatoVM vm = new ContatoVM();            
 
             var registros = contatoService.BuscarPorIdUsuario(id);
             vm.ListaContato = registros;
-            vm.ListaTelefone = telefoneService.ListarPorIdUsuario(id);
+            vm.ListaTelefone = telefoneService.ListarPorIdUsuario(id);            
             vm.TotalRegistros = registros.Count;
             return vm;
         }
