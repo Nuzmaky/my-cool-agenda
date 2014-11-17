@@ -11,5 +11,7 @@ namespace CoolAgenda.Models
     public interface ITelefoneService
     {
         List<Telefone> Select();
+        List<Telefone> ListarPorIdContato(int id);
+        List<Telefone> ListarPorIdUsuario(int id);
     }
 }

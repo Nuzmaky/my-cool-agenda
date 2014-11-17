@@ -14,19 +14,18 @@ namespace CoolAgenda.Models
         private string SQL;
 
         // Insert
-        public void Insert(Telefone entidade)
+        public void Insert(Contato contato, Telefone entidade, DbTransaction transacao = null)
         {
             SQL = "INSERT INTO Telefone (IdTelefone, IdContato, NumeroTelefone) VALUES (seqTelefone.nextval, ?, ?)";
 
             // Configura o comando            
-            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);         
+            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
-            OleDbParameter pIdTelefone = new OleDbParameter("IdTelefone", OleDbType.Integer);
-            pIdTelefone.Value = entidade.IdTelefone;
-            comando.Parameters.Add(pIdTelefone);
+            if (transacao != null)
+                comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
-            pIdContato.Value = entidade.IdContato;
+            pIdContato.Value = contato.IdContato;
             comando.Parameters.Add(pIdContato);
 
             OleDbParameter pNumeroTelefone = new OleDbParameter("NumeroTelefone", OleDbType.VarChar);
@@ -40,7 +39,7 @@ namespace CoolAgenda.Models
 
 
         //Update
-        public void Update(Telefone entidade)
+        public void Update(Contato contato, Telefone entidade, DbTransaction transacao = null)
         {
             SQL = "UPDATE Telefone SET IdContato = ?, NumeroTelefone = ? WHERE IdTelefone = ?";
 
@@ -48,6 +47,9 @@ namespace CoolAgenda.Models
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
+
+            if (transacao != null)
+                comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
             pIdContato.Value = entidade.IdContato;
@@ -66,23 +68,11 @@ namespace CoolAgenda.Models
             comando.Dispose();
         }
 
-
-        //Conversão
-        public Telefone ConverterParaTipoClasse(OleDbDataReader dr)
-        {
-            Telefone telefone = new Telefone();
-            telefone.IdContato = int.Parse(dr["IdContato"].ToString());
-            telefone.IdTelefone = int.Parse(dr["IdTelefone"].ToString());
-            telefone.NumeroTelefone = dr["NumeroTelefone"].ToString();
-
-            return telefone;
-        }
-
         //Select
         public List<Telefone> Select()
         {
             List<Telefone> ListaTelefone= new List<Telefone>();
-            string SQL = "Select * From Telefone";
+            string SQL = "Select * From Telefone Order By IdTelefone";
             OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
             OleDbDataReader dr = Select.ExecuteReader();
@@ -93,6 +83,97 @@ namespace CoolAgenda.Models
             }
 
             return ListaTelefone;
+        }
+
+
+        public Telefone SelectById(int id)
+        {
+            Telefone registro = null;
+            SQL = "select * from TELEFONE where IdTelefone = ?";
+                    
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pId = new OleDbParameter("IdTelefone", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterParaTipoClasse(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
+        }
+
+        public List<Telefone> ListarPorIdContato(int idContato)
+        {
+            SQL = "SELECT * FROM Telefone WHERE IdContato = " + idContato;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<Telefone> registros = new List<Telefone>();
+            while (dr.Read())
+            {
+                Telefone registro = ConverterParaTipoClasse(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registros;
+        }
+
+
+        public List<Telefone> ListarPorIdUsuario(int idUsuario)
+        {
+            SQL = "SELECT * FROM Telefone T , Contato C "+
+                    "WHERE C.IdUsuario = " +idUsuario +
+                        " and C.IdContato = T.idcontato Order by C.IdContato";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<Telefone> registros = new List<Telefone>();
+            while (dr.Read())
+            {
+                Telefone registro = ConverterParaTipoClasse(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registros;
+        }
+
+
+
+        //Conversão
+        public Telefone ConverterParaTipoClasse(OleDbDataReader dr)
+        {
+            Telefone telefone = new Telefone();
+            telefone.IdContato = int.Parse(dr["IdContato"].ToString());
+            telefone.IdTelefone = int.Parse(dr["IdTelefone"].ToString());
+            telefone.NumeroTelefone = dr["NumeroTelefone"].ToString();
+
+            return telefone;
         }
 
     }

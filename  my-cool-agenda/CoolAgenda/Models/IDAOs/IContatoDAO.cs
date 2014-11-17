@@ -9,15 +9,17 @@ namespace CoolAgenda.Models
 {
     public interface IContatoDAO
     {
-        void Insert(Contato entidade, DbTransaction transacao);
+        void Insert(Contato entidade);
                             
         void Update(Contato entidade);
 
         void DeleteById(int id);
 
         List<Contato> Select(); 
+        List<Contato> BuscarPorIdUsuario(int id);
         
         Contato BuscarPorId(int id);
+
 
         
 

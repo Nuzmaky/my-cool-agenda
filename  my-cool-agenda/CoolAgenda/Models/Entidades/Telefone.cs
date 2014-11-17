@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -41,7 +41,7 @@ namespace CoolAgenda.Models
             get { return numeroTelefone; }
             set
             {
-                if (value != null && value.Length <= 11)
+                if (value != null && value.Length <= 11)                    
                     numeroTelefone = value;
             }
         }

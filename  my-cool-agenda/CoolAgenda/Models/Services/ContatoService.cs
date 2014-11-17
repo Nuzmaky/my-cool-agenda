@@ -32,9 +32,9 @@ namespace CoolAgenda.Models
             return contatoDAO.Select();
         }
 
-        public void InsertContato(Contato contato, DbTransaction transacao)
+        public void InsertContato(Contato contato)
         {
-            contatoDAO.Insert(contato, transacao);
+            contatoDAO.Insert(contato);
         }
 
         public void Insert(Contato contato, List<Telefone> telefones)
@@ -42,14 +42,9 @@ namespace CoolAgenda.Models
             DbTransaction transacao = Conexao.getConexao().BeginTransaction();
             try
             {
-                int idContato=0;
-                contato.IdContato = idContato;
-                InsertContato(contato, transacao);
-
                 foreach (var telefone in telefones)
                 {
-                    telefone.IdContato = idContato;
-                    InsertContato(contato, transacao);
+                    InsertTelefone(contato, telefone, transacao);
                 }
 
                 // Se chegar até aqui deu tudo certo
@@ -63,14 +58,43 @@ namespace CoolAgenda.Models
             }
         }
 
-        public void InsertTelefone(Telefone entidade)
+        public void InsertTelefone(Contato contato, Telefone entidade, DbTransaction transacao)
         {
-            telefoneDAO.Insert(entidade);
+            telefoneDAO.Insert(contato, entidade, transacao);
         }
 
-        public void Update(Contato entidade)
+        public void UpdateTelefone(Contato contato, Telefone telefone, DbTransaction transacao)
         {
-            contatoDAO.Update(entidade);
+            telefoneDAO.SelectById(telefone.IdTelefone);
+            telefoneDAO.Update(contato, telefone, transacao);
+        }
+
+        public void Update(Contato contato, List<Telefone> telefones)
+        {
+            contatoDAO.Update(contato);
+            DbTransaction transacao = Conexao.getConexao().BeginTransaction();
+            try
+            {
+
+                foreach (var telefone in telefones)
+                {
+                    UpdateTelefone(contato, telefone, transacao);
+                }
+
+                // Se chegar até aqui deu tudo certo
+                // então realiza o Commit 
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                transacao.Rollback();
+                throw;
+            }            
+        }
+
+        public Telefone BuscarTelefonePorId(int id)
+        {
+            return telefoneDAO.SelectById(id);
         }
 
         public void DeleteById(int id)
@@ -81,6 +105,11 @@ namespace CoolAgenda.Models
         public Contato BuscarPorId(int id)
         {
             return contatoDAO.BuscarPorId(id);
+        }
+
+        public List<Contato> BuscarPorIdUsuario(int id)
+        {
+            return contatoDAO.BuscarPorIdUsuario(id);
         }
 
         // Envia e-mail de confirmação de Cadastro

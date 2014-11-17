@@ -14,6 +14,9 @@ namespace CoolAgenda.Models
         private string email;
         private string endereco;
 
+        // Composição de classes
+        public List<Telefone> Telefones { get; set; }
+
 
         //ID CONTATO
         public int IdContato

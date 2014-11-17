@@ -10,10 +10,17 @@ namespace CoolAgenda.Models
 {
     public class ContatoDAO : IContatoDAO
     {
-        private string SQL;          
+        private string SQL;
+
+        private ITelefoneDAO telefoneDAO;
+
+        public ContatoDAO()
+        {
+            telefoneDAO = new TelefoneDAO();
+        }
 
         //Insert
-        public void Insert(Contato contato, DbTransaction transacao = null)
+        public void Insert(Contato contato)
         {            
             SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Email, Endereco) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?)";
 
@@ -21,8 +28,6 @@ namespace CoolAgenda.Models
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
-            if (transacao != null)
-                comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = contato.IdUsuario;
@@ -49,18 +54,25 @@ namespace CoolAgenda.Models
         //Select
         public List<Contato> Select()
         {
-            List<Contato> ListaContato = new List<Contato>();
-            string SQL = "Select * From Contato";
-            OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            SQL = "Select * From Contato Order By IdContato";
+
+            OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);                                                 
 
             OleDbDataReader dr = Select.ExecuteReader();
 
+            List<Contato> registros = new List<Contato>();
+
             while (dr.Read())
             {
-                ListaContato.Add(ConverterParaTipoClasse(dr));
+                Contato registro = ConverterParaTipoClasse(dr);
+                registros.Add(registro);
             }
 
-            return ListaContato;
+            //foreach (var registro in registros)
+            //{
+            //    CarregarComposicao(registro);
+            //}
+            return registros;
         }
 
 
@@ -144,6 +156,34 @@ namespace CoolAgenda.Models
 
             return registro;
         }
+
+        public List<Contato> BuscarPorIdUsuario(int id)
+        {
+            List<Contato> registros = new List<Contato>();
+            string sqlBuscar = "select * from Contato where IdUsuario = ? Order By IdContato";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            while (dr.Read())
+            {
+                Contato registro = ConverterParaTipoClasse(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registros;
+        }
+
 
 
         //Conversão

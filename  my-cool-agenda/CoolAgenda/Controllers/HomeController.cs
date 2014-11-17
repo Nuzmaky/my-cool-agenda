@@ -20,6 +20,9 @@ namespace CoolAgenda.Controllers
        
         public ActionResult Index()
         {
+            if (Session["Usuario"] != null)
+                return RedirectToAction("Index", "Agenda");
+            else            
             return View();
         }
 

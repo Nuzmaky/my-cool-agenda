@@ -34,11 +34,12 @@
         @Html.Label("E-mail: ")
         @Html.TextBoxFor(m => m.Email) <br /> 
         
-        @Html.Label("Telefone Um: ")      
+        @Html.LabelFor(m => m.telefoneUm)     
         @Html.TextBoxFor(m => m.telefoneUm, new { @class = "TELEFONE" })
-
-        @Html.Label("Telefone Dois: ")      
-        @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" })
+        
+        
+        @Html.LabelFor(m => m.telefoneDois)
+        @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" })        
         
         @Html.Label("Endereço: ")
         @Html.TextBoxFor(m => m.Endereco) <br /> 
@@ -52,7 +53,13 @@
 
 @section scripts 
 {
+
+
     <script type="text/javascript">
+
+        $(document).ready(function () {            
+            ConfiguraMascaras();
+        });
 
         function ConfiguraMascaras() {
             $(".TELEFONE").mask("(00) 90000-0000");

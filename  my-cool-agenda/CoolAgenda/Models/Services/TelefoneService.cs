@@ -21,5 +21,15 @@ namespace CoolAgenda.Models
         {
             return telefoneDAO.Select();
         }
+
+        public List<Telefone> ListarPorIdContato(int id)
+        {
+            return telefoneDAO.ListarPorIdContato(id);
+        }
+
+        public List<Telefone> ListarPorIdUsuario(int id)
+        {
+            return telefoneDAO.ListarPorIdUsuario(id);
+        }
     }
 }

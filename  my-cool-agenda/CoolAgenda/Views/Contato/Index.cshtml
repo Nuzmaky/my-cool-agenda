@@ -27,8 +27,19 @@
                 <td>@Model.ListaContato[i].IdContato</td>
                 <td>@Model.ListaContato[i].IdUsuario</td>
                 <td>@Model.ListaContato[i].Nome</td>                
-                <td>@Model.ListaContato[i].Email</td>
-                
+                <td>@Model.ListaContato[i].Email</td> 
+
+                <td>
+                @if (Model.ListaTelefone != null || Model.ListaTelefone.Count != 0)
+                {                     
+                    <ul style="list-style-type:none">
+                        @for (int k = 0; k < Model.ListaTelefone.Count; k++)
+                        {
+                            <li>@Model.ListaTelefone[k].NumeroTelefone</li>
+                        }
+                    </ul>
+                }</td>
+
                 <td>@Model.ListaContato[i].Endereco</td>
                 <td class="opcoes2">
                     <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})

@@ -31,13 +31,20 @@ namespace CoolAgenda.Controllers
             telefoneService = new TelefoneService();
         }
 
+
+        //Index principal
         [FiltroAutenticacao]
         public ActionResult Index()
         {
-            ContatoVM vm = ConstruirContatoVM();
+            //Pega o usuário na sessão
+            Usuario usuario = Session["Usuario"] as Usuario;
+            int idUsuario = usuario.IdUsuario;            
+
+            ContatoVM vm = ConstruirContatoVM(idUsuario);
             return View(vm);
         }
 
+        // Cadastro de Contatos
         public ActionResult Form(int? id)
         {
             ContatoVM vm;
@@ -54,7 +61,7 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
-
+        //Convite de Contatos
         public ActionResult Convida(int? id)
         {
             ContatoVM vm;
@@ -93,16 +100,28 @@ namespace CoolAgenda.Controllers
 
             if (ModelState.IsValid)
             {
-                Contato registro = ConverterFormVM(vm);
+                Contato contato = ConverterFormVM(vm);
                 List<Telefone> telefones = ConverterCadVMParaTelefones(vm);
 
-                var erros = contatoService.ValidarEntidade(registro);
+                var erros = contatoService.ValidarEntidade(contato);
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
-                        contatoService.Update(registro);
+                    {
+                        vm = ConstruirContatoVM(idUsuario);
+                        contatoService.Update(contato, telefones);
+                    }
                     else
-                        contatoService.Insert(registro, telefones);
+                    {
+                        // Insere Contato
+                        contatoService.InsertContato(contato);
+
+                        vm = ConstruirContatoVM(idUsuario);
+                        int i = vm.ListaContato.Count - 1;
+                        contato.IdContato = vm.ListaContato[i].IdContato;
+                        //Insere Telefone do contato
+                        contatoService.Insert(contato, telefones);
+                    }
 
                     return RedirectToAction("Index");
                 }
@@ -114,13 +133,13 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
-        private ContatoVM ConstruirContatoVM()
+        private ContatoVM ConstruirContatoVM(int id)
         {
             ContatoVM vm = new ContatoVM();
 
-            var registros = contatoService.Select();
+            var registros = contatoService.BuscarPorIdUsuario(id);
             vm.ListaContato = registros;
-            vm.ListaTelefone = telefoneService.Select();
+            vm.ListaTelefone = telefoneService.ListarPorIdUsuario(id);
             vm.TotalRegistros = registros.Count;
             return vm;
         }
@@ -152,8 +171,8 @@ namespace CoolAgenda.Controllers
         private Contato ConverterFormVM(ContatoVM vm)
         {
             Contato reg = new Contato();
-            reg.IdContato = vm.IdContato;
             reg.IdUsuario = vm.IdUsuario;
+            reg.IdContato = vm.IdContato;
             reg.Nome = vm.Nome;
             reg.Email = vm.Email;
             reg.Endereco = vm.Endereco;
@@ -190,7 +209,7 @@ namespace CoolAgenda.Controllers
         private List<Telefone> ConverterCadVMParaTelefones(ContatoVM vm)
         {
             List<Telefone> telefones = new List<Telefone>();
-
+            
             string numeroTelefoneUm = vm.telefoneUm;
             if (!String.IsNullOrEmpty(numeroTelefoneUm))
             {
@@ -211,8 +230,8 @@ namespace CoolAgenda.Controllers
         }
 
         private string RemoverFormatacaoTelefone(string telefoneFormatado)
-        {
-            string telefoneApenasNumeros = telefoneFormatado.Replace("(", "").Replace(")", "").Replace(" ", "");
+        {            
+            string telefoneApenasNumeros = telefoneFormatado.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
             return telefoneApenasNumeros;
         }
     }

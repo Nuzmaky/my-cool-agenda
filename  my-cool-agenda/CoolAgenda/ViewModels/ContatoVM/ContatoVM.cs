@@ -29,15 +29,15 @@ namespace CoolAgenda.ViewModels
         [Display(Name = "Endereço: ")]
         public string Endereco { get; set; }
 
-        [StringLength(14, MinimumLength = 13, ErrorMessage = "Insira o telefone corretamente.")]
+        [StringLength(15, MinimumLength = 13, ErrorMessage = "Insira o primeiro telefone corretamente.")]
         [Required(ErrorMessage = "Insira a primeira opção de telefone.")]
         [Display(Name = "Telefone *")]
         public string telefoneUm { get; set; }
 
-        [StringLength(14, MinimumLength = 13, ErrorMessage = "Insira o telefone corretamente.")]
+        [StringLength(15, MinimumLength = 13, ErrorMessage = "Insira o segundo telefone corretamente.")]
         [Display(Name = "Telefone opcional")]
         public string telefoneDois { get; set; }
-
+     
         [Display(Name = "Ativo. ")]
         public bool Ativo { get; set; }
 
