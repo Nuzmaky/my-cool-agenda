@@ -193,6 +193,7 @@
     <Compile Include="Controllers\Utilidades\JsonActionResultModel.cs" />
     <Compile Include="Filters\FiltroAutenticacao.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
+    <Compile Include="Filters\PermitirAnonimos.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

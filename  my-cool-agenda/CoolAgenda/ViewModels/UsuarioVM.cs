@@ -18,7 +18,7 @@ namespace CoolAgenda.ViewModels
         [Display(Name = "E-mail: ")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Insira um Nome.")]
+        //[Required(ErrorMessage = "Insira um Nome.")]
         [Display(Name = "Nome: ")]
         public string Nome { get; set; }
 
@@ -29,8 +29,8 @@ namespace CoolAgenda.ViewModels
         [Display(Name = "Usuário Administrador. ")]
         public bool Nivel { get; set; }
 
-        [Display(Name = "Mensagem: ")]
-        public string CorpoEmail { get; set; }
+        [Display(Name = "Ativo: ")]
+        public string Ativo { get; set; }
 
         public List<Usuario> ListaUsuario { get; set; }
         public int TotalRegistros { get; set; }

@@ -8,7 +8,7 @@
 
 <h3>Por favor, confirme seus dados para ativação do cadastro.</h3>
 
-@using(Html.BeginForm("Index","Home",FormMethod.Post))
+@using(Html.BeginForm("AtivaCadastro","Usuario",FormMethod.Post))
 {
     @Html.Label("E-mail: ")
     @Html.TextBoxFor(m => m.Email) <br />        
@@ -22,7 +22,7 @@
         $("#clicouAtivacao").val(true);
     </script>
     
-    <input type="submit" name="btOK" value="Cadastrar!" />
+    <input type="submit" name="btOK" value="Ativar!" />
     
 }
 

@@ -41,62 +41,45 @@ namespace CoolAgenda.Controllers
             {
                 string email = vm.Email;
                 string senha = vm.Senha;
-                // bool clicouAtivacao = usuario.clicouAtivacao;
 
+                // Valida se Email e Senha estão corretos.
                 var erros = usuarioService.ValidaUsuario(email, senha);
+
+                // Se estiver corretos
                 if (erros.Count == 0)
                 {
-                    Usuario u = usuarioService.AutenticaUsuario(email, senha);
+                    // Valida a ativação
+                    Usuario usuario = usuarioService.BuscarPorEmail(email);
+                    string ativo = usuario.Ativo;
 
-                    // Adiciona o usuário na sessão
-                    Session["Usuario"] = u;
-
-                    // Redireciona para o controller adequado de acordo com o nível do usuário
-                    string nivel = u.Nivel.ToString();
-
-                    // Redireciona para as actions padrões de acordo com o nivel do usuário
-                    // Se for um ADM, libera acesso
-                    if (Autenticacao.VerificaAdm(nivel))
-                        return RedirectToAction("Index", "Grupo");
+                    //Se cadastro estiver inativo, adiciona o erro
+                    if (!Autenticacao.VerificaCadastroAtivo(ativo))
+                        erros.Add(new Validacao("Usuário inativo. Verifique sua caixa de entrada, e clique no link de ativação"));
                     else
                     {
-                        // Recebe a situação do Cadastro
-                        // P - Pendente
-                        // S - Ativo
-                        // N - Inativo (Sem clicar no link de e-mail)
-                        string ativo = u.Ativo.ToString();
+                        // Se não autentica
+                        Usuario u = usuarioService.AutenticaUsuario(email, senha);
 
-                        //Verifica se o cadastro está ativo(S), e mostra a Agenda.
-                        if (Autenticacao.VerificaCadastroAtivo(ativo))
-                            return RedirectToAction("Index", "Agenda");
+                        // Adiciona o usuário na sessão
+                        Session["Usuario"] = u;
+
+                        // Redireciona para o controller adequado de acordo com o nível do usuário
+                        string nivel = u.Nivel.ToString();
+
+                        // Redireciona para as actions padrões de acordo com o nivel do usuário
+                        // Se for um ADM, libera acesso
+                        if (Autenticacao.VerificaAdm(nivel))
+                            return RedirectToAction("Index", "Grupo");
                         else
                         {
-                            // Deixa Cadastro pendente
-                            //if (clicouAtivacao)                        
-                            //usuarioDAO.CadastroPendente(u.IdUsuario);
-
-                            //u = usuarioService.AutenticaUsuario(email, senha);
-                            //Session["Usuario"] = u;
-                            //ativo = u.Ativo;
-
-                            //Verifica se o cadastro está pendente ((P)clicou no link) e ativa.
-                            if (Autenticacao.VerificaCadastroPendente(ativo))
-                                return RedirectToAction("AtivaCadastro", "Usuario");
-                            else
-                                // Exibe que o cadastro está Inativo(N).
-                                return RedirectToAction("CadastroInativo", "Usuario");
+                            return RedirectToAction("Index", "Agenda");
                         }
                     }
                 }
-                else
-                {
-                    ModelState.AddModelErrors(erros);
-                }
+                ModelState.AddModelErrors(erros);
             }
-            
             return View();
         }
-
 
         // Sair
         public ActionResult Sair()

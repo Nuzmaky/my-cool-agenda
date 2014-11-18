@@ -13,6 +13,8 @@ namespace CoolAgenda.Models
     {
         Usuario AutenticaUsuario(string email, string senha);
 
+        Usuario BuscarPorEmail(string email);
+
         bool AtivarCadastro(string email);
 
         List<Validacao> ValidaUsuario(string email, string senha);

@@ -1,6 +1,7 @@
 ﻿using CoolAgenda.Filters;
 using CoolAgenda.Models;
-using CoolAgenda.ViewModels;   
+using CoolAgenda.Models.Services;
+using CoolAgenda.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +24,13 @@ namespace CoolAgenda.Controllers
         }
 
         //Objetos
-        Usuario usuario = new Usuario(); 
+        Usuario usuario = new Usuario();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
         // Cadastro de Usuário
         public ActionResult Index(UsuarioVM userVM)
-        {            
+        {
             return View(userVM);
         }
 
@@ -42,7 +43,7 @@ namespace CoolAgenda.Controllers
             Usuario usuarioSession = Session["Usuario"] as Usuario;
             int idUsuario = usuarioSession.IdUsuario;
 
-            
+
             //SE FOR USUARIO, CADASTRO COM NIVEL DE USUARIO            
             if (usuarioVM.Nivel)
                 usuario.Nivel = "A"; // Tenho que ajustar ainda
@@ -56,8 +57,8 @@ namespace CoolAgenda.Controllers
             UsuarioService.EnviaEmailCadastro(usuarioVM.Email, usuarioVM.Senha, usuarioVM.Nome);
 
             //Lista os usuários cadastrados
-            usuarioVM.ListaUsuario = usuarioDAO.Listar();            
-            return View(usuarioVM);            
+            usuarioVM.ListaUsuario = usuarioDAO.Listar();
+            return View(usuarioVM);
         }
 
         // Cadastro Inativos
@@ -68,26 +69,53 @@ namespace CoolAgenda.Controllers
             return View();
         }
 
-        
-        public ActionResult AtivaCadastro(Usuario usuario)
+        [PermitirAnonimos]
+        public ActionResult AtivaCadastro()
         {
-            // Pega o usuário na sessão
-            Usuario usuarioSession = Session["Usuario"] as Usuario;
-            string email = usuarioSession.Email;
-                        
-            bool ativo = usuarioService.AtivarCadastro(email);
-            if (ativo)
-            {
-                ViewBag.Sucesso = "Usuário ativado com sucesso!";
-                return View();
-            }
-            else
-                ViewBag.Mensagem = "Não é possível ativar o registro solicitado. Contate a área de suporte.";
-            
-            return View(usuario);            
+            return View();
         }
 
-        
+        [PermitirAnonimos]
+        [HttpPost]
+        public ActionResult AtivaCadastro(UsuarioVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                string email = vm.Email;
+                string senha = vm.Senha;
+
+                // Verifica o e-mail
+                Usuario u = usuarioService.BuscarPorEmail(vm.Email);
+
+                // Valida E-mail e Senha
+                var erros = usuarioService.ValidaUsuario(email, senha);
+
+                // Se e-mail e senha estiverem corretos
+                if (erros.Count == 0)
+                {
+                    //Recebe Status Ativo ou nao
+                    string ativo = u.Ativo;
+
+                    //Verifica se o cadastro está ativo(S), e mostra a Agenda.
+                    if (Autenticacao.VerificaCadastroAtivo(ativo))
+                        return RedirectToAction("Index", "Agenda");
+                    else
+                    {
+                        bool ativado = usuarioService.AtivarCadastro(email);
+                        if (ativado)
+                        {
+                            ViewBag.Mensagem = "Usuário ativado com sucesso!";
+                            return View();
+                        }
+                    }
+                }
+                ViewBag.Mensagem = "Não é possível ativar o cadastro. Verifique seus dados ou contate a área de suporte.";
+            }
+            return View();
+        }
+ 
+
+        [PermitirAnonimos]
         public ActionResult DadosAtivacaoCadastro(UsuarioVM vm, Usuario usuario)
         {
             usuario.clicouAtivacao = vm.clicouAtivacao;

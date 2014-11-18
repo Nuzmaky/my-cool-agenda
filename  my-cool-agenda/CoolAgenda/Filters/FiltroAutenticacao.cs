@@ -31,41 +31,58 @@ namespace CoolAgenda.Filters
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            bool filtroAtivo = true;
+            // Se a action que estiver sendo solicitada tiver um descritor do tipo PermitirAnonimos
+            // Então libera o acesso sem precisar passar pela autenticação
+            object[] descritoresPermitemAnonimos =
+                filterContext.ActionDescriptor.GetCustomAttributes(typeof(PermitirAnonimos), true);
 
-            if (filtroAtivo)
+            if (descritoresPermitemAnonimos.Count() == 0)
             {
-                object u = filterContext.HttpContext.Session["Usuario"];
 
-                // Se não houver Nivel na sessão
-                if (u != null)
+                bool filtroAtivo = true;
+
+                if (filtroAtivo)
                 {
-                    //Joga o Nivel
-                    Usuario usuario = (Usuario)u;
-                    string nivel = usuario.Nivel.ToString();
+                    object u = filterContext.HttpContext.Session["Usuario"];
 
-                    bool podeAcessar = VerificarAcesso(nivel, Niveis);
-                    if (podeAcessar)
-                        // Libera Acesso
-                        base.OnActionExecuting(filterContext);
+                    // Se não houver Nivel na sessão
+                    if (u != null)
+                    {
+                        //Joga o Nivel
+                        Usuario usuario = (Usuario)u;
+                        string nivel = usuario.Nivel.ToString();
+
+                        bool podeAcessar = VerificarAcesso(nivel, Niveis);
+                        if (podeAcessar)
+                            // Libera Acesso
+                            base.OnActionExecuting(filterContext);
+                        else
+                            filterContext.Result = new RedirectToRouteResult(
+                                new RouteValueDictionary(new { controller = "Erro", action = "Forbidden" }));
+                    }
                     else
+                    {
+                        // Url onde o usuário estava tentando acessar
+                        string url = filterContext.HttpContext.Request.Url.PathAndQuery;
+
                         filterContext.Result = new RedirectToRouteResult(
-                            new RouteValueDictionary(new { controller = "Erro", action = "Forbidden" }));
+                            new RouteValueDictionary(new { controller = "Home", action = "Index", url = url }));
+                    }
                 }
                 else
                 {
-                    // Url onde o usuário estava tentando acessar
-                    string url = filterContext.HttpContext.Request.Url.PathAndQuery;
-
-                    filterContext.Result = new RedirectToRouteResult(
-                        new RouteValueDictionary(new { controller = "Home", action = "Index", url = url }));
+                    base.OnActionExecuting(filterContext);
                 }
             }
             else
             {
                 base.OnActionExecuting(filterContext);
             }
-        }        
+        }
+
+
+
+
 
         private bool VerificarAcesso(string nivel, string Niveis)
         {

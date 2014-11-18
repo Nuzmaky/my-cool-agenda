@@ -18,5 +18,6 @@ namespace CoolAgenda.Models
         List<Usuario> Listar();
 
         Usuario BuscarPorId(int id);
+        Usuario BuscarPorEmail(string email);
     }
 }
