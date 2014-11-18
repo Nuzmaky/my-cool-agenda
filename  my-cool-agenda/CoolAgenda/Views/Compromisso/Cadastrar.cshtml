@@ -26,14 +26,14 @@
         </div>
         <div style="width: 100%;">
             <span style="float: left; margin-right: 20px">
-            @Html.LabelFor(m => m.DataFinal, new { @style = "width:50%" })
-            @Html.TextBoxFor(m => m.DataFinal, new { id = "txDataFinal", @class = "datetimepicker-pt-br2" })
-                </span>
+                @Html.LabelFor(m => m.DataFinal, new { @style = "width:50%" })
+                @Html.TextBoxFor(m => m.DataFinal, new { id = "txDataFinal", @class = "datetimepicker-pt-br2" })
+            </span>
             <br />
 
 
             @Html.CheckBoxFor(m => m.DiaInteiro, new { @style = "float:left; margin-right: 7px; margin-top: 15px" })
-            <div style="margin-top: 12px; margin-bottom:12px">Dia Inteiro </div>
+            <div style="margin-top: 12px; margin-bottom: 12px">Dia Inteiro </div>
 
             <span style="float: left; margin-right: 20px">
                 @Html.LabelFor(m => m.Grupo)
@@ -60,16 +60,27 @@
         $("input[type=button]").click(function () {
             alert("Would submit: " + $(this).siblings("#usuariosdoGrupo").val());
         });
-
-        ConfiguraUsuarios();
     });
 
     $(document).ready(function () {
-        $("#usuariosdoGrupo").tokenInput(["/Compromisso/GetEvents?"
-        ], {
-            propertyToSearch: "first_name",
-            resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " </div><div class='email'>" + item.email + "</div></div></li>" },
-            tokenFormatter: function (item) { return "<li><p>" + item.first_name + "</p></li>" },
+            $("#usuariosdoGrupo").tokenInput(["/Compromisso/GetEvents"
+            ], {
+                propertyToSearch: "first_name",
+                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                tokenFormatter: function (item) { return "<li><p>" + item.first_name + "</p></li>" },
+            });
+        });
+
+    $(document).ready(function () {
+        $("#mostraGrupo").change(function () {
+            var grupoSelecionado = $(this).val()
+            $("#usuariosdoGrupo").tokenInput("clear");
+            $("#usuariosdoGrupo").tokenInput(['@Url.Action("PegaUsuarios")', { grupoID: grupoSelecionado }
+            ], {
+                propertyToSearch: "first_name",
+                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                tokenFormatter: function (item) { return "<li><p>" + item.first_name + "</p></li>" },
+            });
         });
     });
 
@@ -181,24 +192,24 @@
         return dataValida;
     }
 
-    function ConfiguraUsuarios() {
+@*    function ConfiguraUsuarios() {
         $("#mostraGrupo").change(function () {
 
             var grupoSelecionado = $(this).val()
             alert(grupoSelecionado);
             $.get('@Url.Action("PegaUsuarios")', { grupoID: grupoSelecionado }, function (data) {
-                    ListaUsuarios(data);
-                });
-
+                ListaUsuarios(data);
             });
+
+        });
     }
 
     function ListaUsuarios(data) {
         var list = data;
 
-        $.each(data, function( id, first_name ) {
+        $.each(data, function (id, first_name) {
             alert(id + ": " + first_name);
         });
-    }
+    }*@
 
 </script>
