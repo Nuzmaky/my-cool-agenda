@@ -9,6 +9,11 @@ namespace CoolAgenda.Models
 {
     public interface ICompromissoUsuarioDAO
     {
+        void Adicionar(CompromissoUsuario entidade, DbTransaction transaction);
+
+        List<CompromissoUsuario> Listar(int idUser);
+
+        List<CompromissoUsuario> ListarPorGrupo(int idUser, int id);
 
     }
 }

@@ -101,9 +101,9 @@ namespace CoolAgenda.Models
 
         }
 
-        public List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q)
+        public List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q, int idUser)
         {
-            String sqlConsulta = "select * from usergrupo where usergrupoativo='S' and grupoativo = 'S' and IdGrupo = ? and NomeUsuario like  '%' || ? || '%'";
+            String sqlConsulta = "select * from usergrupo where usergrupoativo='S' and grupoativo = 'S' and IdGrupo = ? and IdUsuario != ? and NomeUsuario like  ? || '%' order by NomeUsuario";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -117,6 +117,10 @@ namespace CoolAgenda.Models
             OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.Integer);
             pIdGrupo.Value = idGrupo;
             comando.Parameters.Add(pIdGrupo);
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = idUser;
+            comando.Parameters.Add(pIdUsuario);
 
             OleDbParameter pQ = new OleDbParameter("NomeUsuario", OleDbType.VarChar);
             pQ.Value = q;

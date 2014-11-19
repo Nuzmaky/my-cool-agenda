@@ -351,6 +351,11 @@ input[type="text"].input-validation-error {
     background-color: #fee;
 }
 
+select.input-validation-error {
+    border: 1px solid #f00;
+    background-color: #fee;
+}
+
 input[type="text"].validation-summary-errors {
     font-weight: bold;
     color: #f00;

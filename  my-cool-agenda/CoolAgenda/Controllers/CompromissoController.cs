@@ -71,6 +71,7 @@ namespace CoolAgenda.Controllers
             if (ModelState.IsValid)
             {
                 Compromisso reg = ConverterFormVM(vm);
+                List<CompromissoUsuario> cUser = ConverterFormVMcUser(vm);
                 //CompromissoUsuario compromissoUser = ConverterFormVMCompromissoUser(vm);
 
                // reg.IdCompromisso = vm.IdCompromisso;
@@ -82,7 +83,7 @@ namespace CoolAgenda.Controllers
                    /* if (vm.Edicao)
                         compromissoService.Atualizar(reg);
                     else */
-                        compromissoService.Adicionar(reg);
+                        compromissoService.Adicionar(reg, cUser);
 
                         return Json(new { redirectTo = Url.Action("Index", "Agenda") });
                 }
@@ -103,8 +104,10 @@ namespace CoolAgenda.Controllers
 
         public JsonResult PegaUsuarios(string q, int idGrupo)
         {
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
 
-            var eventos = from e in grupoUsuarioService.ListarUsuarioPorGrupo(idGrupo, q)
+            var eventos = from e in grupoUsuarioService.ListarUsuarioPorGrupo(idGrupo, q, idUser)
                           select new
                           {
                               id = e.IdUsuario,
@@ -178,17 +181,41 @@ namespace CoolAgenda.Controllers
             return reg;
         }
 
-        //private CompromissoUsuario ConverterFormVMCompromissoUser(CadastrarVM vm)
-        //{
-        //    CompromissoUsuario compromissoUser = new CompromissoUsuario();
-        //    compromissoUser.IdUsuario = vm.Nome;
-        //    compromissoUser.IdGrupo = vm.Email;
-        //    compromissoUser.Criador = "S";
-        //    compromissoUser.Nivel = "U";
-        //    compromissoUser.Ativo = "S";
+        private List<CompromissoUsuario> ConverterFormVMcUser(CadastrarVM vm)
+        {
+            List<CompromissoUsuario> reg = new List<CompromissoUsuario>();
 
-        //    return user;
-        //}
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+
+            CompromissoUsuario compUser = new CompromissoUsuario();
+            compUser.IdUsuario = idUser;
+            compUser.IdGrupo = vm.Grupo;
+            compUser.Criador = "S";
+            compUser.Ativo = "S";
+            reg.Add(compUser);
+
+
+            // Pega Usuarios que vao fazer parte do compromisso
+            string usuarios = vm.IdUsuarios;
+
+            if (usuarios != null)
+            {
+                string[] qtdadeusuarios = usuarios.Split(',');
+
+                for (int i = 0; i < qtdadeusuarios.Length; i++ )
+                {
+                    CompromissoUsuario compUser1 = new CompromissoUsuario();
+                    compUser1.IdGrupo = vm.Grupo;
+                    compUser1.IdUsuario = Int16.Parse(qtdadeusuarios[i]);
+                    compUser1.Criador = "N";
+                    compUser1.Ativo = "P";
+                    reg.Add(compUser1);
+                }
+            }
+
+            return reg;
+        }
     }
 
 }

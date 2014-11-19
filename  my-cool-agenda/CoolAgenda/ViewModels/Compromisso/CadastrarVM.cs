@@ -35,7 +35,7 @@ namespace CoolAgenda.ViewModels.Compromisso
 
         [Required(ErrorMessage = "Selecione um Grupo.")]
         [Display(Name = "Grupo *")]
-        public string Grupo { get; set; }
+        public int Grupo { get; set; }
 
         [Display(Name = "Usuários")]
         public string IdUsuarios { get; set; }

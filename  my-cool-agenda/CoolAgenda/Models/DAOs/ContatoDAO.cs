@@ -201,7 +201,7 @@ namespace CoolAgenda.Models
 
         public List<Contato> ListarContatosUsuario(int idUser, string q)
         {
-            String sqlConsulta = "select * from Contato where IdUsuario = ? and Nome like  '%' || ? || '%'";
+            String sqlConsulta = "select * from Contato where IdUsuario = ? and Nome like  '%' || ? || '%' order by Nome";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();

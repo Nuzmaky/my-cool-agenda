@@ -11,14 +11,17 @@ namespace CoolAgenda.Models
     public class CompromissoDAO : ICompromissoDAO
     {
 
-        public void Adicionar(Compromisso entidade)
+        public void Adicionar(Compromisso entidade, DbTransaction transaction = null)
         {
-            string sqlAdicionar = "INSERT INTO Compromisso (IdCompromisso, Nome, DataInicial, DataFinal, Cor, DiaInteiro) VALUES (SeqCompromisso.NEXTVAL, ?, ?, ?, ?, ?)";
+            string sqlAdicionar = "INSERT INTO Compromisso (IdCompromisso, Nome, DataInicial, DataFinal, Cor, DiaInteiro) VALUES (?, ?, ?, ?, ?, ?)";
 
-            //configura o comando
-            OleDbCommand comando = new OleDbCommand();
-            comando.Connection = Conexao.getConexao();
-            comando.CommandText = sqlAdicionar;
+            OleDbCommand comando = new OleDbCommand(sqlAdicionar, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
+
+            OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.Integer);
+            pIdCompromisso.Value = entidade.IdCompromisso;
+            comando.Parameters.Add(pIdCompromisso);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = entidade.NomeCompromisso;
@@ -76,30 +79,32 @@ namespace CoolAgenda.Models
             comando.Dispose();
         }
 
-        //Select
-        public List<Compromisso> Listar()
+        public Compromisso BuscarPorId(int idCompromisso)
         {
-            String sqlConsulta = "Select * from Compromisso";
+            Compromisso registro = null;
+            String sqlConsulta = "Select * from Compromisso where IdCompromisso = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = sqlConsulta;
 
+            OleDbParameter pId = new OleDbParameter("IdCompromisso", OleDbType.Integer);
+            pId.Value = idCompromisso;
+            comando.Parameters.Add(pId);
+
             // Select
             OleDbDataReader dr = comando.ExecuteReader();
-
-            List<Compromisso> registros = new List<Compromisso>();
-            while (dr.Read())
+            if (dr.Read())
             {
-                Compromisso registro = ConverterDataReaderParaObj(dr);
-                registros.Add(registro);
+                registro = ConverterDataReaderParaObj(dr);
             }
             dr.Close();
             comando.Dispose();
 
-            return registros;
+            return registro;
         }
+
 
         private Compromisso ConverterDataReaderParaObj(OleDbDataReader dr)
         {
@@ -113,6 +118,31 @@ namespace CoolAgenda.Models
             registro.DiaInteiro = Boolean.Parse(dr["DiaInteiro"].ToString());
 
             return registro;
+        }
+
+        public int ProximoIdCompromisso(DbTransaction transaction = null)
+        {
+            string SQL = "select seqCompromisso.nextval from dual";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            if (dr.Read())
+            {
+                int id = Convert.ToInt32(dr["NEXTVAL"]);
+                dr.Close();
+                comando.Dispose();
+                return id;
+            }
+
+            dr.Close();
+            comando.Dispose();
+            throw new Exception("Erro ao recuperar o próximo ID do Compromisso.");
         }
     }
 }

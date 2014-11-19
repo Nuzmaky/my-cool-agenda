@@ -18,6 +18,7 @@ namespace CoolAgenda.Models
         //composicao de classes
         public Grupo Grupo { get; set; }
         public Usuario Usuario { get; set; }
+        public Compromisso Compromisso { get; set; }
 
         // ID GRUPO
         public int IdGrupo
@@ -62,7 +63,7 @@ namespace CoolAgenda.Models
                 if (value != null && value.Length == 1)
                 {
                     string vFlagUpper = value.ToUpper();
-                    if (vFlagUpper.Equals("S") || vFlagUpper.Equals("N"))
+                    if (vFlagUpper.Equals("S") || vFlagUpper.Equals("N") )
                         criador = vFlagUpper;
                 }
             }
@@ -77,7 +78,7 @@ namespace CoolAgenda.Models
                 if (value != null && value.Length == 1)
                 {
                     string vFlagUpper = value.ToUpper();
-                    if (vFlagUpper.Equals("S") || vFlagUpper.Equals("N"))
+                    if (vFlagUpper.Equals("S") || vFlagUpper.Equals("N") || vFlagUpper.Equals("P"))
                         ativo = vFlagUpper;
                 }
             }

@@ -13,6 +13,6 @@ namespace CoolAgenda.Models
 
         List<GrupoUsuario> ListarGruposPessoa(int idUser);
 
-        List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q);
+        List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q, int idUser);
     }
 }

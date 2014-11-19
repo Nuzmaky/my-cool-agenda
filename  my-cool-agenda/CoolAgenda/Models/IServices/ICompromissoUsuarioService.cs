@@ -10,6 +10,8 @@ namespace CoolAgenda.Models
 {
     public interface ICompromissoUsuarioService
     {
+        List<CompromissoUsuario> Listar(int idUser);
 
+        List<CompromissoUsuario> ListarPorGrupo(int idUser, int id);
     }
 }

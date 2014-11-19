@@ -16,11 +16,11 @@ namespace CoolAgenda.Controllers
         //
         // GET: /Agenda/
         private IGrupoUsuarioService grupoUsuarioService;
-        private ICompromissoService compromissoService;
+        private ICompromissoUsuarioService compromissoUsuarioService;
 
         public AgendaController()
         {
-            compromissoService = new CompromissoService();
+            compromissoUsuarioService = new CompromissoUsuarioService();
             grupoUsuarioService = new GrupoUsuarioService();
         }
 
@@ -56,18 +56,19 @@ namespace CoolAgenda.Controllers
 
         public JsonResult GetEvents()
         {
+            //Pega os eventos
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
 
-            //Get the events
-            //You may get from the repository also
-            var eventos = from e in compromissoService.Listar()
+            var eventos = from e in compromissoUsuarioService.Listar(idUser)
                           select new
                           {
                               id = e.IdCompromisso,
-                              title = e.NomeCompromisso,
-                              start = e.DataInicial,
-                              end = e.DataFinal,
-                              color = e.Cor,
-                              allDay = e.DiaInteiro
+                              title = e.Compromisso.NomeCompromisso,
+                              start = e.Compromisso.DataInicial,
+                              end = e.Compromisso.DataFinal,
+                              color = e.Compromisso.Cor,
+                              allDay = e.Compromisso.DiaInteiro
                           };
 
             var rows = eventos.ToArray();
@@ -75,6 +76,47 @@ namespace CoolAgenda.Controllers
             return Json(rows, JsonRequestBehavior.AllowGet);
         }
 
+        //public JsonResult GetEvents(int? id)
+        //{
+        //    //Pega os eventos
+        //    Usuario pUsuario = Session["Usuario"] as Usuario;
+        //    int idUser = pUsuario.IdUsuario;
 
+        //    if (id.HasValue)
+        //    {
+        //        var eventos = from e in compromissoUsuarioService.ListarPorGrupo(idUser, id.Value)
+        //                      select new
+        //                      {
+        //                          id = e.IdCompromisso,
+        //                          title = e.Compromisso.NomeCompromisso,
+        //                          start = e.Compromisso.DataInicial,
+        //                          end = e.Compromisso.DataFinal,
+        //                          color = e.Compromisso.Cor,
+        //                          allDay = e.Compromisso.DiaInteiro
+        //                      };
+
+        //        var rows = eventos.ToArray();
+
+        //        return Json(rows, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //    {
+        //        var eventos = from e in compromissoUsuarioService.Listar(idUser)
+        //                      select new
+        //                      {
+        //                          id = e.IdCompromisso,
+        //                          title = e.Compromisso.NomeCompromisso,
+        //                          start = e.Compromisso.DataInicial,
+        //                          end = e.Compromisso.DataFinal,
+        //                          color = e.Compromisso.Cor,
+        //                          allDay = e.Compromisso.DiaInteiro
+        //                      };
+
+        //        var rows = eventos.ToArray();
+
+        //        return Json(rows, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //}
     }
 }

@@ -10,6 +10,21 @@ namespace CoolAgenda.Models
 {
     public class CompromissoUsuarioService : ICompromissoUsuarioService
     {
+        ICompromissoUsuarioDAO compromissoUsuarioDAO;
 
+        public CompromissoUsuarioService()
+        {
+            compromissoUsuarioDAO = new CompromissoUsuarioDAO();
+        }
+
+        public List<CompromissoUsuario> Listar(int idUser)
+        {
+            return compromissoUsuarioDAO.Listar(idUser);
+        }
+
+        public List<CompromissoUsuario> ListarPorGrupo(int idUser, int id)
+        {
+            return compromissoUsuarioDAO.ListarPorGrupo(idUser, id);
+        }
     }
 }

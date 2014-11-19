@@ -9,7 +9,7 @@ namespace CoolAgenda.Models
 {
     public interface IGrupoDAO
     {
-        int ProximoIdGrupo(DbTransaction transacao);
+        int ProximoIdGrupo(DbTransaction transaction);
 
         void Adicionar(Grupo entidade, DbTransaction transaction);
 

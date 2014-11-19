@@ -16,7 +16,7 @@ namespace CoolAgenda.Models
 
         List<SelectListItem> ConverterRegistrosGrupoUserParaItens(List<GrupoUsuario> registros);
 
-        List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q);
+        List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q, int idUser);
 
     }
 }

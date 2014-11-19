@@ -9,10 +9,13 @@ namespace CoolAgenda.Models
 {
     public interface ICompromissoDAO
     {
-        void Adicionar(Compromisso entidade);
+        void Adicionar(Compromisso entidade, DbTransaction transaction);
 
         void Atualizar(Compromisso entidade);
 
-        List<Compromisso> Listar();
+        Compromisso BuscarPorId(int idCompromisso);
+
+        int ProximoIdCompromisso(DbTransaction transaction);
+        
     }
 }

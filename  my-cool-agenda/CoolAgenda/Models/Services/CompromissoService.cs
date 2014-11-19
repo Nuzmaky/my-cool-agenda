@@ -4,21 +4,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.OleDb;
+using System.Data.Common;
 
 namespace CoolAgenda.Models
 {
     public class CompromissoService : ICompromissoService
     {
         ICompromissoDAO compromissoDAO;
+        ICompromissoUsuarioDAO compromissoUsuarioDAO;
+
 
         public CompromissoService()
         {
             compromissoDAO = new CompromissoDAO();
+            compromissoUsuarioDAO = new CompromissoUsuarioDAO();
         }
 
-        public void Adicionar(Compromisso entidade)
+        //public void Adicionar(Compromisso entidade)
+        //{
+        //    compromissoDAO.Adicionar(entidade);
+        //}
+
+        public void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser)
         {
-            compromissoDAO.Adicionar(entidade);
+
+            DbTransaction transaction = Conexao.getConexao().BeginTransaction();
+            try
+            {
+                int idCompromisso = ProximoIdCompromisso(transaction);
+                entidade.IdCompromisso = idCompromisso;
+                AddCompromisso(entidade, transaction);
+
+                foreach (var cUsuario in cUser)
+                {
+                    cUsuario.IdCompromisso = idCompromisso;
+                    AddCompromissoUsuario(cUsuario, transaction);
+                }
+
+                transaction.Commit();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public void Atualizar(Compromisso entidade)
@@ -90,9 +120,19 @@ namespace CoolAgenda.Models
             return itens;
         }
 
-        public List<Compromisso> Listar()
+        public int ProximoIdCompromisso(DbTransaction transaction)
         {
-            return compromissoDAO.Listar();
+            return compromissoDAO.ProximoIdCompromisso(transaction);
+        }
+
+        public void AddCompromisso(Compromisso entidade, DbTransaction transaction)
+        {
+            compromissoDAO.Adicionar(entidade, transaction);
+        }
+
+        public void AddCompromissoUsuario(CompromissoUsuario entidade, DbTransaction transaction)
+        {
+            compromissoUsuarioDAO.Adicionar(entidade, transaction);
         }
     }
 }

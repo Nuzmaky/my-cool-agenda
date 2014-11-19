@@ -5,6 +5,7 @@ using System.Web;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using System.Data.Common;
 
 namespace CoolAgenda.Models
 {
@@ -12,7 +13,7 @@ namespace CoolAgenda.Models
     {
         List<Validacao> ValidarEntidade(Compromisso entidade);
 
-        void Adicionar(Compromisso entidade);
+        void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser);
 
         List<Validacao> ValidaAdicionar(Compromisso entidade);
 
@@ -22,6 +23,8 @@ namespace CoolAgenda.Models
 
         List<SelectListItem> ListarCores();
 
-        List<Compromisso> Listar();
+        int ProximoIdCompromisso(DbTransaction transaction);
+
+        void AddCompromisso(Compromisso entidade, DbTransaction transaction);
     }
 }
