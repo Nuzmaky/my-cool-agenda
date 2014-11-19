@@ -4,7 +4,7 @@
 }
 
 <div id="paginaAgenda">
-    <div style="float: left; width: 13%; background: #FFF; margin-left: 1%">
+    <div style="float: left; width: 15%; background: #FFF; margin-left: 1%">
         <nav>
             <div class="menu-item alpha">
                 <h4><a href="#" onclick="ShowEventPopup();">Novo Compromisso</a></h4>
@@ -14,7 +14,7 @@
             </div>
 
             <div class="menu-item">
-                <h4 id="agendasMenu"><a href="#">Minhas Agendas</a></h4>
+                <h4 id="agendasMenu"><a class="idPertGrupo" data-val="">Minhas Agendas</a></h4>
                 @{
                     
                     if (Model.TotalRegistros > 0)
@@ -22,7 +22,7 @@
                     <ul id="agendasSubMenu">
                         @for (int i = 0; i < Model.TotalRegistros; i++)
                         {
-                            <li>@Html.ActionLink(@Model.Lista[i].Grupo.Nome, "GetEvents", new { id = Model.Lista[i].IdGrupo })</li>             
+                            <li><a class="idPertGrupo" data-val="@Model.Lista[i].IdGrupo">@Model.Lista[i].Grupo.Nome</a></li>             
                         }
                     </ul>
                     }
@@ -48,7 +48,7 @@
         </nav>
     </div>
 
-    <div id='calendar' style="float: right; width: 85%; background: #FFF; margin-right: 1%;"></div>
+    <div id='calendar' style="float: right; width: 83%; background: #FFF; margin-right: 1%;"></div>
 
     <div id="popupEventForm" class="modal hide" style="display: none;">
 
@@ -59,8 +59,7 @@
 @section scripts{
 
     <script>
-        $(document).ready(function () {
-
+        function CarregaCalendario() {
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
@@ -93,19 +92,19 @@
             });
 
             highlight();
-        });
-
+        }
+        
         function ShowEventPopup(date) {
             $('#popupEventForm').show();
             $('#nomeCompromisso').focus();
         }
 
         //MENU LATERAL
-        $(function () {
-            $('#agendasMenu').click(function () {
-                $('#agendasSubMenu').slideToggle();
-            });
-        });
+        //$(function () {
+        //    $('#agendasMenu').click(function () {
+        //        $('#agendasSubMenu').slideToggle();
+        //    });
+        //});
 
         $(function () {
             $('#tarefasMenu').click(function () {
@@ -140,14 +139,14 @@
         };
 
         $(document).ready(function () {
-            loadCalendar();
-            $('#siteSelect').change(function () {
-                var selectedSite = $('#siteSelect').val();
+            CarregaCalendario();
+            $('.idPertGrupo').click(function () {
+                var idSelecionado = $(this).data('val');
                 var events = {
                     url: '/Agenda/GetEvents/',
                     type: 'POST',
                     data: {
-                        siteid: selectedSite
+                        id: idSelecionado
                     }
                 }
                 $('#calendar').fullCalendar('removeEventSource', events);

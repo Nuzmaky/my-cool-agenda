@@ -377,3 +377,7 @@ COMPROMISSO
 #txDataFinal {
     width:120px;
 }
+
+.idPertGrupo {
+    cursor: pointer;
+}

@@ -88,6 +88,10 @@ namespace CoolAgenda.Models
             if (dataInvalida)
                 erros.Add(new Validacao("Data Inicial maior que a Data Final"));
 
+            bool dataInvalida2 = entidade.DataInicial > entidade.DataFinal.AddMinutes(30);
+            if (dataInvalida)
+                erros.Add(new Validacao("A Data Final tem que ter ao menos 30 minutos da data Inicial"));
+
             return erros;
         }
 
