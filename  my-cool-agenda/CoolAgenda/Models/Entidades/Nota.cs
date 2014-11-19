@@ -11,6 +11,7 @@ namespace CoolAgenda.Models
         private int idCompromisso; //FK
         private int idUsuario; // FK
         private string texto;
+        private string ativo;
 
         // ID
         public int IdNota
@@ -57,7 +58,16 @@ namespace CoolAgenda.Models
                 if (value != null && value.Length < 500)
                     texto = value;
             }
-        }        
+        }
+
+        public string Ativo
+        {
+            get { return ativo; }
+            set
+            {
+                  ativo = value;
+            }
+        }
 
     }
 }

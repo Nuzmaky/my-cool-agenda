@@ -9,7 +9,7 @@ namespace CoolAgenda.Models
     {
         public bool Edicao { get; set; }
         public int IdTarefa { get; set; }
-        public int IdCompromisso { get; set; }
+        public int? IdCompromisso { get; set; }
         public int IdUsuario { get; set; }
         public string NomeTarefa { get; set; }
         public string DescTarefa { get; set; }

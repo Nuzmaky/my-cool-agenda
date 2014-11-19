@@ -14,9 +14,7 @@ namespace CoolAgenda.Controllers
     [FiltroAutenticacao]
     public class TarefaController : Controller
     {
-        //
-        // GET: /Grupo/
-
+        
         ITarefaService tarefaService;
         
         public TarefaController()
@@ -60,9 +58,12 @@ namespace CoolAgenda.Controllers
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
-                       tarefaService.Atualizar(tarefa);
-                    else
+                        tarefaService.Atualizar(tarefa);
+                    else{
+                        Usuario usuario = Session["Usuario"] as Usuario;
+                        tarefa.IdUsuario = usuario.IdUsuario;
                         tarefaService.Adicionar(tarefa);
+                    }
 
                     return RedirectToAction("Index");
                 }

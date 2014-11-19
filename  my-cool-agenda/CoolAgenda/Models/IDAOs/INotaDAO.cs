@@ -9,5 +9,18 @@ namespace CoolAgenda.Models
 {
     public interface INotaDAO
     {
+        //Insert
+        void Adcionar(Nota nota);
+
+        //Select
+        List<Nota> Listar();
+        Nota BuscarPorId(int id);
+        
+        //Update
+        void Update(Nota nota);
+       
+        //Conversão
+        Nota ConverterParaTipoClasse(OleDbDataReader dr);
+        
     }
 }

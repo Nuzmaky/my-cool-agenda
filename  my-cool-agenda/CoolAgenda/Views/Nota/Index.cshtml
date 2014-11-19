@@ -1,0 +1,52 @@
+﻿@model CoolAgenda.ViewModels.NotaVM.NotaVM
+@{
+    ViewBag.Title = "Nota";
+}
+<div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
+
+    <a href="@Url.Action("Form")">Nova</a>
+
+    <h2>Nota</h2>
+    @{
+        if (Model.TotalRegistros > 0)
+        {
+        
+        <table>
+            <tr>
+                <th>Usuário</th>
+                <th>Texto</th>
+                <th>Editar</th>
+                <th>Ativar/Inativar</th>
+            </tr>
+            @for (int i = 0; i < Model.ListaNota.Count; i++)
+            {
+                    
+                <tr>
+                    <td>@Model.ListaNota[i].IdUsuario</td>
+                    <td>@Model.ListaNota[i].Texto</td>
+                    <td class="opcoes2">
+                        <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaNota[i].IdNota })</td>
+                    <td class="opcoes">
+                        @if ( Model.ListaNota[i].Ativo!=null )
+                        {
+                            <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaNota[i].IdNota);"> Desativar</a>
+                        }
+                        else
+                        {
+                            <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaNota[i].IdNota);"> Ativar</a>
+                        }
+                    </td>
+
+                </tr>
+             
+            }
+        </table>
+        
+        }
+        else
+        {
+        <p>Não existe nenhum registro cadastrado.</p>
+        }
+    }
+
+</div>

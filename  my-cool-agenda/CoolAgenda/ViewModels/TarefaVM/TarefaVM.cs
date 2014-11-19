@@ -15,8 +15,8 @@ namespace CoolAgenda.ViewModels.TarefaVM
         public int IdTarefa { get; set; }
 
         [Display(Name = "Compromisso")]
-        public int IdCompromisso { get; set; }
-
+        public int? IdCompromisso { get; set; }
+     
         public int IdUsuario { get; set; }
 
         [Display(Name = "Nome *")]
@@ -27,8 +27,8 @@ namespace CoolAgenda.ViewModels.TarefaVM
 
         [Display(Name = "Descrição *")]
         [Required(ErrorMessage = "Insira uma Decrição para a Tarefa")]
-        [MinLength(3, ErrorMessage = "O campo deve ter no mínimo 20 caracteres")]
-        [MaxLength(100, ErrorMessage = "O campo deve ter no máximo 400 caracteres")]
+        [MinLength(20, ErrorMessage = "O campo deve ter no mínimo 20 caracteres")]
+        [MaxLength(400, ErrorMessage = "O campo deve ter no máximo 400 caracteres")]
         public string DescTarefa { get; set; }
 
         [Display(Name = "Data Inicial  *")]

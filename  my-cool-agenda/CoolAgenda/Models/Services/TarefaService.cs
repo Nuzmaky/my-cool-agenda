@@ -1,5 +1,7 @@
 ﻿using CoolAgenda.Models;
 using System;
+using System.Data.Common;
+using System.Data.OleDb;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -28,7 +30,7 @@ namespace CoolAgenda.Models
 
         public void Atualizar(Tarefa entidade)
         {
-            
+            tarefaDao.Update(entidade);
         }
 
          public List<Validacao> ValidaAtualizar(Tarefa entidade)

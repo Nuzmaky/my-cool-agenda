@@ -8,7 +8,7 @@
 </div>
 <div class="modal-body">
 
-    @using (Html.BeginForm("Cadastrar", "Compromisso", FormMethod.Post, new { id = "EventForm", @class = "well" }))
+    @using (Html.BeginForm("Cadastrar", "Tarefa", FormMethod.Post, new { id = "EventForm", @class = "well" }))
     {
         string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
@@ -137,7 +137,7 @@
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("Cadastrar", "Compromisso")',
+                url: '@Url.Action("Cadastrar", "Tarefa")',
                 data: $('form').serialize(),
                 success: function (result) {
                     if (result.redirectTo) {

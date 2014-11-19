@@ -1,4 +1,4 @@
-﻿@model CoolAgenda.ViewModels.TarefaVM.TarefaVM
+﻿@model CoolAgenda.ViewModels.NotaVM.NotaVM
 @{
     ViewBag.Title = "Tarefa";
 }
@@ -8,40 +8,29 @@
     @{
         if (Model.Edicao)
         {
-            ViewBag.Title = "Editar Tarefa";
+            ViewBag.Title = "Editar Nota";
         <h1>Edite os dados da Tarefa</h1>
         }
         else
         {
-            ViewBag.Title = "Cadastrar Tarefa";
+            ViewBag.Title = "Cadastrar Nota";
         <h1>Informe os dados da Tarefa</h1>
         }
     }
     <h2>Tarefa</h2>
 
-    @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post))
+    @using (Html.BeginForm("Form", "Nota", FormMethod.Post))
     {
         @Html.ValidationSummary()
 
         @Html.HiddenFor(m => m.Edicao)
-        @Html.HiddenFor(m => m.IdTarefa)
+        @Html.HiddenFor(m => m.IdNota)
         @Html.HiddenFor(m=>m.IdUsuario)
         @Html.HiddenFor(m=>m.IdCompromisso)
 
-        @Html.LabelFor(m => m.NomeTarefa)
-        @Html.TextBoxFor(m => m.NomeTarefa) <br />
+        @Html.LabelFor(m => m.Texto)
+        @Html.TextBoxFor(m => m.Texto) <br />
         
-        @Html.LabelFor(m => m.DescTarefa)
-        @Html.TextAreaFor(m => m.DescTarefa) <br />
-        
-        @Html.LabelFor(m => m.DataInicial)
-        @Html.TextBoxFor(m => m.DataInicial) <br />
-        
-        @Html.LabelFor(m => m.DataFinal)
-        @Html.TextBoxFor(m => m.DataFinal) <br />
-    
-
-    
         if (!Model.Edicao)
         {
             @Html.HiddenFor(m=>m.Ativo, new{@id="flgAtivo"})
