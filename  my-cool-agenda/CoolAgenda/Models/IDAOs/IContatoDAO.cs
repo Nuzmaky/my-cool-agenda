@@ -16,11 +16,12 @@ namespace CoolAgenda.Models
         void DeleteById(int id);
 
         List<Contato> Select(); 
+
         List<Contato> BuscarPorIdUsuario(int id);
         
         Contato BuscarPorId(int id);
 
-
+        List<Contato> ListarContatosUsuario(int idUser, string q);
         
 
     }

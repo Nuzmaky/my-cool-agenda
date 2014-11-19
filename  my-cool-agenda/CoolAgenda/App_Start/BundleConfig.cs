@@ -35,7 +35,8 @@ namespace CoolAgenda
                 "~/Content/jquery.simplecolorpicker.css",
                 "~/Content/jquery.simple-dtpicker.css",
                 "~/Content/jquery.datetimepicker.css",
-                "~/Content/token-input.css"));
+                "~/Content/token-input.css",
+                "~/Content/token-input-facebook.css"));
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/jquery.ui.core.css",

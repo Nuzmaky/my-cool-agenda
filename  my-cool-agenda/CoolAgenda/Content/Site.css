@@ -359,3 +359,16 @@ input[type="text"].validation-summary-errors {
 input[type="text"].validation-summary-valid {
     display: none;
 }
+
+/********************************************************
+COMPROMISSO
+*********************************************************/
+
+#txDataInicial{
+    width:120px;
+    margin-bottom:0px;
+}
+
+#txDataFinal {
+    width:120px;
+}

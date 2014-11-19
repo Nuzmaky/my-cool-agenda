@@ -4,7 +4,7 @@
 }
 
 <div class="modal-header">
-    <h3>Novo Compromisso</h3>
+    <h4>Novo Compromisso</h4>
 </div>
 <div class="modal-body">
 
@@ -18,35 +18,31 @@
         // @Html.HiddenFor(m => m.Edicao)
         // @Html.HiddenFor(m => m.IdCompromisso)
         <div style="width: 50%;">
-            @Html.LabelFor(m => m.NomeCompromisso, new { @style = "width:50%" })
-            @Html.TextBoxFor(m => m.NomeCompromisso, new { id = "nomeCompromisso" })
+            @Html.TextBoxFor(m => m.NomeCompromisso, new { id = "nomeCompromisso", @placeholder = "Nome do Compromisso" })
 
-            @Html.LabelFor(m => m.DataInicial, new { @style = "width:50%" })
-            @Html.TextBoxFor(m => m.DataInicial, new { id = "txDataInicial", @class = "datetimepicker-pt-br" })
+            @Html.TextBoxFor(m => m.DataInicial, new { id = "txDataInicial", @class = "datetimepicker-pt-br", @placeholder = "Data Inicial" })
         </div>
         <div style="width: 100%;">
-            <span style="float: left; margin-right: 20px">
-                @Html.LabelFor(m => m.DataFinal, new { @style = "width:50%" })
-                @Html.TextBoxFor(m => m.DataFinal, new { id = "txDataFinal", @class = "datetimepicker-pt-br2" })
-            </span>
+            <div style="width: 120px; text-align: center; float: left">Até</div>
+
+            @Html.CheckBoxFor(m => m.DiaInteiro, new { @style = "float:left; margin-right: 7px; margin-left:20px" })
+            <div>Dia Inteiro </div>
+
+            @Html.TextBoxFor(m => m.DataFinal, new { id = "txDataFinal", @class = "datetimepicker-pt-br2", @placeholder = "Data Final" })
+
             <br />
 
-
-            @Html.CheckBoxFor(m => m.DiaInteiro, new { @style = "float:left; margin-right: 7px; margin-top: 15px" })
-            <div style="margin-top: 12px; margin-bottom: 12px">Dia Inteiro </div>
-
-            <span style="float: left; margin-right: 20px">
-                @Html.LabelFor(m => m.Grupo)
-                @Html.DropDownListFor(m => m.Grupo, Model.ListarGrupo, new { id = "mostraGrupo" })<br />
-            </span>
-
-            @Html.LabelFor(m => m.Cor)
             @Html.DropDownListFor(m => m.Cor, Model.ListarCores)
+            <br />
+            @Html.DropDownListFor(m => m.Grupo, Model.ListarGrupo, new { id = "mostraGrupo" })<br />
+
 
             @Html.LabelFor(m => m.IdUsuarios, new { @style = "margin-top: 3px" })
             @Html.TextBoxFor(m => m.IdUsuarios, new { id = "usuariosdoGrupo" })
 
-            <input type="button" value="Submit" />
+            @Html.LabelFor(m => m.IdContatos, new { @style = "margin-top: 3px" })
+            @Html.TextBoxFor(m => m.IdContatos, new { id = "contatoUsuario" })
+
         </div>
     }
 </div>
@@ -62,26 +58,44 @@
         });
     });
 
+    //INICIALIZA O TOKEN USUARIOS DO GRUPO
     $(document).ready(function () {
-            $("#usuariosdoGrupo").tokenInput(["/Compromisso/GetEvents"
-            ], {
-                propertyToSearch: "first_name",
-                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " </div><div class='email'>" + item.email + "</div></div></li>" },
-                tokenFormatter: function (item) { return "<li><p>" + item.first_name + "</p></li>" },
+        var grupoSelecionado = $('#mostraGrupo').val()
+        $("#usuariosdoGrupo").tokenInput("/Compromisso/PegaUsuarios/?queryParam=q&idGrupo=" + grupoSelecionado,
+            {
+                queryParam: "q",
+                propertyToSearch: "name",
+                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.name + "' height='25px' width='25px' style='margin-top:-25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                tokenFormatter: function (item) { return "<li><p>" + item.name + "</p></li>" },
+                theme: "facebook",
             });
-        });
+    });
 
+    //INICIALIZA O TOKEN USUARIOS DO GRUPO
     $(document).ready(function () {
-        $("#mostraGrupo").change(function () {
-            var grupoSelecionado = $(this).val()
-            $("#usuariosdoGrupo").tokenInput("clear");
-            $("#usuariosdoGrupo").tokenInput(['@Url.Action("PegaUsuarios")', { grupoID: grupoSelecionado }
-            ], {
-                propertyToSearch: "first_name",
-                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.first_name + "' height='25px' width='25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.first_name + " </div><div class='email'>" + item.email + "</div></div></li>" },
-                tokenFormatter: function (item) { return "<li><p>" + item.first_name + "</p></li>" },
-            });
+        $('#mostraGrupo').change(function () {
+            var grupoSelecionado = $('#mostraGrupo').val()
+            $('.token-input-list-facebook').remove();
+            $("#usuariosdoGrupo").tokenInput("/Compromisso/PegaUsuarios/?queryParam=q&idGrupo=" + grupoSelecionado,
+                {
+                    queryParam: "q",
+                    propertyToSearch: "name",
+                    resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.name + "' height='25px' width='25px' style='margin-top:-25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                    tokenFormatter: function (item) { return "<li><p>" + item.name + "</p></li>" },
+                    theme: "facebook",
+                });
         });
+    });
+
+    //INICIALIZA E POPULA TOKEN CONTATOS DO USUARIO
+    $(document).ready(function () {
+        $("#contatoUsuario").tokenInput("/Compromisso/PegaContatos/",
+            {
+                queryParam: "q",
+                propertyToSearch: "name",
+                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.name + "' height='25px' width='25px' style='margin-top:-25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                tokenFormatter: function (item) { return "<li><p>" + item.name + "</p></li>" },
+            });
     });
 
 
@@ -139,8 +153,21 @@
 
     $('#btnPopupCancel').click(function () {
         resetValidation();
+        ClearPopupFormValues();
         $('#popupEventForm').hide();
+
     });
+
+    function ClearPopupFormValues() {
+        $('#nomeCompromisso').val("");
+        $('#contatoUsuario').val("");
+        $('#mostraGrupo').val("");
+        $('#txDataInicial').val("");
+        $('#txDataFinal').val("");
+        $("#usuariosdoGrupo").tokenInput("clear");
+        $("#contatoUsuario").tokenInput("clear");
+
+    }
 
     function resetValidation() {
         //Remove validacao dos input-fields
@@ -191,25 +218,5 @@
         }
         return dataValida;
     }
-
-@*    function ConfiguraUsuarios() {
-        $("#mostraGrupo").change(function () {
-
-            var grupoSelecionado = $(this).val()
-            alert(grupoSelecionado);
-            $.get('@Url.Action("PegaUsuarios")', { grupoID: grupoSelecionado }, function (data) {
-                ListaUsuarios(data);
-            });
-
-        });
-    }
-
-    function ListaUsuarios(data) {
-        var list = data;
-
-        $.each(data, function (id, first_name) {
-            alert(id + ": " + first_name);
-        });
-    }*@
 
 </script>

@@ -43,9 +43,9 @@ namespace CoolAgenda.Models
             return itens;
         }
 
-        public List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo)
+        public List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q)
         {
-            return grupoUsuarioDAO.ListarUsuarioPorGrupo(idGrupo);
+            return grupoUsuarioDAO.ListarUsuarioPorGrupo(idGrupo, q);
         }
 
     }

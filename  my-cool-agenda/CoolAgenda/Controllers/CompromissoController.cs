@@ -16,12 +16,14 @@ namespace CoolAgenda.Controllers
         private ICompromissoService compromissoService;
         private ICompromissoUsuarioService compromissoUsuarioService;
         private IGrupoUsuarioService grupoUsuarioService;
+        private IContatoService contatoService;
 
         public CompromissoController()
         {
             compromissoService = new CompromissoService();
             compromissoUsuarioService = new CompromissoUsuarioService();
             grupoUsuarioService = new GrupoUsuarioService();
+            contatoService = new ContatoService();
         }
 
         public ActionResult Index()
@@ -99,16 +101,35 @@ namespace CoolAgenda.Controllers
             return PartialView(vm);
         }
 
-        public JsonResult PegaUsuarios(int grupoID)
+        public JsonResult PegaUsuarios(string q, int idGrupo)
         {
-            //Get the events
-            //You may get from the repository also
-            var eventos = from e in grupoUsuarioService.ListarUsuarioPorGrupo(grupoID)
+
+            var eventos = from e in grupoUsuarioService.ListarUsuarioPorGrupo(idGrupo, q)
                           select new
                           {
                               id = e.IdUsuario,
-                              first_name = e.Usuario.Nome,
+                              name = e.Usuario.Nome,
                               email = e.Usuario.Email,
+                              url = "/Images/default_profile_2_normal.png"
+                          };
+
+            var rows = eventos.ToArray();
+
+            return Json(rows, JsonRequestBehavior.AllowGet);
+        }
+
+        //Popula o token de contatos
+        public JsonResult PegaContatos(string q)
+        {
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+
+            var eventos = from e in contatoService.ListarContatosUsuario(idUser, q)
+                          select new
+                          {
+                              id = e.IdContato,
+                              name = e.Nome,
+                              email = e.Email,
                               url = "/Images/default_profile_2_normal.png"
                           };
 

@@ -198,5 +198,41 @@ namespace CoolAgenda.Models
 
             return contato;
         }
+
+        public List<Contato> ListarContatosUsuario(int idUser, string q)
+        {
+            String sqlConsulta = "select * from Contato where IdUsuario = ? and Nome like  '%' || ? || '%'";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = "alter session set nls_sort=BINARY_CI";
+            comando.ExecuteNonQuery();
+            comando.CommandText = "alter session set nls_comp=LINGUISTIC";
+            comando.ExecuteNonQuery();
+            comando.CommandText = sqlConsulta;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdGrupo", OleDbType.Integer);
+            pIdUsuario.Value = idUser;
+            comando.Parameters.Add(pIdUsuario);
+
+            OleDbParameter pQ = new OleDbParameter("Nome", OleDbType.VarChar);
+            pQ.Value = q;
+            comando.Parameters.Add(pQ);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<Contato> registros = new List<Contato>();
+            while (dr.Read())
+            {
+                Contato registro = ConverterParaTipoClasse(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registros;
+        }
     }
 }

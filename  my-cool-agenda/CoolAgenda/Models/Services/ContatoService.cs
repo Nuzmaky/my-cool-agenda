@@ -225,5 +225,11 @@ namespace CoolAgenda.Models
 
             return erros;
         }
+
+        public List<Contato> ListarContatosUsuario(int idUser, string q)
+        {
+            return contatoDAO.ListarContatosUsuario(idUser, q);
+        }
     }
+
 }

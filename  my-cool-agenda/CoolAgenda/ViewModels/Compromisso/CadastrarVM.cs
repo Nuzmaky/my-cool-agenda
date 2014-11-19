@@ -40,6 +40,9 @@ namespace CoolAgenda.ViewModels.Compromisso
         [Display(Name = "Usuários")]
         public string IdUsuarios { get; set; }
 
+        [Display(Name = "Contatos")]
+        public string IdContatos { get; set; }
+
         [Display(Name = "Dia Inteiro")]
         public bool DiaInteiro { get; set; }
 
@@ -47,6 +50,5 @@ namespace CoolAgenda.ViewModels.Compromisso
 
         public List<SelectListItem> ListarGrupo { get; set; }
 
-        public List<SelectListItem> ListarUsuarios { get; set; }
     }
 }
