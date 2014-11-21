@@ -420,3 +420,7 @@ a .Pclass {
     background-image: url(../Images/bubble.png) ;
     padding-left:17px;
 }
+
+#agendasSubMenu li {
+    cursor: pointer;
+}
