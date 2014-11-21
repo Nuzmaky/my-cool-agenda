@@ -13,20 +13,16 @@ namespace CoolAgenda.Models
     {
         ICompromissoDAO compromissoDAO;
         ICompromissoUsuarioDAO compromissoUsuarioDAO;
-
+        ICompromissoContatoDAO compromissoContatoDAO;
 
         public CompromissoService()
         {
             compromissoDAO = new CompromissoDAO();
             compromissoUsuarioDAO = new CompromissoUsuarioDAO();
+            compromissoContatoDAO = new CompromissoContatoDAO();
         }
 
-        //public void Adicionar(Compromisso entidade)
-        //{
-        //    compromissoDAO.Adicionar(entidade);
-        //}
-
-        public void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser)
+        public void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser, List<CompromissoContato> cContato)
         {
 
             DbTransaction transaction = Conexao.getConexao().BeginTransaction();
@@ -40,6 +36,12 @@ namespace CoolAgenda.Models
                 {
                     cUsuario.IdCompromisso = idCompromisso;
                     AddCompromissoUsuario(cUsuario, transaction);
+                }
+
+                foreach (var cCont in cContato)
+                {
+                    cCont.IdCompromisso = idCompromisso;
+                    AddCompromissoContato(cCont, transaction);
                 }
 
                 transaction.Commit();
@@ -88,9 +90,12 @@ namespace CoolAgenda.Models
             if (dataInvalida)
                 erros.Add(new Validacao("Data Inicial maior que a Data Final"));
 
-            bool dataInvalida2 = entidade.DataInicial > entidade.DataFinal.AddMinutes(30);
-            if (dataInvalida)
-                erros.Add(new Validacao("A Data Final tem que ter ao menos 30 minutos da data Inicial"));
+            if (entidade.DiaInteiro == false)
+            {
+                bool dataInvalida2 = entidade.DataInicial.AddMinutes(30) > entidade.DataFinal;
+                if (dataInvalida2)
+                    erros.Add(new Validacao("A Data Final tem que ter ao menos 30 minutos da data Inicial"));
+            }
 
             return erros;
         }
@@ -99,9 +104,16 @@ namespace CoolAgenda.Models
         {
             List<Validacao> erros = new List<Validacao>();
 
-            bool dataInvalida = entidade.DataInicial <= DateTime.Now || entidade.DataInicial >= entidade.DataFinal;
+            bool dataInvalida = entidade.DataInicial > entidade.DataFinal;
             if (dataInvalida)
-                erros.Add(new Validacao("Não é possível cadastrar compromisso na data informada"));
+                erros.Add(new Validacao("Data Inicial maior que a Data Final"));
+
+            if (entidade.DiaInteiro == false)
+            {
+                bool dataInvalida2 = entidade.DataInicial.AddMinutes(30) > entidade.DataFinal;
+                if (dataInvalida2)
+                    erros.Add(new Validacao("A Data Final tem que ter ao menos 30 minutos da data Inicial"));
+            }
 
             return erros;
         }
@@ -137,6 +149,11 @@ namespace CoolAgenda.Models
         public void AddCompromissoUsuario(CompromissoUsuario entidade, DbTransaction transaction)
         {
             compromissoUsuarioDAO.Adicionar(entidade, transaction);
+        }
+
+        public void AddCompromissoContato(CompromissoContato entidade, DbTransaction transaction)
+        {
+            compromissoContatoDAO.Adicionar(entidade, transaction);
         }
     }
 }

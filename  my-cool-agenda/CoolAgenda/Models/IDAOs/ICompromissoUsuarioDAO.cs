@@ -15,5 +15,15 @@ namespace CoolAgenda.Models
 
         List<CompromissoUsuario> ListarPorGrupo(int idUser, int id);
 
+        CompromissoUsuario BuscarPorId(int id, int idUser);
+
+        List<CompromissoUsuario> ListarUsuariosDoCompromisso(int id, int idUser);
+
+        void Aceitar(int id, int idUser);
+
+        void Rejeitar(int id, int idUser);
+
+        
+
     }
 }

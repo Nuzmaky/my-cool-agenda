@@ -13,11 +13,11 @@ namespace CoolAgenda.Models
     {
         List<Validacao> ValidarEntidade(Compromisso entidade);
 
-        void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser);
-
-        List<Validacao> ValidaAdicionar(Compromisso entidade);
+        void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser, List<CompromissoContato> cContato);
 
         void Atualizar(Compromisso entidade);
+
+        List<Validacao> ValidaAdicionar(Compromisso entidade);
 
         List<Validacao> ValidaAtualizar(Compromisso entidade);
 
@@ -26,5 +26,11 @@ namespace CoolAgenda.Models
         int ProximoIdCompromisso(DbTransaction transaction);
 
         void AddCompromisso(Compromisso entidade, DbTransaction transaction);
+
+        void AddCompromissoUsuario(CompromissoUsuario entidade, DbTransaction transaction);
+
+        void AddCompromissoContato(CompromissoContato entidade, DbTransaction transaction);
+
+
     }
 }

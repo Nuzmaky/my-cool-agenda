@@ -13,6 +13,10 @@
                 <h4><a href="#">Nova Tarefa</a></h4>
             </div>
 
+            <div class="menu-item alpha">
+                <h4>@Html.ActionLink("Contatos", "Index", "Contato")</h4>
+            </div>
+
             <div class="menu-item">
                 <h4 id="agendasMenu"><a class="idPertGrupo" data-val="">Minhas Agendas</a></h4>
                 @{
@@ -55,6 +59,7 @@
         @Html.Action("Cadastrar", "Compromisso")
     </div>
 
+
 </div>
 @section scripts{
 
@@ -75,10 +80,117 @@
                 aspectRatio: 1.8,
                 timeFormat: 'H:mm',
                 timezone: "local",
-                eventClick: function (calEvent, jsEvent, view) {
-                    alert('You clicked on event id: ' + calEvent.id
-                        + "\nSpecial ID: " + calEvent.someKey
-                        + "\nAnd the title is: " + calEvent.title);
+                eventClick: function (event, jsEvent, view) {
+                    $(".qtip").remove();
+                    var inicio = moment(event.start).format('dd, DD MMM, HH:mm');
+                    var final = moment(event.end).format('dd, DD MMM, HH:mm');
+                    var ms = moment(event.end, "DD/MM/YYYY HH:mm:ss").diff(moment(event.start, "DD/MM/YYYY HH:mm:ss"));
+                    var d = moment.duration(ms);
+                    var s = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
+                    var url = '@Url.Action("Editar", "Compromisso")';
+
+                    var aceito;
+                    var criador;
+
+                    if (event.aceito == "S")
+                        aceito = "Aceito"
+                    if (event.aceito == "N")
+                        aceito = "Não Aceito"
+                    if (event.aceito == "P")
+                        aceito = "Pendente"
+
+                    if (event.criador == "S")
+                        criador = "<div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Vizualizar</a></div>";
+                    else
+                        criador = "<span class='title' style='font-weight:bold'>Status: </span>" + aceito + "<br /><div><div style='float:left'><span style='margin-right:3px'><a href='#' onclick='RequisitaAceitar(" + event.id + ")'>Sim</a></span>|<span style='margin-left:3px'><a href='#' onclick='RequisitaRejeitar(" + event.id + ")'>Não</a></span></div><div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Vizualizar</a></div></div>";
+
+                    if (event.allDay == true) {
+                        $(this).qtip({
+                            content: {
+                                title: { text: event.title },
+                                text: "<div class='bolha'>" + moment(event.start).format('dd, DD MMM') + " - " + moment(event.end).format('dd, DD MMM') + "<br><span class='title' style='font-weight:bold'>Duração: </span>Dia Inteiro<br /><span class='title' style='font-weight:bold'>Grupo: </span>" + event.grupo + "<br />" + criador + "</div>"
+                            },
+                            position: {
+                                adjust: {
+                                    x: -240,
+                                    y: -160,
+                                    resize: false // We'll handle it manually
+                                },
+                            },
+                            show: {
+                                when: { event:'click' },
+                                solo: true,
+                                ready: true, // Show the tooltip when ready
+                            },
+                            hide: {
+                                event: 'click',
+                                fixed: true,
+                                delay: 300,
+                                effect: function (offset) {
+                                    $(this).fadeOut(160);
+                                }
+                            },
+                            style: {
+                                width: 250,
+                                padding: 5,
+                                color: 'black',
+                                textAlign: 'left',
+                                border: {
+                                    width: 1,
+                                    radius: 3
+                                },
+                                tip: 'bottom-middle',
+                                classes: 'daytooltip ui-tooltip-dark ui-tooltip-shadow',
+                                tip: {
+                                    width: 20, height: 8
+                                },
+                                title: { background: event.color, color: 'white', padding: 5 }
+                            }
+                        })
+                    }
+                    else {
+                        $(this).qtip({
+                            content: {
+                                title: { text: event.title },
+                                text: "<div class='bolha'>" + inicio + " - " + final + "<br><span class='title' style='font-weight:bold'>Duração: </span>" + s + "<br /><span class='title' style='font-weight:bold'>Grupo: </span>" + event.grupo + "<br />" + criador + "</div>"
+                            },
+                            position: {
+                                adjust: {
+                                    x: -240,
+                                    y: -160,
+                                    resize: false // We'll handle it manually
+                                },
+                            },
+                            show: {
+                                solo: true,
+                                ready: true, // Show the tooltip when ready
+                            },
+                            hide: {
+                                event: 'click',
+                                fixed: true,
+                                delay: 300,
+                                effect: function (offset) {
+                                    $(this).fadeOut(160);
+                                }
+                            },
+                            style: {
+                                width: 250,
+                                padding: 5,
+                                color: 'black',
+                                textAlign: 'left',
+                                border: {
+                                    width: 1,
+                                    radius: 3
+                                },
+                                tip: 'bottom-middle',
+                                classes: 'daytooltip ui-tooltip-dark ui-tooltip-shadow',
+                                tip: {
+                                    width: 20, height: 8
+                                },
+                                title: { background: event.color, color: 'white', padding: 5 }
+                            }
+                        })
+                    }
                 },
                 dayClick: function (date, view) {
                     $('#txDataInicial').val(date.format('DD/MM/YYYY hh:mm'));
@@ -93,7 +205,7 @@
 
             highlight();
         }
-        
+
         function ShowEventPopup(date) {
             $('#popupEventForm').show();
             $('#nomeCompromisso').focus();
@@ -152,8 +264,31 @@
                 $('#calendar').fullCalendar('removeEventSource', events);
                 $('#calendar').fullCalendar('addEventSource', events);
             });
-
         });
 
+        //Armazena o id do compromisso
+        var idCompromisso;
+
+        // Efetua uma requisição ao servidor pedindo para aceitar um compromisso
+        function RequisitaAceitar(idCompromisso) {
+            $.post('@Url.Action("Aceitar","Compromisso")', { id: idCompromisso }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+
+        // Efetua uma requisição ao servidor pedindo para aceitar um compromisso
+        function RequisitaRejeitar(idCompromisso) {
+            $.post('@Url.Action("Rejeitar","Compromisso")', { id: idCompromisso }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
     </script>
 }

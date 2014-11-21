@@ -26,5 +26,38 @@ namespace CoolAgenda.Models
         {
             return compromissoUsuarioDAO.ListarPorGrupo(idUser, id);
         }
+
+        public CompromissoUsuario BuscarPorId(int id, int idUser)
+        {
+            return compromissoUsuarioDAO.BuscarPorId(id, idUser);
+        }
+
+        public List<CompromissoUsuario> ListarUsuariosDoCompromisso(int id, int idUser)
+        {
+            return compromissoUsuarioDAO.ListarUsuariosDoCompromisso(id, idUser);
+        }
+
+        public void Aceitar(int id, int idUser)
+        {
+            compromissoUsuarioDAO.Aceitar(id, idUser);
+        }
+
+        public void Rejeitar(int id, int idUser)
+        {
+            compromissoUsuarioDAO.Rejeitar(id, idUser);
+        }
+
+        public List<Validacao> ValidaAtualizar(CompromissoUsuario entidade)
+        {
+            List<Validacao> erros = new List<Validacao>();
+
+            int usuarioCriador = compromissoUsuarioDAO.ListarUsuariosDoCompromisso(entidade.IdCompromisso, entidade.IdUsuario).Count();
+            if (usuarioCriador == 0)
+                erros.Add(new Validacao("Apenas o usuário que criou pode alterar o compromisso"));
+
+            return erros;
+        }
+
+
     }
 }

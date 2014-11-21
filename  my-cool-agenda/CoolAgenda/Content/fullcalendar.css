@@ -657,13 +657,13 @@ a.fc-more {
 .fc-basic-view .fc-day-number {
     color: #000;
     padding: 0 3px;
-    font-size: 1.3em;
+    font-size: 1.0em;
 }
 
 .fc-basic-view td.fc-week-number span,
 .fc-basic-view td.fc-day-number {
-    padding-top: 5px;
-    padding-bottom: 2px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .fc-basic-view .fc-week-number {

@@ -92,8 +92,13 @@ namespace CoolAgenda.Controllers
                                   start = e.Compromisso.DataInicial,
                                   end = e.Compromisso.DataFinal,
                                   color = e.Compromisso.Cor,
-                                  allDay = e.Compromisso.DiaInteiro
+                                  allDay = e.Compromisso.DiaInteiro,
+                                  grupo = e.Grupo.Nome,
+                                  aceito = e.Ativo,
+                                  className = e.Ativo + "class",
+                                  criador = e.Criador
                               };
+
 
                 var rows = eventos.ToArray();
 
@@ -109,7 +114,11 @@ namespace CoolAgenda.Controllers
                                   start = e.Compromisso.DataInicial,
                                   end = e.Compromisso.DataFinal,
                                   color = e.Compromisso.Cor,
-                                  allDay = e.Compromisso.DiaInteiro
+                                  allDay = e.Compromisso.DiaInteiro,
+                                  grupo = e.Grupo.Nome,
+                                  aceito = e.Ativo,
+                                  className = e.Ativo + "class",
+                                  criador = e.Criador
                               };
 
                 var rows = eventos.ToArray();

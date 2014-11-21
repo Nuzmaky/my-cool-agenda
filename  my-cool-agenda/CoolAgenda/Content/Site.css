@@ -45,6 +45,14 @@ a {
     margin-left:60px;
     width:200px;
 }
+
+.fc-content {
+    cursor: pointer;
+}
+
+.bolha {
+    font-size: 0.9em;
+}
 /********************************************************
 LOGIN
 *********************************************************/
@@ -334,12 +342,21 @@ VALIDAÇÕES
     height: 100%;
 }
 
+.errorimage2 {
+    padding: 5px 10px 5px 10px;
+    background: #F1E7D1 url(/images/err-24x24.png) no-repeat;
+    vertical-align: middle;
+    display: inline-block;
+    height: 100%;
+}
+
 .errorhead {
     color: #CC0000;
     font-weight: bold;
     font-size: 15px;
     padding-left: 18px;
 }
+
 
 input[type="text"] .field-validation-error {
     color: #f00;
@@ -379,4 +396,27 @@ COMPROMISSO
 
 #txDataFinal {
     width:120px;
+}
+
+a .Sclass {
+    background-position: 0 0 ;
+    background-repeat: no-repeat;
+    background-image: url(../Images/ok.png);
+    padding-left:17px
+}
+
+a .Nclass {
+    background-position: 0 1px ;
+    background-repeat: no-repeat;
+    background-image: url(../Images/Err-16x16.png);
+    background-size: 13px 13px;
+    padding-left:17px;
+    text-decoration: line-through;
+}
+
+a .Pclass {
+    background-position: 0 0 ;
+    background-repeat: no-repeat;
+    background-image: url(../Images/bubble.png) ;
+    padding-left:17px;
 }

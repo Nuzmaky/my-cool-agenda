@@ -1,0 +1,165 @@
+﻿@model CoolAgenda.ViewModels.Compromisso.EditarVM
+@{
+    ViewBag.Title = "Editar Compromisso";
+}
+
+<div id="paginas">
+    <h2 style="text-align: center">Editar</h2>
+
+    @using (Html.BeginForm("Editar", "Compromisso", FormMethod.Post, new { id = "EventForm", @class = "well", style = "width:400px; margin-left:auto; margin-right:auto;" }))
+    {
+        string display = ViewData.ModelState.IsValid ? "none" : "block";
+        <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 35%">
+            @Html.ValidationSummary()
+        </div>
+       
+        @Html.HiddenFor(m => m.Edicao)
+        @Html.HiddenFor(m => m.IdCompromisso)
+
+        <div style="width: 50%;">
+            @Html.TextBoxFor(m => m.NomeCompromisso, new { id = "nomeCompromisso", @placeholder = "Nome do Compromisso" })
+
+            @Html.TextBoxFor(m => m.DataInicial, new { id = "txDataInicial", @class = "datetimepicker-pt-br", @placeholder = "Data Inicial" })
+        </div>
+        <div style="width: 100%;">
+            <div style="width: 120px; text-align: center; float: left">Até</div>
+
+            @Html.CheckBoxFor(m => m.DiaInteiro, new { @style = "float:left; margin-right: 7px; margin-left:20px" })
+            <div>Dia Inteiro </div>
+
+            @Html.TextBoxFor(m => m.DataFinal, new { id = "txDataFinal", @class = "datetimepicker-pt-br2", @placeholder = "Data Final" })
+
+            <br />
+
+            @Html.DropDownListFor(m => m.Cor, Model.ListarCores)
+            <br />
+            <div style="margin-bottom: 3px"><strong>Grupo:</strong> @Model.grupoNome</div>
+
+            @if (Model.TotalRegistros > 0)
+            {
+                <table>
+                    <tr>
+                        <th>Usuários Convidados</th>
+                        <th>Status</th>
+                    </tr>
+                    @for (int i = 0; i < Model.ListaUsuario.Count; i++)
+                    {        
+                        <tr>
+                            @if (@Model.ListaUsuario[i].Criador == "S")
+                            {
+                                <td><span>@Model.ListaUsuario[i].Usuario.Nome   <strong>C</strong></span></td>
+                            }
+                            else
+                            {
+                                <td>@Model.ListaUsuario[i].Usuario.Nome</td>
+                            }
+                            @if (@Model.ListaUsuario[i].Ativo == "P")
+                            {
+                                <td>Pendente</td> 
+                            }
+                            else if (@Model.ListaUsuario[i].Ativo == "S")
+                            {
+                                <td>Aceito</td>
+                            }
+                            else
+                            {
+                                <td>Não Aceito</td>
+                            }
+                        </tr>   
+                                       
+                    }
+                </table>
+
+            }
+
+            <div style="width: 400px;">
+                 <div style="float:left;margin-top:10px;">@Html.ActionLink("Voltar", "Index", "Agenda")</div><div style="text-align: right;"><input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="EventForm" /></div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");
+    });
+
+    $(document).ready(function () {
+        jQuery(".datetimepicker-pt-br").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/Y H:i',
+            step: 30
+        });
+
+        jQuery(".datetimepicker-pt-br2").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/Y H:i',
+            step: 30
+        });
+
+        if (isDate($("#txDataInicial").val())) {
+            $("#txDataInicial").datetimepicker({
+                startDate: $("#txDataInicial").val()
+            });
+        }
+        if (isDate($("#txDataFinal").val())) {
+            $("#txDataFinal").datetimepicker({
+                startDate: $("#txDataFinal").val()
+            });
+        }
+    });
+
+    function resetValidation() {
+        //Remove validacao dos input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Remove validation das mensagens dps dos input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Remove o validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+        $('#validationSummary').css('display', 'none');
+    }
+
+    setTimeout(function () {
+        $('.errorbox').fadeOut('slow');
+    }, 6000);
+
+    $('select[name="Cor"]').simplecolorpicker({ theme: 'regularfont' });
+
+    //função que valida uma dateTime
+    function isDate(dataHora) {
+        var dataValida = true;
+
+        try {
+            var arrayDataHora = dataHora.split(" ");
+            var arrayDiaMesAno = arrayDataHora[0].split("/");
+            var arrayHoraMinuto = arrayDataHora[1].split(":");
+
+            if (parseInt(arrayDiaMesAno[0]) <= 0 || parseInt(arrayDiaMesAno[0]) > 31) {
+                dataValida = false;
+            }
+            if (parseInt(arrayDiaMesAno[1]) <= 0 || parseInt(arrayDiaMesAno[1]) > 12) {
+                dataValida = false;
+            }
+            if (parseInt(arrayDiaMesAno[2]) <= 1900 || parseInt(arrayDiaMesAno[2]) > 3000) {
+                dataValida = false;
+            }
+            if (parseInt(arrayHoraMinuto[0]) < 0 || parseInt(arrayHoraMinuto[0]) > 24) {
+                dataValida = false;
+            }
+            if (parseInt(arrayHoraMinuto[1]) < 0 || parseInt(arrayHoraMinuto[1]) > 59) {
+                dataValida = false;
+            }
+        }
+        catch (err) {
+            dataValida = false;
+        }
+        return dataValida;
+    }
+
+</script>

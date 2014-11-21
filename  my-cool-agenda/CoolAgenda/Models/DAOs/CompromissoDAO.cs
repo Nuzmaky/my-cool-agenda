@@ -51,7 +51,7 @@ namespace CoolAgenda.Models
 
         public void Atualizar(Compromisso entidade)
         {
-            string sqlAtualizar = "update Compromisso set Nome = ?, DataInicial = ?, DataFinal = ? where IdVoo = ?";
+            string sqlAtualizar = "update Compromisso set Nome = ?, DataInicial = ?, DataFinal = ?, Cor = ?, DiaInteiro = ? where IdCompromisso = ?";
 
             //configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -69,6 +69,14 @@ namespace CoolAgenda.Models
             OleDbParameter pDataFinal = new OleDbParameter("DataFinal", OleDbType.Date);
             pDataFinal.Value = entidade.DataFinal;
             comando.Parameters.Add(pDataFinal);
+
+            OleDbParameter pCor = new OleDbParameter("Cor", OleDbType.VarChar);
+            pCor.Value = entidade.Cor;
+            comando.Parameters.Add(pCor);
+
+            OleDbParameter pDiaInteirp = new OleDbParameter("DiaInteiro", OleDbType.VarChar);
+            pDiaInteirp.Value = entidade.DiaInteiro;
+            comando.Parameters.Add(pDiaInteirp);
 
             OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.Integer);
             pIdCompromisso.Value = entidade.IdCompromisso;

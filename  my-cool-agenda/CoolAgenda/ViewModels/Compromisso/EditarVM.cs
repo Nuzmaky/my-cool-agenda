@@ -8,7 +8,7 @@ using CoolAgenda.Models;
 
 namespace CoolAgenda.ViewModels.Compromisso
 {
-    public class CadastrarVM
+    public class EditarVM
     {
 
         public int IdCompromisso { get; set; }
@@ -37,22 +37,11 @@ namespace CoolAgenda.ViewModels.Compromisso
         [Display(Name = "Cor")]
         public string Cor { get; set; }
 
-        [Required(ErrorMessage = "Selecione um Grupo.")]
-        [Display(Name = "Grupo *")]
-        public int Grupo { get; set; }
-
-        [Display(Name = "Usuários")]
-        public string IdUsuarios { get; set; }
-
-        [Display(Name = "Contatos")]
-        public string IdContatos { get; set; }
-
         [Display(Name = "Dia Inteiro")]
         public bool DiaInteiro { get; set; }
 
         public List<SelectListItem> ListarCores { get; set; }
 
-        public List<SelectListItem> ListarGrupo { get; set; }
-
+        public string grupoNome;
     }
 }

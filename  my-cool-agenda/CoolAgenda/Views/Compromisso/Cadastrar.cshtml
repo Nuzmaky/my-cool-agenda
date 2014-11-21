@@ -8,7 +8,7 @@
 </div>
 <div class="modal-body">
 
-    @using (Html.BeginForm("Cadastrar", "Tarefa", FormMethod.Post, new { id = "EventForm", @class = "well" }))
+    @using (Html.BeginForm("Cadastrar", "Compromisso", FormMethod.Post, new { id = "EventForm", @class = "well" }))
     {
         string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
@@ -52,11 +52,6 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $("input[type=button]").click(function () {
-            alert("Would submit: " + $(this).siblings("#usuariosdoGrupo").val());
-        });
-    });
 
     //INICIALIZA O TOKEN USUARIOS DO GRUPO
     $(document).ready(function () {
@@ -116,7 +111,6 @@
         jQuery(".datetimepicker-pt-br2").datetimepicker({
             lang: 'pt',
             format: 'd/m/Y H:i',
-            minDate: 0,
             step: 30
         });
 
@@ -137,7 +131,7 @@
             e.preventDefault();
             $.ajax({
                 type: "POST",
-                url: '@Url.Action("Cadastrar", "Tarefa")',
+                url: '@Url.Action("Cadastrar", "Compromisso")',
                 data: $('form').serialize(),
                 success: function (result) {
                     if (result.redirectTo) {

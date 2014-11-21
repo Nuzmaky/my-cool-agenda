@@ -12,11 +12,13 @@ namespace CoolAgenda.Models
     {
         private ICompromissoDAO compromissoDAO;
         private IUsuarioDAO usuarioDAO;
+        private IGrupoDAO grupoDAO;
 
         public CompromissoUsuarioDAO()
         {
             compromissoDAO = new CompromissoDAO();
             usuarioDAO = new UsuarioDAO();
+            grupoDAO = new GrupoDAO();
         }
 
 
@@ -56,7 +58,7 @@ namespace CoolAgenda.Models
 
         public List<CompromissoUsuario> Listar(int idUser)
         {
-            String sqlConsulta = "Select * from CompromissoUsuario where IdUsuario = ?";
+            String sqlConsulta = "Select * from CompromissoUser where IdUsuario = ? and Ativo = 'S' ";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -146,6 +148,109 @@ namespace CoolAgenda.Models
             Usuario user = usuarioDAO.BuscarPorId(idUsuario);
             compromissoUser.Usuario = user;
 
+            int idGrupo = compromissoUser.IdGrupo;
+            Grupo grupo = grupoDAO.BuscarPorId(idGrupo);
+            compromissoUser.Grupo = grupo;
+        }
+
+        public CompromissoUsuario BuscarPorId(int id, int idUser)
+        {
+            CompromissoUsuario registro = null;
+            string sqlBuscar = "Select * from CompromissoUser where IdUsuario = ? and IdCompromisso = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pId.Value = idUser;
+            comando.Parameters.Add(pId);
+
+            OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.Integer);
+            pIdCompromisso.Value = id;
+            comando.Parameters.Add(pIdCompromisso);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterDataReaderParaObj(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            CarregarComposicao(registro);
+
+            return registro;
+        }
+
+        public List<CompromissoUsuario> ListarUsuariosDoCompromisso(int id, int idUser)
+        {
+            
+            String sqlConsulta = "select * from CompromissoUser where IdUsuario = ? and IdCompromisso = ? and Criador = 'S'";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            OleDbParameter pId = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pId.Value = idUser;
+            comando.Parameters.Add(pId);
+
+            OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.Integer);
+            pIdCompromisso.Value = id;
+            comando.Parameters.Add(pIdCompromisso);
+
+            // Select
+
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<CompromissoUsuario> registros = new List<CompromissoUsuario>();
+            while (dr.Read())
+            {
+                CompromissoUsuario registro = ConverterDataReaderParaObj(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            foreach (var registro in registros)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registros;
+
+        }
+
+        public void Aceitar(int id, int idUser)
+        {
+            String sqlAtualizar = "update CompromissoUsuario set Aceito = 'S' where IdUsuario = " + idUser + " and IdCompromisso = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void Rejeitar(int id, int idUser)
+        {
+            String sqlAtualizar = "update CompromissoUsuario set Aceito = 'N' where IdUsuario = " + idUser + " and IdCompromisso = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
         }
     }
 }

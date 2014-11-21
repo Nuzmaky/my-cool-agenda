@@ -200,6 +200,7 @@
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Annotation\CNPJAttribute.cs" />
+    <Compile Include="Models\DAOs\CompromissoContatoDAO.cs" />
     <Compile Include="Models\DAOs\CompromissoDAO.cs" />
     <Compile Include="Models\DAOs\CompromissoUsuarioDAO.cs" />
     <Compile Include="Models\DAOs\Conexao.cs" />
@@ -211,6 +212,7 @@
     <Compile Include="Models\DAOs\TelefoneDAO.cs" />
     <Compile Include="Models\DAOs\UsuarioDAO.cs" />
     <Compile Include="Models\Entidades\Compromisso.cs" />
+    <Compile Include="Models\Entidades\CompromissoContato.cs" />
     <Compile Include="Models\Entidades\CompromissoUsuario.cs" />
     <Compile Include="Models\Entidades\Contato.cs" />
     <Compile Include="Models\Entidades\Grupo.cs" />
@@ -219,6 +221,7 @@
     <Compile Include="Models\Entidades\Tarefa.cs" />
     <Compile Include="Models\Entidades\Telefone.cs" />
     <Compile Include="Models\Entidades\Usuario.cs" />
+    <Compile Include="Models\IDAOs\ICompromissoContatoDAO.cs" />
     <Compile Include="Models\IDAOs\ICompromissoDAO.cs" />
     <Compile Include="Models\IDAOs\ICompromissoUsuarioDAO.cs" />
     <Compile Include="Models\IDAOs\IContatoDAO.cs" />
@@ -228,6 +231,7 @@
     <Compile Include="Models\IDAOs\ITarefaDAO.cs" />
     <Compile Include="Models\IDAOs\ITelefoneDAO.cs" />
     <Compile Include="Models\IDAOs\IUsuarioDAO.cs" />
+    <Compile Include="Models\IServices\ICompromissoContatoService.cs" />
     <Compile Include="Models\IServices\ICompromissoService.cs" />
     <Compile Include="Models\IServices\ICompromissoUsuarioService.cs" />
     <Compile Include="Models\IServices\IContatoService.cs" />
@@ -238,6 +242,7 @@
     <Compile Include="Models\IServices\ITelefoneService.cs" />
     <Compile Include="Models\IServices\IUsuarioService.cs" />
     <Compile Include="Models\Services\Autenticacao.cs" />
+    <Compile Include="Models\Services\CompromissoContatoService.cs" />
     <Compile Include="Models\Services\CompromissoService.cs" />
     <Compile Include="Models\Services\CompromissoUsuarioService.cs" />
     <Compile Include="Models\Services\ContatoService.cs" />
@@ -251,6 +256,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\AgendaVM\AgendaDadosVM.cs" />
     <Compile Include="ViewModels\Compromisso\CadastrarVM.cs" />
+    <Compile Include="ViewModels\Compromisso\EditarVM.cs" />
     <Compile Include="ViewModels\ContatoVM\ContatoVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoFormVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoIndexVM.cs" />
@@ -265,6 +271,12 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\fullcalendar.css" />
+    <Content Include="Content\jquery-toastmessage\css\jquery.toastmessage.css" />
+    <Content Include="Content\jquery-toastmessage\images\close.gif" />
+    <Content Include="Content\jquery-toastmessage\images\error.png" />
+    <Content Include="Content\jquery-toastmessage\images\notice.png" />
+    <Content Include="Content\jquery-toastmessage\images\success.png" />
+    <Content Include="Content\jquery-toastmessage\images\warning.png" />
     <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\jquery.simplecolorpicker.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -329,11 +341,14 @@
     <Content Include="Images\ativar.png" />
     <Content Include="Images\background.png" />
     <Content Include="Images\btadd.png" />
+    <Content Include="Images\bubble.png" />
     <Content Include="Images\default_profile_2_normal.png" />
     <Content Include="Images\desativar.png" />
+    <Content Include="Images\Err-16x16.png" />
     <Content Include="Images\Err-24x24.png" />
     <Content Include="Images\erro.png" />
     <Content Include="Images\info-24x24.png" />
+    <Content Include="Images\ok.png" />
     <Content Include="Images\pinguim.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -345,8 +360,10 @@
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
     <Content Include="Scripts\jquery.datetimepicker.js" />
     <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Scripts\jquery.qtip-1.0.0-rc3.js" />
     <Content Include="Scripts\jquery.simple-dtpicker.js" />
     <Content Include="Scripts\jquery.simplecolorpicker.js" />
+    <Content Include="Scripts\jquery.toastmessage.js" />
     <Content Include="Scripts\jquery.tokeninput.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -358,6 +375,7 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\utilidades-2.0.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -391,6 +409,7 @@
     <Content Include="Views\Agenda\SemGrupos.cshtml" />
     <Content Include="Views\Nota\Index.cshtml" />
     <Content Include="Views\Nota\Form.cshtml" />
+    <Content Include="Views\Compromisso\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

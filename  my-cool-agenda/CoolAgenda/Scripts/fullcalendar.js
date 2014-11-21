@@ -5180,7 +5180,7 @@ $.extend(DayGrid.prototype, {
 					''
 					) +
 			'>' +
-				'<div class="fc-content">' +
+				'<div class="fc-content ' + event.className + '">' +
 					(isRTL ?
 						titleHtml + ' ' + timeHtml : // put a natural space in between
 						timeHtml + ' ' + titleHtml   //
@@ -6329,7 +6329,7 @@ $.extend(TimeGrid.prototype, {
 				''
 				) +
 			'>' +
-				'<div class="fc-content">' +
+				'<div class="fc-content ' + event.className + '">' +
 					(timeText ?
 						'<div class="fc-time"' +
 						' data-start="' + htmlEscape(startTimeText) + '"' +

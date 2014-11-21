@@ -22,7 +22,10 @@
         <div id="barrausuario">
             <ul id="menu">
                 <li class="barraoutros">@usuario.Nome</li>
-                <li>@Html.ActionLink("Agenda","Index","Agenda")</li> 
+                @if (usuario.Nivel == "U")
+                {
+                <li>@Html.ActionLink("Agenda","Index","Agenda")</li>
+                } 
                 <li>@Html.ActionLink("Meus Dados","Index","Usuario")</li> 
                 <li>@Html.ActionLink("Sair","Sair","Home")</li> 
             </ul>
