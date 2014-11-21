@@ -17,11 +17,15 @@ namespace CoolAgenda.Models
         private IContatoDAO contatoDAO;
         private ITelefoneDAO telefoneDAO;
         private IUsuarioDAO usuarioDAO;
+        private IGrupoDAO grupoDAO;
+        private IGrupoUsuarioDAO grupoUsuarioDAO;
         private IUsuarioService usuarioService;
 
         public ContatoService()
         {
             contatoDAO = new ContatoDAO();
+            grupoDAO = new GrupoDAO();
+            grupoUsuarioDAO = new GrupoUsuarioDAO();
             telefoneDAO = new TelefoneDAO();
             usuarioDAO = new UsuarioDAO();
             usuarioService = new UsuarioService();
@@ -32,10 +36,35 @@ namespace CoolAgenda.Models
             return contatoDAO.Select();
         }
 
-        public void InsertContato(Contato contato)
+
+        public void InsertContato(Contato contato)//, Grupo grupo, Usuario user)
         {
             contatoDAO.Insert(contato);
-        }
+            //DbTransaction transaction = Conexao.getConexao().BeginTransaction();
+            //try
+            //{
+                //int idGrupo = ProximoIdGrupo(transaction);
+                //grupo.IdGrupo = idGrupo;
+
+                //int idUsuario = ProximoIdUser(transaction);
+                //user.IdUsuario = idUsuario;
+
+            //    GrupoUsuario grupoUser = new GrupoUsuario();
+            //    grupoUser.IdGrupo = idGrupo;
+            //    grupoUser.IdUsuario = idUsuario;
+            //    grupoUser.Ativo = "S";
+            //    grupoUser.Administrador = "A";
+            //    AddGrupoUser(grupoUser, transaction);
+
+            //    transaction.Commit();
+            //}
+            //catch (Exception)
+            //{
+            //    transaction.Rollback();
+            //    throw;
+            //}
+
+        }      
 
         public void Insert(Contato contato, List<Telefone> telefones)
         {
@@ -63,31 +92,27 @@ namespace CoolAgenda.Models
             telefoneDAO.Insert(contato, entidade, transacao);
         }
 
-        public void UpdateTelefone(Contato contato, Telefone telefone, DbTransaction transacao)
+        public void UpdateTelefone(Contato contato, Telefone telefone)
         {
+            telefoneDAO.ListarPorIdUsuario(contato.IdContato);
             telefoneDAO.SelectById(telefone.IdTelefone);
-            telefoneDAO.Update(contato, telefone, transacao);
+            telefoneDAO.Update(contato, telefone);
         }
 
         public void Update(Contato contato, List<Telefone> telefones)
         {
             contatoDAO.Update(contato);
-            DbTransaction transacao = Conexao.getConexao().BeginTransaction();
             try
             {
 
                 foreach (var telefone in telefones)
                 {
-                    UpdateTelefone(contato, telefone, transacao);
+                    UpdateTelefone(contato, telefone);
                 }
 
-                // Se chegar até aqui deu tudo certo
-                // então realiza o Commit 
-                transacao.Commit();
             }
             catch (Exception)
-            {
-                transacao.Rollback();
+            {               
                 throw;
             }            
         }
@@ -97,9 +122,9 @@ namespace CoolAgenda.Models
             return telefoneDAO.SelectById(id);
         }
 
-        public void DeleteById(int id)
+        public void InativarContato(int id)
         {
-            contatoDAO.DeleteById(id);
+            contatoDAO.InativarContato(id);
         }
 
         public Contato BuscarPorId(int id)
@@ -107,10 +132,26 @@ namespace CoolAgenda.Models
             return contatoDAO.BuscarPorId(id);
         }
 
+        public int ProximoIdUser(DbTransaction transaction)
+        {
+            return usuarioDAO.ProximoIdUser(transaction);
+        }
+
+        public int ProximoIdGrupo(DbTransaction transaction)
+        {
+            return grupoDAO.ProximoIdGrupo(transaction);
+        }
+
         public List<Contato> BuscarPorIdUsuario(int id)
         {
             return contatoDAO.BuscarPorIdUsuario(id);
         }
+
+        public void AddGrupoUser(GrupoUsuario grupoUser, DbTransaction transaction)
+        {
+            grupoUsuarioDAO.Adicionar(grupoUser, transaction);
+        }
+
 
         // Envia e-mail de confirmação de Cadastro
         public static void EnviaEmailCadastro(string email, string nome, string senha)
@@ -165,7 +206,6 @@ namespace CoolAgenda.Models
             //envia o email
             objSmtp.Send(objEmail);
         }
-
 
 
         public List<Validacao> ValidaAtualizar(Contato entidade)

@@ -63,7 +63,7 @@ namespace CoolAgenda.Controllers
                         // Adiciona o usuário na sessão
                         Session["Usuario"] = u;
 
-                        // Redireciona para o controller adequado de acordo com o nível do usuário
+                        // Redireciona para o conwtroller adequado de acordo com o nível do usuário
                         string nivel = u.Nivel.ToString();
 
                         // Redireciona para as actions padrões de acordo com o nivel do usuário

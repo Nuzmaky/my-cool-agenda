@@ -37,24 +37,35 @@
                         {                     
                             <ul style="list-style-type:none">           
                                 @{
-                                    
-                                    while (k < Model.ListaTelefone.Count && Model.ListaTelefone[k].IdContato == Model.ListaContato[i].IdContato)
-                                    {
-                                        <li>@Model.ListaTelefone[k].NumeroTelefone</li>
-                                        if (c == 1) { k++; break; }
-                                        else { c++; k++; }
-                                    }                            
+                                    while (Model.ListaTelefone[k].IdContato < Model.ListaContato[i].IdContato)
+                                        { k++;}
+                                        
+                                        {                                        
+                                            while (k < Model.ListaTelefone.Count && Model.ListaTelefone[k].IdContato == Model.ListaContato[i].IdContato)
+                                            {
+                                                <li>@Model.ListaTelefone[k].NumeroTelefone</li>
+                                                if (c == 1) { k++; break; }
+                                                else { c++; k++; }
+                                            }                            
+                                        }
                                 }                                    
                              </ul>  
                         }
-                         </td>                                            
-                        
-
-
+                         </td>                                                                    
                     <td>@Model.ListaContato[i].Endereco</td>
+
                 <td class="opcoes2">
-                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})
-                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
+                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})                    
+                        @if (Model.ListaContato[i].Ativo.Equals("S"))
+                        {
+                            <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaContato[i].IdContato);"> Excluir</a>
+                        }
+                        else
+                        {
+                            <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaContato[i].IdContato);"> Ativar</a>
+                        }
+
+                    <img class="no-border" src="../Imagens/convidar.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
                 </td>
             </tr>
         }
@@ -68,6 +79,39 @@
         }       
    }    
 </div>
+
+@section scripts 
+{
+    <script type="text/javascript">
+
+        // Armazena o id/codigo do registro a ser ativado/desativado
+        var codRegistro;
+
+        // Trata o evento onclick da opção de desativar um registro
+        function DesativarRegistro(id) {            
+            idRegistro = id;            
+            JSMostraDialogConfirmacao("Desativar", "Deseja desativar o registro?", true, RequisitaDesativacaoRegServidor);            
+        }
+
+
+        // Efetua uma requisição ao servidor pedindo para desativar um registro
+        function RequisitaDesativacaoRegServidor() {
+            
+            $.post('@Url.Action("Desativar")', { id: idRegistro }, function (data) {                
+                alert("Y");
+                // Mostra uma notificação de acordo com a resposta do servidor                
+                if (!data.Erro)                    
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+            else                
+                   JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+
+
+    </script>
+        
+    }
+        
 
         
     

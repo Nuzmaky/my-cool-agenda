@@ -39,17 +39,14 @@ namespace CoolAgenda.Models
 
 
         //Update
-        public void Update(Contato contato, Telefone entidade, DbTransaction transacao = null)
+        public void Update(Contato contato, Telefone entidade)
         {
-            SQL = "UPDATE Telefone SET IdContato = ?, NumeroTelefone = ? WHERE IdTelefone = ?";
+            SQL = "UPDATE Telefone SET NumeroTelefone = ? WHERE IdContato = ? and IdTelefone = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
-
-            if (transacao != null)
-                comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
             pIdContato.Value = entidade.IdContato;

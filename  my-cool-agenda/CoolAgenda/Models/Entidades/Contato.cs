@@ -13,9 +13,16 @@ namespace CoolAgenda.Models
         private string nome;
         private string email;
         private string endereco;
+        private string ativo;
 
         // Composição de classes
         public List<Telefone> Telefones { get; set; }
+        
+        // Ativo
+        public string AtivoFormatada
+        {
+            get { return Ativo.Equals("S") ? "Sim" : "Não"; }
+        }
 
 
         //ID CONTATO
@@ -71,10 +78,26 @@ namespace CoolAgenda.Models
             get { return endereco; }
             set
             {
-                if (value.Length < 100)
+                if (value != null && value.Length < 100)
                     endereco = value;
             }
         }
+
+        //ATIVO
+        public string Ativo
+        {
+            get { return ativo; }
+            set
+            {
+                if (value != null && value.Length == 1)
+                {
+                    string vFlagUpper = value.ToUpper();
+                    if (vFlagUpper.Equals("S") || vFlagUpper.Equals("N"))
+                        ativo = vFlagUpper;
+                }
+            }
+        }
+
 
 
     }

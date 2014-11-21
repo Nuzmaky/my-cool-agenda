@@ -13,11 +13,12 @@ namespace CoolAgenda.Models
                             
         void Update(Contato entidade);
 
-        void DeleteById(int id);
+        void InativarContato(int id);
 
         List<Contato> Select(); 
 
         List<Contato> BuscarPorIdUsuario(int id);
+        
         
         Contato BuscarPorId(int id);
 

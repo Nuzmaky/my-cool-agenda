@@ -112,10 +112,10 @@ namespace CoolAgenda.Models
         }
 
 
-        //Delete
-        public void DeleteById(int id)
+        //Inativar
+        public void InativarContato(int id)
         {
-            SQL = "DELETE Contato WHERE IdContato = ?";
+            SQL = "UPDATE Contato SET Ativo = 'N' WHERE IdContato = " + id;
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -160,7 +160,7 @@ namespace CoolAgenda.Models
         public List<Contato> BuscarPorIdUsuario(int id)
         {
             List<Contato> registros = new List<Contato>();
-            string sqlBuscar = "select * from Contato where IdUsuario = ? Order By IdContato";
+            string sqlBuscar = "select * from Contato where IdUsuario = ? and Ativo = 'S' Order By IdContato";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -195,6 +195,7 @@ namespace CoolAgenda.Models
             contato.Nome = dr["Nome"].ToString(); 
             contato.Email = dr["Email"].ToString();
             contato.Endereco = dr["Endereco"].ToString();
+            contato.Ativo = dr["Ativo"].ToString();
 
             return contato;
         }

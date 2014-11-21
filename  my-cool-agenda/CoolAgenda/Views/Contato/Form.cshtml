@@ -36,13 +36,12 @@
         
         @Html.LabelFor(m => m.telefoneUm)     
         @Html.TextBoxFor(m => m.telefoneUm, new { @class = "TELEFONE" })
-        
-        
+                        
         @Html.LabelFor(m => m.telefoneDois)
         @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" })        
-        
+                
         @Html.Label("Endereço: ")
-        @Html.TextBoxFor(m => m.Endereco) <br /> 
+        @Html.TextBoxFor(m => m.Endereco) <br />         
     
         <input type="submit" name="btOK" value="Cadastrar!" />
     }

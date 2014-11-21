@@ -27,11 +27,11 @@ namespace CoolAgenda.Models
 
         void Insert(Contato entidade, List<Telefone> telefones);
 
-        void InsertContato(Contato entidade);
+        void InsertContato(Contato entidade);//), Grupo grupo, Usuario user);        
 
         void Update(Contato entidade, List<Telefone> telefones);
 
-        void DeleteById(int id);
+        void InativarContato(int id);
 
         List<Contato> ListarContatosUsuario(int idUser, string q);
 
@@ -39,7 +39,7 @@ namespace CoolAgenda.Models
         //Telefone
         void InsertTelefone(Contato contato, Telefone entidade, DbTransaction transacao);
 
-        void UpdateTelefone(Contato contato, Telefone entidade, DbTransaction transacao);
+        void UpdateTelefone(Contato contato, Telefone entidade);
 
         Telefone BuscarTelefonePorId(int id);
 

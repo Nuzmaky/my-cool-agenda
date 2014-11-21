@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CoolAgenda.Controllers.Utilidades;
+using CoolAgenda.ViewModels.GrupoVM;
 
 namespace CoolAgenda.Controllers
 {
@@ -72,18 +73,36 @@ namespace CoolAgenda.Controllers
                     return new HttpNotFoundResult();
                 else
                 {
-                    // -- Aqui deve-se criar um novo usuario, com os dados do contato!
-                    Usuario registro = ConverterUsuarioFormVM(vm);
-
                     //Verifica se já existe
-                    var erros = contatoService.ValidaAdicionarUsuario(registro.Email);
+                    var erros = contatoService.ValidaAdicionarUsuario(vm.Email);//registro.Email);
                     if (erros.Count == 0)
                     {
-                        //Adiciona no banco com senha padrão
-                        usuarioDAO.Adicionar(registro);
+                        // -- Aqui deve-se criar um novo usuario, com os dados do contato!
+                        Usuario registro = ConverterUsuarioFormVM(vm);
 
                         //Envia E-mail para o contato
-                        ContatoService.EnviaEmailCadastro(vm.Email, vm.Nome, registro.Senha);
+                        try
+                        {
+                            ContatoService.EnviaEmailCadastro(vm.Email, vm.Nome, registro.Senha);
+
+                            //Adiciona no banco com senha padrão
+                            usuarioDAO.Adicionar(registro);
+
+                            ViewBag.Mensagem = "Usuário convidado com sucesso!";
+                        }
+                        catch
+                        {
+                            ViewBag.Mensagem = "Impossível enviar o e-mail. Verifique os dados do contato.";
+                        }
+                        
+
+                        return View();
+                    }
+                    else
+                    {
+                        erros.Add(new Validacao("O Usuário já está cadastrado no Sistema!"));
+                        ModelState.AddModelErrors(erros);
+                        ViewBag.Mensagem = "Usuário já existe no sistema.";
                     }
                 }
             }
@@ -98,23 +117,29 @@ namespace CoolAgenda.Controllers
             int idUsuario = usuario.IdUsuario;
             vm.IdUsuario = idUsuario;
 
+            // Pega o grupo em que o usuário está cadastrado
+            GrupoUsuario grupoUsuario = new GrupoUsuario();
+            usuario = grupoUsuario.Usuario;
+                
+
             if (ModelState.IsValid)
             {
-                Contato contato = ConverterFormVM(vm);
+                Contato contato = ConverterFormVM(vm);                
                 List<Telefone> telefones = ConverterCadVMParaTelefones(vm);
 
                 var erros = contatoService.ValidarEntidade(contato);
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
-                    {
+                    {                        
                         vm = ConstruirContatoVM(idUsuario);
                         contatoService.Update(contato, telefones);
                     }
                     else
                     {
-                        // Insere Contato
-                        contatoService.InsertContato(contato);
+                        // Insere Contato e Cadastra no Grupo
+                        contatoService.InsertContato(contato);//, grupo,usuario);  
+                        //contatoService.InsertContato(contato, usuario);                        
 
                         vm = ConstruirContatoVM(idUsuario);
                         int i = vm.ListaContato.Count - 1;
@@ -139,7 +164,11 @@ namespace CoolAgenda.Controllers
 
             var registros = contatoService.BuscarPorIdUsuario(id);
             vm.ListaContato = registros;
-            vm.ListaTelefone = telefoneService.ListarPorIdUsuario(id);            
+            vm.ListaTelefone = telefoneService.ListarPorIdUsuario(id);
+            //for (int i = 0; i > vm.ListaTelefone.Count; i++)
+            //{
+            //    vm.telefoneUm = vm.ListaTelefone[i].NumeroTelefone;
+            //}
             vm.TotalRegistros = registros.Count;
             return vm;
         }
@@ -164,8 +193,18 @@ namespace CoolAgenda.Controllers
             vm.Nome = reg.Nome;
             vm.Email = reg.Email;
             vm.Endereco = reg.Endereco;
-
+            
             return vm;
+        }
+
+        private Grupo ConverterGrupoVM(GrupoFormVM vm)
+        {
+            Grupo reg = new Grupo();
+            reg.IdGrupo = vm.IdGrupo;
+            reg.Nome = vm.Nome;            
+            reg.FlagAtivo = (vm.FlagAtivo ? "S" : "N");
+
+            return reg;
         }
 
         private Contato ConverterFormVM(ContatoVM vm)
@@ -233,6 +272,14 @@ namespace CoolAgenda.Controllers
         {            
             string telefoneApenasNumeros = telefoneFormatado.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
             return telefoneApenasNumeros;
+        }
+
+
+        //Desativar
+        public JsonResult Desativar(int id)
+        {
+            contatoService.InativarContato(id);
+            return Json(new JsonActionResultModel("Registro desativado com sucesso."));
         }
     }
 }

@@ -19,14 +19,17 @@ namespace CoolAgenda
                         "~/Scripts/jquery.tokeninput.js",
                         "~/Scripts/jquery.qtip-1.0.0-rc3.js",
                         "~/Scripts/jquery.toastmessage.js",
-                        "~/Scripts/utilidades-2.0.js"));
+                        "~/Scripts/utilidades-2.0.js",
+                        "~/Scripts/jquery.tokeninput.js",
+                        "~/Scripts/utilidades-2.0.js",
+                        "~/Scripts/jquery.toastmessage.js"));
             
             bundles.Add(new ScriptBundle("~/bundles/moment").Include(
                         "~/Scripts/moment.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.unobtrusive*",
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/jquery.validate*"));                                    
 
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                         "~/Scripts/modernizr-*"));
