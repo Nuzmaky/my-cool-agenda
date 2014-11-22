@@ -143,6 +143,26 @@ namespace CoolAgenda.Models
             comando.Dispose();
         }
 
+        // Ativa UsuarioGrupo
+        public void AtivaUsuarioGrupo(Usuario usuario)
+        {
+            SQL = "UPDATE UsuarioGrupo SET Ativo = 'S' WHERE IdUsuario = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+
         public bool VerificaCadastroAtivo(Usuario usuario)
         {
             Usuario registro = null;

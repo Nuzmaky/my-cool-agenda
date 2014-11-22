@@ -66,6 +66,7 @@ namespace CoolAgenda.Models
 
         }      
 
+        // Responsável por adicionar a lista de Telefones do Contato
         public void Insert(Contato contato, List<Telefone> telefones)
         {
             DbTransaction transacao = Conexao.getConexao().BeginTransaction();
@@ -87,6 +88,36 @@ namespace CoolAgenda.Models
             }
         }
 
+        // Responsável por adicionar a Lista de Grupos ao Contato
+        public void InsertContatoGrupo(List<GrupoUsuario> listaGrupoUsuario)
+        {
+            DbTransaction transacao = Conexao.getConexao().BeginTransaction();
+            try
+            {
+                foreach (var grupoUsuario in listaGrupoUsuario)
+                {
+                    InsertGrupoUsuario(grupoUsuario,transacao);
+                }
+
+                // Se chegar até aqui deu tudo certo
+                // então realiza o Commit 
+                transacao.Commit();
+            }
+            catch (Exception)
+            {
+                transacao.Rollback();
+                throw;
+            }
+        }
+
+        // Chama a função que adicionar a lista de Grupos ao contato
+        public void InsertGrupoUsuario(GrupoUsuario grupoUsuario, DbTransaction transacao)
+        {
+            grupoUsuarioDAO.Adicionar(grupoUsuario, transacao);
+        }
+
+
+        // Chama a função que adicionar a lista de Telefones ao contato
         public void InsertTelefone(Contato contato, Telefone entidade, DbTransaction transacao)
         {
             telefoneDAO.Insert(contato, entidade, transacao);

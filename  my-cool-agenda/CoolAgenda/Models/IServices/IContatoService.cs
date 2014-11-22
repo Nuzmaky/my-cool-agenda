@@ -29,6 +29,8 @@ namespace CoolAgenda.Models
 
         void InsertContato(Contato entidade);//), Grupo grupo, Usuario user);        
 
+        void InsertContatoGrupo(List<GrupoUsuario> listaGrupoUsuario);
+
         void Update(Contato entidade, List<Telefone> telefones);
 
         void InativarContato(int id);

@@ -36,15 +36,20 @@
                         @if (Model.ListaTelefone != null && Model.ListaTelefone.Count != 0)
                         {                     
                             <ul style="list-style-type:none">           
-                                @{
-                                    while (Model.ListaTelefone[k].IdContato < Model.ListaContato[i].IdContato)
-                                        { k++;}
+                                @{                                    
+                                    while (k < Model.ListaTelefone.Count && Model.ListaTelefone[k].IdContato < Model.ListaContato[i].IdContato)
+                                        { 
+                                           k++;
+                                        }
                                         
                                         {                                        
                                             while (k < Model.ListaTelefone.Count && Model.ListaTelefone[k].IdContato == Model.ListaContato[i].IdContato)
                                             {
                                                 <li>@Model.ListaTelefone[k].NumeroTelefone</li>
-                                                if (c == 1) { k++; break; }
+                                                if (c == 1) 
+                                                {                                                     
+                                                    {k++; break; }
+                                                }
                                                 else { c++; k++; }
                                             }                            
                                         }

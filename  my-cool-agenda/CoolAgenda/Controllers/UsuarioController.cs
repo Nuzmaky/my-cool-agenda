@@ -106,11 +106,11 @@ namespace CoolAgenda.Controllers
                         {
                             ViewBag.Mensagem = "Usuário ativado com sucesso!";
                             return View();
-                        }
+                        }                                                 
                     }
-                }
-                ViewBag.Mensagem = "Não é possível ativar o cadastro. Verifique seus dados ou contate a área de suporte.";
+                }                
             }
+            ViewBag.Mensagem = "Não é possível ativar o cadastro. Verifique seus dados ou contate a área de suporte.";
             return View();
         }
  

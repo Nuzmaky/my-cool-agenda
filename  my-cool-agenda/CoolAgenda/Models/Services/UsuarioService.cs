@@ -68,7 +68,11 @@ namespace CoolAgenda.Models
 
             if (usuario != null)
             {
+                // Ativa o Cadastro
                 usuarioDAO.AtivaCadastro(usuario);
+
+                // Ativa o UsuarioGrupo
+                usuarioDAO.AtivaUsuarioGrupo(usuario);
                 return true;
             }
             return false;

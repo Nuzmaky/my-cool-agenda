@@ -8,25 +8,28 @@ using System.Web;
 using System.Web.Mvc;
 using CoolAgenda.Controllers.Utilidades;
 using CoolAgenda.ViewModels.GrupoVM;
+using CoolAgenda.ViewModels.AgendaVM;
 
 namespace CoolAgenda.Controllers
 {
     public class ContatoController : Controller
     {
         //
-        // GET: /Contato/
+        // GET: /Contato/        
 
         Contato contato = new Contato();
         Usuario usuario = new Usuario();
         ContatoDAO contatoDAO = new ContatoDAO();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
-        IUsuarioService usuarioService;
-        IContatoService contatoService;
-        ITelefoneService telefoneService;
+        private IGrupoUsuarioService grupoUsuarioService;
+        private IUsuarioService usuarioService;
+        private IContatoService contatoService;
+        private ITelefoneService telefoneService;
 
         public ContatoController()
         {
+            grupoUsuarioService = new GrupoUsuarioService();
             usuarioService = new UsuarioService();
             contatoService = new ContatoService();
             telefoneService = new TelefoneService();
@@ -63,30 +66,59 @@ namespace CoolAgenda.Controllers
         }
 
         //Convite de Contatos
-        public ActionResult Convida(int? id)
-        {
-            ContatoVM vm;
+        public ActionResult Convida(int? id, UsuarioVM vmUser)
+        {            
+            //Pega o usuário na sessão
+            Usuario usuario = Session["Usuario"] as Usuario;
+            int idUsuario = usuario.IdUsuario;
+            vmUser.IdUsuario = idUsuario;
+
+            ContatoVM vmContato = new ContatoVM();
+
+            //Se tiver um valor, vai para Edição
             if (id.HasValue)
             {
-                vm = ConstruirFormVMParaEdicao(id.Value);
-                if (vm == null)
+                vmContato = ConstruirFormVMParaEdicao(id.Value);
+                if (vmContato == null)
                     return new HttpNotFoundResult();
                 else
                 {
                     //Verifica se já existe
-                    var erros = contatoService.ValidaAdicionarUsuario(vm.Email);//registro.Email);
+                    var erros = contatoService.ValidaAdicionarUsuario(vmContato.Email);
                     if (erros.Count == 0)
                     {
                         // -- Aqui deve-se criar um novo usuario, com os dados do contato!
-                        Usuario registro = ConverterUsuarioFormVM(vm);
+                        Usuario registro = ConverterUsuarioFormVM(vmContato);
 
                         //Envia E-mail para o contato
                         try
                         {
-                            ContatoService.EnviaEmailCadastro(vm.Email, vm.Nome, registro.Senha);
+                            ContatoService.EnviaEmailCadastro(registro.Email, registro.Nome, registro.Senha);
 
                             //Adiciona no banco com senha padrão
                             usuarioDAO.Adicionar(registro);
+                            
+                            
+                            // Pega os grupos em que o usuário está cadastrado
+                            var usuarioGrupos = grupoUsuarioService.ListarGruposPessoa(idUsuario);
+                            List<GrupoUsuario> listaGrupoUsuario = new List<GrupoUsuario>();
+                            listaGrupoUsuario = usuarioGrupos;
+
+                            //Joga o Id do Novo Usuario para cadastrar no grupo
+                                //SELECT
+                                Usuario novoUsuarioGrupo = usuarioDAO.BuscarPorEmail(registro.Email);
+
+                                // Joga o Id do novo Usuario no GrupoUsuario
+                                for(int i = 0; i < listaGrupoUsuario.Count; i++)
+                                {
+                                    listaGrupoUsuario[i].IdUsuario = novoUsuarioGrupo.IdUsuario;
+                                    listaGrupoUsuario[i].Ativo = "N";
+                                }
+
+                                // 
+
+                            // Adiciona  o Usuário no Grupo
+                            contatoService.InsertContatoGrupo(listaGrupoUsuario);  
 
                             ViewBag.Mensagem = "Usuário convidado com sucesso!";
                         }
@@ -115,15 +147,11 @@ namespace CoolAgenda.Controllers
             //Pega o usuário na sessão
             Usuario usuario = Session["Usuario"] as Usuario;
             int idUsuario = usuario.IdUsuario;
-            vm.IdUsuario = idUsuario;
-
-            // Pega o grupo em que o usuário está cadastrado
-            GrupoUsuario grupoUsuario = new GrupoUsuario();
-            usuario = grupoUsuario.Usuario;
-                
+            vm.IdUsuario = idUsuario;              
 
             if (ModelState.IsValid)
             {
+                // Recebe o Contato e o Telefone
                 Contato contato = ConverterFormVM(vm);                
                 List<Telefone> telefones = ConverterCadVMParaTelefones(vm);
 
@@ -137,13 +165,14 @@ namespace CoolAgenda.Controllers
                     }
                     else
                     {
-                        // Insere Contato e Cadastra no Grupo
-                        contatoService.InsertContato(contato);//, grupo,usuario);  
-                        //contatoService.InsertContato(contato, usuario);                        
+                        // Insere Contato
+                        contatoService.InsertContato(contato);
+                                              
 
                         vm = ConstruirContatoVM(idUsuario);
                         int i = vm.ListaContato.Count - 1;
                         contato.IdContato = vm.ListaContato[i].IdContato;
+
                         //Insere Telefone do contato
                         contatoService.Insert(contato, telefones);
                     }
@@ -165,10 +194,6 @@ namespace CoolAgenda.Controllers
             var registros = contatoService.BuscarPorIdUsuario(id);
             vm.ListaContato = registros;
             vm.ListaTelefone = telefoneService.ListarPorIdUsuario(id);
-            //for (int i = 0; i > vm.ListaTelefone.Count; i++)
-            //{
-            //    vm.telefoneUm = vm.ListaTelefone[i].NumeroTelefone;
-            //}
             vm.TotalRegistros = registros.Count;
             return vm;
         }
@@ -192,6 +217,7 @@ namespace CoolAgenda.Controllers
             vm.IdUsuario = reg.IdUsuario;
             vm.Nome = reg.Nome;
             vm.Email = reg.Email;
+            vm.ListaTelefone = telefoneService.ListarPorIdContato(vm.IdContato);
             vm.Endereco = reg.Endereco;
             
             return vm;

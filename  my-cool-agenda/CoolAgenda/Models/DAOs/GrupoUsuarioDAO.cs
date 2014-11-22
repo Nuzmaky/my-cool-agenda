@@ -38,7 +38,7 @@ namespace CoolAgenda.Models
             pIdGrupo.Value = grupoUser.IdGrupo;
             comando.Parameters.Add(pIdGrupo);
 
-            OleDbParameter pAdministrador = new OleDbParameter("Administrador", OleDbType.VarChar);
+            OleDbParameter pAdministrador = new OleDbParameter("Administrabdor", OleDbType.VarChar);
             pAdministrador.Value = grupoUser.Administrador;
             comando.Parameters.Add(pAdministrador);
 
