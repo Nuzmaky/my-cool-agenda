@@ -3,43 +3,69 @@
     ViewBag.Title = "Usuário";
 }
 
-<h2>Usuário</h2>
+<div id="paginas">
 
-<h1>Inserido com Sucesso! </h1>
-
-
-    <table>
-        @for (int i = 0; i < Model.ListaUsuario.Count; i++)
+    @{
+        if (Model.Edicao)
         {
-            <tr>
-                <td> 
-                     @Html.LabelFor(m =>m.IdUsuario)
-                     @Model.ListaUsuario[i].IdUsuario 
-                </td>
-
-                <td> 
-                    @Html.LabelFor(m => m.Email)
-                    @Model.ListaUsuario[i].Email                    
-                </td>
-
-                <td>
-                     @Html.LabelFor(m => m.Nome)
-                     @Model.ListaUsuario[i].Nome                 
-                </td>                
-
-                <td>
-                    @Html.LabelFor(m => m.Senha)
-                    @Model.ListaUsuario[i].Senha
-                </td>
-
-                <td>
-                    @Html.LabelFor(m => m.Nivel)
-                    @Model.ListaUsuario[i].Nivel
-                </td>
-            </tr>
+            ViewBag.Title = "Editar Dados";
+        <h1>Editar Dados</h1>
         }
-    </table>       
+        else
+        {
+            ViewBag.Title = "Cadastre os Dados";
+        <h1>Informe os Dados</h1>
+        }
+    }
+    <h2>Usuário</h2>
 
+    @using (Html.BeginForm("Form", "Usuario", FormMethod.Post))
+    {
+        @Html.ValidationSummary()
 
+        @Html.HiddenFor(m => m.Edicao)
+        @Html.HiddenFor(m => m.IdUsuario)
+        
+        if (!Model.Edicao) {         
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email) <br />
+        }
+        
+        @Html.LabelFor(m=>m.Nome)
+        @Html.TextBoxFor(m=>m.Nome)
+        
+        @Html.LabelFor(m => m.Senha)
+        @Html.PasswordFor(m => m.Senha)
+        
+        @Html.Label("Confirme sua Senha")
+        @Html.PasswordFor(m => m.Senha) <br />
+        
+        @Html.LabelFor(m => m.Nome)
+        @Html.TextBoxFor(m => m.Nome) <br />
+        
+           
+        if (Model.Nivel)
+        {
+            @Html.HiddenFor(m=>m.Ativo, new{@id="flgAtivo"})
 
+        <script>
+            $("#flgAtivo").val = "S";
+        </script>
+        }
+        
+        else{
+            @Html.LabelFor(m => m.Ativo, new { @style = "display:inline; margin-left:2px" })
+            <input type="checkbox" id="Ativo" /><br /><br />
+            <script>
+                if ($("#ativo").checked) {
+                    $("#flgAtivo").val = "S";
+                }
+            </script>
+        }
+       
+        <input type="submit" name="btOK" value="Salvar!" />
+    }
 
+    @Html.ActionLink("Voltar", "Index")
+
+</div>

@@ -27,6 +27,7 @@
         @Html.HiddenFor(m => m.IdTarefa)
         @Html.HiddenFor(m=>m.IdUsuario)
         @Html.HiddenFor(m=>m.IdCompromisso)
+        @Html.HiddenFor(m=>m.Ativo)
 
         @Html.LabelFor(m => m.NomeTarefa)
         @Html.TextBoxFor(m => m.NomeTarefa) <br />
@@ -35,37 +36,28 @@
         @Html.TextAreaFor(m => m.DescTarefa) <br />
         
         @Html.LabelFor(m => m.DataInicial)
-        @Html.TextBoxFor(m => m.DataInicial) <br />
+        @Html.TextBoxFor(m => m.DataInicial,new { @class = "datetimepicker-pt-br"}) <br />
         
         @Html.LabelFor(m => m.DataFinal)
-        @Html.TextBoxFor(m => m.DataFinal) <br />
-    
-
-    
-        if (!Model.Edicao)
-        {
-            @Html.HiddenFor(m=>m.Ativo, new{@id="flgAtivo"})
-
-        <script>
-            $("#flgAtivo").val = "S";
-        </script>
-        }
+        @Html.TextBoxFor(m => m.DataFinal,new { @class = "datetimepicker-pt-br"}) <br />
         
-        else{
-            @Html.LabelFor(m => m.Ativo, new { @style = "display:inline; margin-left:2px" })
-            <input type="checkbox" id="Ativo" /><br /><br />
-            <script>
-                if ($("#ativo").checked) {
-                    $("#flgAtivo").val = "S";
-                }
-            </script>
-        }
-       
+        
+    
         <input type="submit" name="btOK" value="Salvar!" />
     }
 
     @Html.ActionLink("Voltar", "Index")
 
 </div>
+
+<script>
+    $(document).ready(function () {
+        jQuery(".datetimepicker-pt-br").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/y H:i',
+            step: 30
+        });
+    });
+</script>
    
 

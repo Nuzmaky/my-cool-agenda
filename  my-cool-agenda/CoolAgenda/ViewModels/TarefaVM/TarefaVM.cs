@@ -33,12 +33,10 @@ namespace CoolAgenda.ViewModels.TarefaVM
 
         [Display(Name = "Data Inicial  *")]
         [Required(ErrorMessage = "Insira uma data e horário inicial para a Tarefa")]
-        [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
         public string DataInicial { get; set; }
 
         [Display(Name = "Data Final  *")]
         [Required(ErrorMessage = "Insira uma data e horário final para a Tarefa")]
-        [DisplayFormat(DataFormatString = "dd/mm/yyyy")]
         public string DataFinal { get; set; }
 
         public string Ativo { get; set; }

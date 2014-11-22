@@ -71,17 +71,13 @@ namespace CoolAgenda.Models
         //Update
         public void Update(Tarefa tarefa)
         {
-            SQL = "UPDATE Tarefa SET idTarefa, IdCompromisso = ?, idUsuario = ?, Nome = ?, Descricao = ?, dataInicial = ?, datafinal = ? ativo = ? WHERE IdTarefa = ?";
+            SQL = "UPDATE Tarefa SET idUsuario = ?, Nome = ?, Descricao = ?, dataInicial = ?, datafinal = ? WHERE IdTarefa = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
            
-            OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.VarChar);
-            pIdCompromisso.Value = tarefa.IdCompromisso;
-            comando.Parameters.Add(pIdCompromisso);
-
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = tarefa.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
@@ -89,8 +85,7 @@ namespace CoolAgenda.Models
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = tarefa.NomeTarefa;
             comando.Parameters.Add(pNome);
-
-
+            
             OleDbParameter pDescricao = new OleDbParameter("Descricao", OleDbType.VarChar);
             pDescricao.Value = tarefa.DescTarefa;
             comando.Parameters.Add(pDescricao);
@@ -100,13 +95,12 @@ namespace CoolAgenda.Models
             comando.Parameters.Add(pDataInicial);
 
             OleDbParameter pDataFinal = new OleDbParameter("DataFinal", OleDbType.VarChar);
-            pDataInicial.Value = tarefa.DataFinal;
+            pDataFinal.Value = tarefa.DataFinal;
             comando.Parameters.Add(pDataFinal);
 
-            OleDbParameter pAtivo = new OleDbParameter("Ativo", OleDbType.VarChar);
-            pDataInicial.Value = tarefa.Ativo;
-            comando.Parameters.Add(pAtivo);
-
+            OleDbParameter pidTarefa = new OleDbParameter("IdTarefa", OleDbType.VarChar);
+            pidTarefa.Value = tarefa.IdTarefa;
+            comando.Parameters.Add(pidTarefa);
 
             // Update
             comando.ExecuteNonQuery();
@@ -119,9 +113,9 @@ namespace CoolAgenda.Models
             Tarefa tarefa = new Tarefa();
             tarefa.IdTarefa = int.Parse(dr["IdTarefa"].ToString());
             int aux;
+            tarefa.NomeTarefa = dr["NOME"].ToString();
             tarefa.IdCompromisso = int.TryParse(dr["IdCompromisso"].ToString(), out aux) ? aux : (int?)null;
-            tarefa.IdUsuario = int.Parse(dr["Idusuario"].ToString()); dr["IdUsuario"].ToString();
-            tarefa.NomeTarefa = dr["Nome"].ToString();
+            tarefa.IdUsuario = int.Parse(dr["Idusuario"].ToString());
             tarefa.DescTarefa = dr["Descricao"].ToString();
             tarefa.DataInicial = dr["dataInicial"].ToString();
             tarefa.DataFinal = dr["dataFinal"].ToString();
