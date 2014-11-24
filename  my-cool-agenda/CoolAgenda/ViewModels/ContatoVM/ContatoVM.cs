@@ -46,6 +46,7 @@ namespace CoolAgenda.ViewModels
 
         public List<Contato> ListaContato { get; set; }
         public List<Telefone> ListaTelefone { get; set; }
+        public List<string> Telefones { get; set; }
         public int TotalRegistros { get; set; }
     }
 }

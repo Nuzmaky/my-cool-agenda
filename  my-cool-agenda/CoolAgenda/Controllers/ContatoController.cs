@@ -53,8 +53,22 @@ namespace CoolAgenda.Controllers
         {
             ContatoVM vm;
             if (id.HasValue)
-            {
+            {                
                 vm = ConstruirFormVMParaEdicao(id.Value);
+               
+                // Telfones
+                List<Telefone> telefonesEntidades = contatoService.BuscarTelefonePorId(vm.IdContato);
+
+                if (telefonesEntidades != null || telefonesEntidades.Count != 0)
+                {
+                    vm.Telefones = new List<string>();
+                    foreach (var telefoneEntidade in telefonesEntidades)
+                    {
+                        string telefoneFormatado = FormatarNumeroTelefone(telefoneEntidade.NumeroTelefone);
+                        vm.Telefones.Add(telefoneFormatado);
+                    }
+                }
+
                 if (vm == null)
                     return new HttpNotFoundResult();
             }
@@ -63,7 +77,7 @@ namespace CoolAgenda.Controllers
                 vm = ConstruirFormVMParaNovo();
             }
             return View(vm);
-        }
+                            }
 
         //Convite de Contatos
         public ActionResult Convida(int? id, UsuarioVM vmUser)
@@ -148,6 +162,7 @@ namespace CoolAgenda.Controllers
             Usuario usuario = Session["Usuario"] as Usuario;
             int idUsuario = usuario.IdUsuario;
             vm.IdUsuario = idUsuario;              
+            
 
             if (ModelState.IsValid)
             {
@@ -159,8 +174,21 @@ namespace CoolAgenda.Controllers
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
-                    {                        
+                    {                                                
+                        // Atualiza Contato
+                        contatoService.UpdateContato(contato);
+
                         vm = ConstruirContatoVM(idUsuario);
+                                                
+                        
+                        for (int i = 0; i < telefones.Count; i++)
+                        {
+                            List<Telefone> tel = telefoneService.ListarPorIdContato(contato.IdContato);
+                            telefones[i].IdTelefone = tel[i].IdTelefone;
+                            telefones[i].IdContato = tel[i].IdContato;
+                        }
+
+                        // Atualiza Telefone
                         contatoService.Update(contato, telefones);
                     }
                     else
@@ -203,7 +231,7 @@ namespace CoolAgenda.Controllers
             Contato registro = contatoService.BuscarPorId(id);
             ContatoVM vm = null;
             if (registro != null)
-            {
+            {                
                 vm = ConverterFormVM(registro);
                 vm.Edicao = true;
             }
@@ -216,8 +244,10 @@ namespace CoolAgenda.Controllers
             vm.IdContato = reg.IdContato;
             vm.IdUsuario = reg.IdUsuario;
             vm.Nome = reg.Nome;
-            vm.Email = reg.Email;
+            vm.Email = reg.Email;            
             vm.ListaTelefone = telefoneService.ListarPorIdContato(vm.IdContato);
+            vm.telefoneUm = vm.ListaTelefone[0].NumeroTelefone;
+            vm.telefoneDois = vm.ListaTelefone[1].NumeroTelefone;
             vm.Endereco = reg.Endereco;
             
             return vm;
@@ -298,6 +328,12 @@ namespace CoolAgenda.Controllers
         {            
             string telefoneApenasNumeros = telefoneFormatado.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
             return telefoneApenasNumeros;
+        }
+
+        private string FormatarNumeroTelefone(string telefoneApenasNumero)
+        {
+            string telefoneFormatado = telefoneApenasNumero.Insert(0, "(").Insert(3, ")").Insert(4, " ");
+            return telefoneFormatado;
         }
 
 

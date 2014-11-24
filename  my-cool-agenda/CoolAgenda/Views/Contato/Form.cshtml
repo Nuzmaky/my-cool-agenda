@@ -20,7 +20,7 @@
     <h2>Contato</h2>
 
 
-    @using(Html.BeginForm("Form","Contato",FormMethod.Post))
+    @using (Html.BeginForm("Form", "Contato", FormMethod.Post))
     {
         @Html.ValidationSummary()
         
@@ -38,13 +38,14 @@
         @Html.TextBoxFor(m => m.telefoneUm, new { @class = "TELEFONE" })
                         
         @Html.LabelFor(m => m.telefoneDois)
-        @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" })        
-                
+        @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" }) 
+
         @Html.Label("Endereço: ")
         @Html.TextBoxFor(m => m.Endereco) <br />         
-    
+        
         <input type="submit" name="btOK" value="Cadastrar!" />
     }
+
 
     @Html.ActionLink("Voltar", "Index")
 

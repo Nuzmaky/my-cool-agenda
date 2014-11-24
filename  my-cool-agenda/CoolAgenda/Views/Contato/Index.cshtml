@@ -13,8 +13,6 @@
         
         <table>
             <tr>
-                <th>IdContato</th> 
-                <th>IdUsuario</th> 
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Telefone</th>
@@ -27,8 +25,6 @@
             {
                 int c = 0;
                 <tr>
-                    <td>@Model.ListaContato[i].IdContato</td>
-                    <td>@Model.ListaContato[i].IdUsuario</td>
                     <td>@Model.ListaContato[i].Nome</td>                
                     <td>@Model.ListaContato[i].Email</td> 
 
@@ -60,17 +56,14 @@
                     <td>@Model.ListaContato[i].Endereco</td>
 
                 <td class="opcoes2">
-                    <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})                    
+                    <img class="no-border" src="../Images/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})                    
                         @if (Model.ListaContato[i].Ativo.Equals("S"))
                         {
                             <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaContato[i].IdContato);"> Excluir</a>
                         }
-                        else
-                        {
-                            <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaContato[i].IdContato);"> Ativar</a>
-                        }
+    
 
-                    <img class="no-border" src="../Imagens/convidar.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
+                    <img class="no-border" src="../Imagens/Novo.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
                 </td>
             </tr>
         }
@@ -90,20 +83,18 @@
     <script type="text/javascript">
 
         // Armazena o id/codigo do registro a ser ativado/desativado
-        var codRegistro;
+        var idRegistro;
 
         // Trata o evento onclick da opção de desativar um registro
         function DesativarRegistro(id) {            
-            idRegistro = id;            
-            JSMostraDialogConfirmacao("Desativar", "Deseja desativar o registro?", true, RequisitaDesativacaoRegServidor);            
+            idRegistro = id;
+            RequisitaDesativacaoRegServidor();                        
         }
 
 
         // Efetua uma requisição ao servidor pedindo para desativar um registro
-        function RequisitaDesativacaoRegServidor() {
-            
-            $.post('@Url.Action("Desativar")', { id: idRegistro }, function (data) {                
-                alert("Y");
+        function RequisitaDesativacaoRegServidor() {            
+            $.post('@Url.Action("Desativar")', { id: idRegistro }, function (data) {                                
                 // Mostra uma notificação de acordo com a resposta do servidor                
                 if (!data.Erro)                    
                     JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });

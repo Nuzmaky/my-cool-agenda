@@ -10,7 +10,7 @@ namespace CoolAgenda.Models
     public interface ITelefoneDAO
     {
         void Insert(Contato contato, Telefone entidade, DbTransaction transacao);
-        void Update(Contato contato, Telefone entidade);
+        void Update(Contato contato, Telefone entidade, DbTransaction transacao);
         
 
         List<Telefone> Select();

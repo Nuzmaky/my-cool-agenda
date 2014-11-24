@@ -30,6 +30,7 @@ namespace CoolAgenda.Controllers
         UsuarioDAO usuarioDAO = new UsuarioDAO();
 
 
+        [FiltroAutenticacao("A")]
         // Cadastro de Usuário
         public ActionResult Index(UsuarioVM userVM)
         {
