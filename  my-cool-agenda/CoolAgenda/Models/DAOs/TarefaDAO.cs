@@ -15,11 +15,10 @@ namespace CoolAgenda.Models
         //Insert
         public void Adcionar(Tarefa tarefa)
         {
-            SQL = "INSERT INTO TAREFA VALUES (SeqTarefa.NEXTVAL,?,?,?,?,?,'S'";
+            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Descricao, dataInicial, datafinal, ativo) VALUES (SeqTarefa.NEXTVAL, ?, ?, ?, ?, ?, ?,'S')";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
             
-
             OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.VarChar);
             pIdCompromisso.Value = tarefa.IdCompromisso;
             comando.Parameters.Add(pIdCompromisso);
