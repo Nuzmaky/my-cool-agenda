@@ -249,7 +249,7 @@
                 $("td.fc-day").filter("[data-date='" + strDate + "']").addClass('fc-highlight');
             });
             $('td.fc-day').mouseout(function () {
-                $(s).removeClass('fc-highlight');
+                $(this).removeClass('fc-highlight');
             })
             $('td.fc-day-number').mouseout(function () {
                 var strDate = $(this).data('date');
