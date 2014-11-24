@@ -114,6 +114,14 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
+        public ActionResult AceitarCompromisso(int idCompromisso, int idUser)
+        {
+
+            compromissoUsuarioService.Aceitar(idCompromisso, idUser);
+
+            return View();
+        }
+
         [HttpPost]
         public ActionResult Cadastrar(CadastrarVM vm)
         {
@@ -128,7 +136,7 @@ namespace CoolAgenda.Controllers
                 if (erros.Count == 0)
                 {
                     if (!vm.Edicao)
-                        compromissoService.Adicionar(reg, cUser, cContato);
+                        compromissoService.Adicionar(reg, cUser, cContato);                    
 
                     return Json(new { redirectTo = Url.Action("Index", "Agenda") });
                 }

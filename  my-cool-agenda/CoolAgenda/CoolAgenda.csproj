@@ -388,6 +388,7 @@
     <Content Include="Views\Usuario\MudarSenha.cshtml" />
     <Content Include="Views\Usuario\EditarNome.cshtml" />
     <Content Include="Views\Usuario\EditarSenha.cshtml" />
+    <Content Include="Views\Compromisso\AceitarCompromisso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
