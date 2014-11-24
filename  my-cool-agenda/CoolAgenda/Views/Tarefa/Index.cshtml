@@ -1,0 +1,66 @@
+﻿@model CoolAgenda.ViewModels.TarefaVM.TarefaVM
+@{
+    ViewBag.Title = "Tarefa";
+}
+<div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
+
+    
+
+    <h2>Tarefas</h2>
+
+    <a href="@Url.Action("Form")" class="Nova"><img src="~/images/Novo.png" alt="novo"/>Nova</a><br />
+    @{
+        if (Model.TotalRegistros > 0)
+        {
+        <div class="Tabela">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Nome</th>
+                    <th>Data Inicial</th>
+                    <th>Data Final</th>
+                    <th>Editar</th>
+                    <th>Ativar/Inativar</th>
+                </tr>
+                @for (int i = 0; i < Model.ListaTarefa.Count; i++)
+                {
+                    
+                    <tr>
+                        <td>@Model.ListaTarefa[i].IdTarefa</td>
+                        <td>@Model.ListaTarefa[i].NomeTarefa</td>
+                        <td>@Model.ListaTarefa[i].DataInicial</td>
+                        <td>@Model.ListaTarefa[i].DataFinal</td>
+                        <td class="opcoes2">
+                            <img class="no-border" src="~/Images/Editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaTarefa[i].IdTarefa })</td>
+                        <td class="opcoes">
+                        
+                            @if (Model.ListaTarefa[i].Ativo!=null){ 
+                                if(Model.ListaTarefa[i].Ativo.Equals("S"))
+                                {
+                                    <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaTarefa[i].IdTarefa);"> Desativar</a>
+                                }
+                                else
+                                {
+                                    <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaTarefa[i].);"> Ativar</a>
+                                }
+                            }
+                            else
+                                {
+                                    <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaTarefa[i].);"> Ativar</a>
+                                }
+                        </td>
+
+                    </tr>
+             
+                }
+            </table>
+     </div>
+        
+        }
+        else
+        {
+        <p>Não existe nenhum registro cadastrado.</p>
+        }
+    }
+
+</div>
