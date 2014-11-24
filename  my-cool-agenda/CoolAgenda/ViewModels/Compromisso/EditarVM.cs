@@ -46,5 +46,8 @@ namespace CoolAgenda.ViewModels.Compromisso
         public List<SelectListItem> ListarCores { get; set; }
 
         public string grupoNome;
+
+        public List<Nota> ListaNota { get; set; }
+        public int TotalRegistrosNota { get; set; }
     }
 }

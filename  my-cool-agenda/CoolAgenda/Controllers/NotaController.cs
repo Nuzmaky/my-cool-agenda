@@ -15,137 +15,124 @@ namespace CoolAgenda.Controllers
     [FiltroAutenticacao("U")]
     public class NotaController : Controller
     {
-            INotaService notaService;
+        INotaService notaService;
 
-            public NotaController()
+        public NotaController()
+        {
+            notaService = new NotaService();
+        }
+
+        public ActionResult Index()
+        {
+            NotaVM vm = ConstruirIndexVM();
+            return View(vm);
+        }
+
+        public ActionResult Form(int? id, int idComp)
+        {
+            NotaVM vm;
+
+            if (id.HasValue)
             {
-                notaService = new NotaService();
+                vm = ConstruirFormVMParaEdicao(id.Value);
+                if (vm == null)
+                    return new HttpNotFoundResult();
+            }
+            else
+            {
+                vm = ConstruirFormVMParaNovo(idComp);
             }
 
-            public ActionResult Index()
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult Form(NotaVM vm)
+        {
+            if (ModelState.IsValid)
             {
-                NotaVM vm = ConstruirIndexVM();
-                return View(vm);
-            }
+                Nota nota = ConverterFormVM(vm);
+                Usuario usuario = Session["Usuario"] as Usuario;
 
-            [ChildActionOnly]
-            public ActionResult Form(int? id)
-            {
-                Usuario pUsuario = Session["Usuario"] as Usuario;
-                int idUser = pUsuario.IdUsuario;
-
-                NotaVM vm;
-
-                if (id.HasValue)
+                var erros = notaService.ValidarEntidade(nota, usuario.IdUsuario);
+                if (erros.Count == 0)
                 {
-                    int idComp = id.Value;
-                    Nota reg = notaService.BuscarNotaUsuarioCompromisso(idComp, idUser);
-
-                    if (reg != null)
-                    {
-                        vm = ConstruirFormVMParaEdicao(reg.IdNota);
-                        if (vm == null)
-                            return new HttpNotFoundResult();
-                    }
+                    if (vm.Edicao)
+                        notaService.Update(nota);
                     else
                     {
-                        vm = ConstruirFormVMParaNovo(idComp);
+                        
+                        nota.IdUsuario = usuario.IdUsuario;
+                        notaService.Adicionar(nota);
                     }
+
+                    return RedirectToAction("Editar", "Compromisso", new { id = vm.IdCompromisso });
                 }
                 else
                 {
-                    return new HttpNotFoundResult();
+                    ModelState.AddModelErrors(erros);
                 }
-
-                return PartialView(vm);
             }
 
-            [HttpPost]
-            public ActionResult Form(NotaVM vm)
-            {
-                if (ModelState.IsValid)
-                {
-                    Nota nota = ConverterFormVM(vm);
-
-                    var erros = notaService.ValidarEntidade(nota);
-                    if (erros.Count == 0)
-                    {
-                        if (vm.Edicao)
-                            notaService.Update(nota);
-                        else
-                        {
-                            Usuario usuario = Session["Usuario"] as Usuario;
-                            nota.IdUsuario = usuario.IdUsuario;
-                            notaService.Adicionar(nota);
-                        }
-
-                        return Json(new { redirectTo = Url.Action("Editar", "Compromisso" , new{ id = vm.IdCompromisso }) });
-                    }
-                    else
-                    {
-                        ModelState.AddModelErrors(erros);
-                    }
-                }
-
-                return PartialView(vm);
-            }
-
-            //OUTROS METODOS
-
-            private NotaVM ConstruirIndexVM()
-            {
-                NotaVM vm = new NotaVM();
-
-                var registros = notaService.Listar();
-                vm.ListaNota = registros;
-                vm.TotalRegistros = registros.Count;
-                return vm;
-            }
-
-            private NotaVM ConstruirFormVMParaEdicao(int id)
-            {
-                Nota registro = notaService.BuscarPorId(id);
-                NotaVM vm = null;
-                if (registro != null)
-                {
-                    vm = ConverterFormVM(registro);
-                    vm.Edicao = true;
-                }
-                return vm;
-            }
-
-            private NotaVM ConverterFormVM(Nota reg)
-            {
-                NotaVM vm = new NotaVM();
-                vm.IdNota = reg.IdNota;
-                vm.IdUsuario = reg.IdUsuario;
-                vm.IdCompromisso = reg.IdCompromisso;
-                vm.Texto = reg.Texto;
-                vm.Ativo = reg.Ativo;
-                
-                return vm;
-            }
-
-            private NotaVM ConstruirFormVMParaNovo(int idComp)
-            {
-                NotaVM vm = new NotaVM();
-                vm.Edicao = false;
-                vm.IdCompromisso = idComp;
-                return vm;
-            }
-
-            private Nota ConverterFormVM(NotaVM vm)
-            {
-                Nota reg = new Nota();
-                reg.IdNota = vm.IdNota;
-                reg.IdUsuario = vm.IdUsuario;
-                reg.IdCompromisso = vm.IdCompromisso;
-                reg.Texto = vm.Texto;
-                reg.Ativo = vm.Ativo;
-                
-                return reg;
-            }
+            return View(vm);
         }
 
+        //OUTROS METODOS
+
+        private NotaVM ConstruirIndexVM()
+        {
+            NotaVM vm = new NotaVM();
+
+            var registros = notaService.Listar();
+            vm.ListaNota = registros;
+            vm.TotalRegistros = registros.Count;
+            return vm;
+        }
+
+        private NotaVM ConstruirFormVMParaEdicao(int id)
+        {
+            Nota registro = notaService.BuscarPorId(id);
+            NotaVM vm = null;
+            if (registro != null)
+            {
+                vm = ConverterFormVM(registro);
+                vm.Edicao = true;
+            }
+            return vm;
+        }
+
+        private NotaVM ConverterFormVM(Nota reg)
+        {
+            NotaVM vm = new NotaVM();
+            vm.IdNota = reg.IdNota;
+            vm.IdUsuario = reg.IdUsuario;
+            vm.IdCompromisso = reg.IdCompromisso;
+            vm.Texto = reg.Texto;
+            vm.Ativo = reg.Ativo;
+
+            return vm;
+        }
+
+        private NotaVM ConstruirFormVMParaNovo(int idComp)
+        {
+            NotaVM vm = new NotaVM();
+            vm.Edicao = false;
+            vm.IdCompromisso = idComp;
+            return vm;
+        }
+
+        private Nota ConverterFormVM(NotaVM vm)
+        {
+            Nota reg = new Nota();
+            reg.IdNota = vm.IdNota;
+            reg.IdUsuario = vm.IdUsuario;
+            reg.IdCompromisso = vm.IdCompromisso;
+            reg.Texto = vm.Texto;
+            reg.Ativo = vm.Ativo;
+
+            return reg;
+        }
     }
+
+}
 

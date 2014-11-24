@@ -11,6 +11,12 @@ namespace CoolAgenda.Models
     public class NotaDAO : INotaDAO
     {
         private string SQL;
+        private IUsuarioDAO usuarioDAO;
+
+        public NotaDAO()
+        {
+            usuarioDAO = new UsuarioDAO();
+        }
 
         //Insert
         public void Adcionar(Nota nota)
@@ -46,13 +52,41 @@ namespace CoolAgenda.Models
 
             while (dr.Read())
             {
-
                 ListaNota.Add(ConverterParaTipoClasse(dr));
             }
 
             return ListaNota;
         }
 
+        public List<Nota> Listar(int id)
+        {
+            List<Nota> ListaNota = new List<Nota>();
+            string SQL = "Select * From Nota where IdCompromisso =" + id;
+            OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+
+            OleDbDataReader dr = Select.ExecuteReader();
+
+            while (dr.Read())
+            {
+                ListaNota.Add(ConverterParaTipoClasse(dr));
+            }
+
+            foreach (var registro in ListaNota)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return ListaNota;
+        }
+
+
+        private void CarregarComposicao(Nota registro)
+        {
+            int idUsuario = registro.IdUsuario;
+            Usuario user = usuarioDAO.BuscarPorId(idUsuario);
+            registro.Usuario = user;
+
+        }
 
         //Update
         public void Update(Nota nota)
@@ -153,6 +187,44 @@ namespace CoolAgenda.Models
             comando.Dispose();
 
             return registro;
+        }
+
+        public List<Nota> VerificarUsuarioCriador(int id, int idUser)
+        {
+            string sqlBuscar = "select * from Nota where IdNota = ? and IdUsuario = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pIdNota = new OleDbParameter("IdNota", OleDbType.Integer);
+            pIdNota.Value = id;
+            comando.Parameters.Add(pIdNota);
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = idUser;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<Nota> registros = new List<Nota>();
+            while (dr.Read())
+            {
+                Nota registro = ConverterParaTipoClasse(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            foreach (var registro in registros)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registros;
+         
         }
     }
 }

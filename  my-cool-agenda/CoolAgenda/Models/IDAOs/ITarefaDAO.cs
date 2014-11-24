@@ -17,7 +17,8 @@ namespace CoolAgenda.Models
         Tarefa BuscarPorId(int id);
 
         //Update
-        void Update(Tarefa tarefa, DbTransaction transacao);
+        //void Update(Tarefa tarefa, DbTransaction transacao);
+        void Update(Tarefa tarefa);
         
         //Conversão
         Tarefa ConverterParaTipoClasse(OleDbDataReader dr);        
@@ -25,9 +26,9 @@ namespace CoolAgenda.Models
 
         Tarefa ConverteCompTare(OleDbDataReader dr);
 
-        
-        
+        //List<Tarefa> ListarPorGrupo(int idUser, int id);
 
+        List<Tarefa> ListarId(int idUser);
 
     }
 }

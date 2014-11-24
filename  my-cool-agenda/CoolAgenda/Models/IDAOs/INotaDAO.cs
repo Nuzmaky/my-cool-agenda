@@ -14,6 +14,9 @@ namespace CoolAgenda.Models
 
         //Select
         List<Nota> Listar();
+
+        List<Nota> Listar(int id);
+
         Nota BuscarPorId(int id);
         
         //Update
@@ -23,6 +26,8 @@ namespace CoolAgenda.Models
         Nota ConverterParaTipoClasse(OleDbDataReader dr);
 
         Nota BuscarNotaUsuarioCompromisso(int id, int idUser);
+
+        List<Nota> VerificarUsuarioCriador(int id, int idUser);
         
     }
 }

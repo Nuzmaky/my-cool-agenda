@@ -26,15 +26,17 @@
                     <ul id="agendasSubMenu">
                         @for (int i = 0; i < Model.TotalRegistros; i++)
                         {
-                            <li><div style="float:left; width:80%"><a class="idPertGrupo" data-val="@Model.Lista[i].IdGrupo">@Model.Lista[i].Grupo.Nome</a></div>
-                                
-                                @if(Model.Lista[i].Administrador == "A" || Model.Lista[i].Administrador == "B")
+                            <li>
+                                <div style="float: left; width: 80%"><a class="idPertGrupo" data-val="@Model.Lista[i].IdGrupo">@Model.Lista[i].Grupo.Nome</a></div>
+
+                                @if (Model.Lista[i].Administrador == "A" || Model.Lista[i].Administrador == "B")
                                 {
-                                <a href="@Url.Action("Index", "GrupoUsuario", new { id = Model.Lista[i].IdGrupo })"><img src="~/Images/entrenagem.png" title="Gerenciar"/></a>
+                                    <a href="@Url.Action("Index", "GrupoUsuario", new { id = Model.Lista[i].IdGrupo })">
+                                        <img src="~/Images/entrenagem.png" title="Gerenciar" /></a>
                                 }
                                 else
                                 {
-                                <span>&nbsp;</span>
+                                    <span>&nbsp;</span>
                                 }
                             </li>             
                         }
@@ -49,14 +51,27 @@
 
             <div class="menu-item">
                 <h4 id="tarefasMenu"><a href="#">Tarefas</a></h4>
-                <ul id="tarefasSubMenu">
-                    <li>
-                        <input type="checkbox" style="float: left" /><a class="checkList" href="#">11111111</a></li>
-                    <li>
-                        <input type="checkbox" style="float: left" /><a class="checkList" href="#">22222222</a></li>
-                    <li>
-                        <input type="checkbox" style="float: left" /><a class="checkList" href="#">3333333</a></li>
-                </ul>
+                @{
+                    
+                    if (Model.TotalRegistrosTarefa > 0)
+                    {
+                    <ul id="tarefasSubMenu">
+                        @for (int i = 0; i < Model.TotalRegistrosTarefa; i++)
+                        {
+                            <li>
+                                <div style="float: left; width: 80%"><a class="idPertGrupo" data-val="@Model.ListaTarefa[i].IdTarefa">@Model.ListaTarefa[i].NomeTarefa</a></div>
+                            </li>             
+                        }
+                    </ul>
+                    }
+                    else
+                    {                    
+                    <ul id="tarefasSubMenu">
+                        <li>Nenhum registro encontrado.</li>
+
+                    </ul>
+                    }
+                }
             </div>
 
         </nav>
@@ -69,9 +84,9 @@
         @Html.Action("Cadastrar", "Compromisso")
     </div>
 
-    <div id="popupEventTarefaForm" class="modal hide" style="display: none;">
+    @*    <div id="popupEventTarefaForm" class="modal hide" style="display: none;">
         @Html.Action("Form", "Tarefa")
-    </div>
+    </div>*@
 
 
 </div>
@@ -114,7 +129,7 @@
                         aceito = "Pendente"
 
                     if (event.criador == "S")
-                        criador = "<div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Vizualizar</a></div>";
+                        criador = "<div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Visualizar</a></div>";
                     else
                         criador = "<span class='title' style='font-weight:bold'>Status: </span>" + aceito + "<br /><div><div style='float:left'><span style='margin-right:3px'><a href='#' onclick='RequisitaAceitar(" + event.id + ")'>Sim</a></span>|<span style='margin-left:3px'><a href='#' onclick='RequisitaRejeitar(" + event.id + ")'>Não</a></span></div><div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Vizualizar</a></div></div>";
 
@@ -132,7 +147,7 @@
                                 },
                             },
                             show: {
-                                when: { event:'click' },
+                                when: { event: 'click' },
                                 solo: true,
                                 ready: true, // Show the tooltip when ready
                             },
@@ -228,12 +243,6 @@
         function ShowTarefaEventPopup(date) {
             $('#popupEventTarefaForm').show();
         }
-        //MENU LATERAL
-        //$(function () {
-        //    $('#agendasMenu').click(function () {
-        //        $('#agendasSubMenu').slideToggle();
-        //    });
-        //});
 
         $(function () {
             $('#tarefasMenu').click(function () {
@@ -288,7 +297,7 @@
 
         // Efetua uma requisição ao servidor pedindo para aceitar um compromisso
         function RequisitaAceitar(idCompromisso) {
-            $.post('@Url.Action("Aceitar","Compromisso")', { id: idCompromisso }, function (data) {
+            $.post('@Url.Action("Aceitar", "Compromisso")', { id: idCompromisso }, function (data) {
                 // Mostra uma notificação de acordo com a resposta do servidor
                 if (!data.Erro)
                     JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
@@ -299,7 +308,7 @@
 
         // Efetua uma requisição ao servidor pedindo para aceitar um compromisso
         function RequisitaRejeitar(idCompromisso) {
-            $.post('@Url.Action("Rejeitar","Compromisso")', { id: idCompromisso }, function (data) {
+            $.post('@Url.Action("Rejeitar", "Compromisso")', { id: idCompromisso }, function (data) {
                 // Mostra uma notificação de acordo com a resposta do servidor
                 if (!data.Erro)
                     JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });

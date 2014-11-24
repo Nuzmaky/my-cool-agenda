@@ -11,7 +11,7 @@ namespace CoolAgenda.Models
 {
     public class TarefaService : ITarefaService
     {
-        private TarefaDAO tarefaDao;
+        private ITarefaDAO tarefaDao;
 
         public TarefaService()
         {
@@ -72,6 +72,16 @@ namespace CoolAgenda.Models
         {
             return tarefaDao.BuscarPorId(id);
         }
+
+        public List<Tarefa> ListarId(int idUser)
+        {
+            return tarefaDao.ListarId(idUser);
+        }
+
+        //public List<Tarefa> ListarPorGrupo(int idUser, int id)
+        //{
+        //    return tarefaDao.ListarPorGrupo(idUser, id);
+        //}
 
     }
 }

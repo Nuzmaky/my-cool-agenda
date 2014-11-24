@@ -24,8 +24,5 @@ namespace CoolAgenda.Models
         void Aceitar(int id, int idUser);
 
         void Rejeitar(int id, int idUser);
-
-        
-
     }
 }

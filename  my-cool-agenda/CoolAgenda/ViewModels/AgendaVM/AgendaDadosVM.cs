@@ -13,5 +13,9 @@ namespace CoolAgenda.ViewModels.AgendaVM
         public List<GrupoUsuario> Lista { get; set; }
 
         public int TotalRegistros { get; set; }
+
+        public List<Tarefa> ListaTarefa { get; set; }
+
+        public int TotalRegistrosTarefa { get; set; }
     }
 }

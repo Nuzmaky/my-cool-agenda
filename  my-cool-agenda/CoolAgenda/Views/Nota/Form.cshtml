@@ -3,62 +3,53 @@
     ViewBag.Title = "Nota";
 }
 
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <div class="bootstrap-dialog-header">
-                <div class="bootstrap-dialog-close-button" style="display: block;">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="bootstrap-dialog-title">Nota</div>
+<div id="paginas">
+
+    @using (Html.BeginForm("Form", "Nota", FormMethod.Post, new { id = "notaForm", @class = "well", style = "width:550px; margin-left:auto; margin-right:auto;" }))
+    {
+        string display = ViewData.ModelState.IsValid ? "none" : "block";
+        <div class="errorbox" id="validationSummary" style="display:@display; width: 100%;margin-bottom:20px;">
+            @Html.ValidationSummary()
+        </div>
+
+        @Html.HiddenFor(m => m.Edicao)
+        @Html.HiddenFor(m => m.IdNota)
+        @Html.HiddenFor(m => m.IdUsuario)
+        @Html.HiddenFor(m => m.IdCompromisso)
+
+        @Html.TextAreaFor(m => m.Texto, new { id = "notaTexto", @class = "form-control", @placeholder = "Digite a nota..." }) <br />
+        
+        <div style="width: 550px;">
+            <div style="float: left; margin-top: 10px;"><a href="@Url.Action("Editar", "Compromisso", new { id = Model.IdCompromisso })">Voltar</a></div>
+            <div style="text-align: right;">
+                <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="notaForm" />
             </div>
-        </div>
-        <div class="modal-body">
+        </div>    
+    }
 
-            @using (Html.BeginForm("Form", "Nota", FormMethod.Post, new { id = "notaForm" }))
-            {
-                @Html.ValidationSummary()
-
-                @Html.HiddenFor(m => m.Edicao)
-                @Html.HiddenFor(m => m.IdNota)
-                @Html.HiddenFor(m => m.IdUsuario)
-                @Html.HiddenFor(m => m.IdCompromisso)
-
-                @Html.TextAreaFor(m => m.Texto, new { id = "notaTexto", @class = "form-control", @placeholder = "Digite a nota..." }) <br />
-                
-            }
-
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <input type="submit" id="btnNota" class="btn btn-primary" value="Salvar" form="notaForm"/>
-    </div>
 </div>
 <!-- /.modal-content -->
 
 <script>
-
     $(document).ready(function () {
-        $('#btnNota').click(function (e) {
-            alert("clicado");
-            e.preventDefault();
-            $.ajax({
-                type: "POST",
-                url: '@Url.Action("Form", "Nota")',
-                data: $('#notaForm').serialize(),
-                success: function (result) {
-                    if (result.redirectTo) {
-                        window.location.href = result.redirectTo;
-                    } else {
-                        $("#notaUsuario").html(result);
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        });
+        $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");
     });
+
+    function resetValidation() {
+        //Remove validacao dos input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Remove validation das mensagens dps dos input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Remove o validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+        $('#validationSummary').css('display', 'none');
+    }
+
+    setTimeout(function () {
+        $('.errorbox').fadeOut('slow');
+    }, 6000);
 
 </script>

@@ -17,11 +17,13 @@ namespace CoolAgenda.Controllers
         // GET: /Agenda/
         private IGrupoUsuarioService grupoUsuarioService;
         private ICompromissoUsuarioService compromissoUsuarioService;
+        private ITarefaService tarefaService;
 
         public AgendaController()
         {
             compromissoUsuarioService = new CompromissoUsuarioService();
             grupoUsuarioService = new GrupoUsuarioService();
+            tarefaService = new TarefaService();
         }
 
         [FiltroAutenticacao]
@@ -31,10 +33,13 @@ namespace CoolAgenda.Controllers
             int idUser = pUsuario.IdUsuario;
 
             var usuarioGrupos = grupoUsuarioService.ListarGruposPessoa(idUser);
+            var tarefas = tarefaService.ListarId(idUser);
 
             AgendaDadosVM vm = new AgendaDadosVM();
             vm.Lista = usuarioGrupos;
             vm.TotalRegistros = usuarioGrupos.Count;
+            vm.ListaTarefa = tarefas;
+            vm.TotalRegistrosTarefa = tarefas.Count;
 
             if (vm.TotalRegistros == 0)
             {
@@ -98,7 +103,6 @@ namespace CoolAgenda.Controllers
                                   className = e.Ativo + "class",
                                   criador = e.Criador
                               };
-
 
                 var rows = eventos.ToArray();
 

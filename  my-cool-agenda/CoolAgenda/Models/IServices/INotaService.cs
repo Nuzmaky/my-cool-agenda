@@ -17,10 +17,10 @@ namespace CoolAgenda.Models
         void Adicionar(Nota entidade);
         
         void Update(Nota entidade);
+
+        List<Validacao> ValidaAtualizar(Nota entidade, int id);
        
-        List<Validacao> ValidaAtualizar(Nota entidade);
-       
-        List<Validacao> ValidarEntidade(Nota entidade);
+        List<Validacao> ValidarEntidade(Nota entidade, int id);
         
         List<Validacao> ValidaAdicionar(Nota entidade);
 
@@ -28,6 +28,7 @@ namespace CoolAgenda.Models
 
         Nota BuscarNotaUsuarioCompromisso(int id, int idUser);
 
+        List<Nota> Listar(int id);
 
     }
 }

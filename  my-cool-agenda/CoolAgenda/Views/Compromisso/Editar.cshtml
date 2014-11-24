@@ -6,7 +6,7 @@
 <div id="paginas">
     <h2 style="text-align: center">Editar</h2>
 
-    @using (Html.BeginForm("Editar", "Compromisso", FormMethod.Post, new { id = "EventForm", @class = "well", style = "width:400px; margin-left:auto; margin-right:auto;" }))
+    @using (Html.BeginForm("Editar", "Compromisso", FormMethod.Post, new { id = "EventForm", @class = "well", style = "width:550px; margin-left:auto; margin-right:auto;" }))
     {
         string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 35%">
@@ -35,9 +35,6 @@
             <br />
             <div style="margin-bottom: 3px"><strong>Grupo:</strong> @Model.grupoNome</div>
 
-
-            <h4><a href="#" onclick="mostrarNota();">Nota</a></h4>
-
             @if (Model.TotalRegistrosContato > 0 || Model.TotalRegistros > 0)
             { 
                 <h4>Convidados</h4>
@@ -47,7 +44,7 @@
             {
                 <table>
                     <tr>
-                        <th style="text-align: left; width: 125px">Usuários</th>
+                        <th style="text-align: left; width: 250px">Usuários</th>
                         <th style="text-align: center; width: 80px">Status</th>
                     </tr>
                     @for (int i = 0; i < Model.ListaUsuario.Count; i++)
@@ -82,7 +79,7 @@
             {
                 <table>
                     <tr>
-                        <th style="text-align: left; width: 125px">Contatos</th>
+                        <th style="text-align: left; width: 250px">Contatos</th>
                         <th style="text-align: center; width: 80px">Status</th>
                         <th style="text-align: center; width: 180px">Email</th>
                     </tr>
@@ -110,7 +107,37 @@
                 </table>
                 <br />
             }
-            <div style="width: 400px;">
+            <br />
+            <a href="@Url.Action("Form", "Nota", new { idComp = Model.IdCompromisso })">Nova Nota</a>
+
+            @{
+            if (Model.TotalRegistrosNota > 0)
+            {
+        
+                <table>
+                    <tr>
+                        <th style="text-align: left; width: 250px">Usuário</th>
+                        <th>Editar</th>
+                    </tr>
+                    @for (int i = 0; i < Model.ListaNota.Count; i++)
+                    {     
+                        <tr>
+                            <td>@Model.ListaNota[i].Usuario.Nome</td>
+                            <td class="opcoes2">
+                                <a href="@Url.Action("Form", "Nota", new { id = Model.ListaNota[i].IdNota, idComp = Model.IdCompromisso })"><img class="no-border" src="~/Images/Editar.png" /></a></td>
+                        </tr>
+             
+                    }
+                </table>
+        
+            }
+            else
+            {
+                <p>Não existe nenhuma nota cadastrada.</p>
+            }
+            }
+
+            <div style="width: 550px;">
                 <div style="float: left; margin-top: 10px;">@Html.ActionLink("Voltar", "Index", "Agenda")</div>
                 <div style="text-align: right;">
                     <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="EventForm" />
@@ -121,19 +148,8 @@
 
 </div>
 
-<div id="notaUsuario" class="modal bootstrap-dialog type-primary fade size-normal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-
-    @Html.Action("Form", "Nota")
-
-</div>
-<!-- /.modal -->
-
 <script>
-    function mostrarNota() {
-        $('#notaUsuario').modal({
-            backdrop: true
-        });
-    }
+
 
     $(document).ready(function () {
         $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");

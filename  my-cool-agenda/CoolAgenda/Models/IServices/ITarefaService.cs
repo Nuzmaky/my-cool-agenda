@@ -25,5 +25,8 @@ namespace CoolAgenda.Models
 
         Tarefa BuscarPorId(int id);
 
+        //List<Tarefa> ListarPorGrupo(int idUser, int id);
+
+        List<Tarefa> ListarId(int idUser);
    }
 }

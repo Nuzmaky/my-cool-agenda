@@ -13,6 +13,9 @@ namespace CoolAgenda.Models
         private string texto;
         private string ativo;
 
+        //composicao de classes
+        public Usuario Usuario { get; set; }
+
         // ID
         public int IdNota
         {

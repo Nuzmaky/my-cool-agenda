@@ -14,9 +14,7 @@
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
             @Html.ValidationSummary()
         </div>
-       
-        // @Html.HiddenFor(m => m.Edicao)
-        // @Html.HiddenFor(m => m.IdCompromisso)
+
         <div style="width: 50%;">
             @Html.TextBoxFor(m => m.NomeCompromisso, new { id = "nomeCompromisso", @placeholder = "Nome do Compromisso" })
 

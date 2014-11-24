@@ -8,7 +8,7 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public class TarefaDAO
+    public class TarefaDAO : ITarefaDAO
     {
         private string SQL;
 
@@ -176,6 +176,35 @@ namespace CoolAgenda.Models
             comando.Dispose();
 
             return registro;
+        }
+
+        public List<Tarefa> ListarId(int idUser)
+        {
+            String sqlConsulta = "Select * From Tarefa where IdUsuario = ? and Ativo = 'S' ";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = idUser;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<Tarefa> registros = new List<Tarefa>();
+            while (dr.Read())
+            {
+                Tarefa compromissoUser = ConverterParaTipoClasse(dr);
+                registros.Add(compromissoUser);
+            }
+            dr.Close();
+            comando.Dispose();
+
+
+            return registros;
         }
         
 

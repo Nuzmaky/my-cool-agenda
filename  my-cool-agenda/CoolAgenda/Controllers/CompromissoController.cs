@@ -18,6 +18,7 @@ namespace CoolAgenda.Controllers
         private IGrupoUsuarioService grupoUsuarioService;
         private IContatoService contatoService;
         private ICompromissoContatoService compromissoContatoService;
+        private INotaService notaService;
 
         public CompromissoController()
         {
@@ -26,6 +27,7 @@ namespace CoolAgenda.Controllers
             grupoUsuarioService = new GrupoUsuarioService();
             contatoService = new ContatoService();
             compromissoContatoService = new CompromissoContatoService();
+            notaService = new NotaService();
         }
 
         public ActionResult Index()
@@ -99,6 +101,11 @@ namespace CoolAgenda.Controllers
             var contatoCompromisso = compromissoContatoService.ListarContatoDoCompromisso(idCompromisso);
             vm.ListaContato = contatoCompromisso;
             vm.TotalRegistrosContato = contatoCompromisso.Count;
+
+            // lista notas do compromisso
+            var notasCompromisso = notaService.Listar(idCompromisso);
+            vm.ListaNota = notasCompromisso;
+            vm.TotalRegistrosNota = notasCompromisso.Count();
 
             CompromissoUsuario registro = compromissoUsuarioService.BuscarPorId(idCompromisso, idUser);
             vm.grupoNome = registro.Grupo.Nome;
@@ -233,6 +240,11 @@ namespace CoolAgenda.Controllers
                 var contatoCompromisso = compromissoContatoService.ListarContatoDoCompromisso(id);
                 vm.ListaContato = contatoCompromisso;
                 vm.TotalRegistrosContato = contatoCompromisso.Count;
+
+                // lista notas do compromisso
+                var notasCompromisso = notaService.Listar(id);
+                vm.ListaNota = notasCompromisso;
+                vm.TotalRegistrosNota = notasCompromisso.Count();
                 
                 vm.Edicao = true;
                 PopularItensCadastrarVMEdicao(vm);

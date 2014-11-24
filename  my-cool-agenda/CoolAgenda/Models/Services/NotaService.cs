@@ -5,20 +5,27 @@ using System.Data.OleDb;
 using System.Linq;
 using System.Web;
 
-namespace CoolAgenda.Models.Services
+namespace CoolAgenda.Models
 {
     public class NotaService : INotaService
     {
-        private NotaDAO notaDao;
+        private INotaDAO notaDao;
+        private ICompromissoUsuarioDAO compromissoUsuarioDAO;
 
         public NotaService()
         {
             notaDao = new NotaDAO();
+            compromissoUsuarioDAO = new CompromissoUsuarioDAO();
         }
 
         public List<Nota> Listar()
         {
             return notaDao.Listar();
+        }
+
+        public List<Nota> Listar(int id)
+        {
+            return notaDao.Listar(id);
         }
 
         public void Adicionar(Nota entidade)
@@ -31,14 +38,25 @@ namespace CoolAgenda.Models.Services
             notaDao.Update(entidade);
         }
 
-         public List<Validacao> ValidaAtualizar(Nota entidade)
+         public List<Validacao> ValidaAtualizar(Nota entidade, int id)
         {
             List<Validacao> erros = new List<Validacao>();
+
+            int usuarioCriador = notaDao.VerificarUsuarioCriador(entidade.IdNota, id).Count();
+            if (usuarioCriador == 0)
+                erros.Add(new Validacao("Apenas o criador do compromisso ou da nota podem fazer a edição."));
+
+
+            bool verificaLider = compromissoUsuarioDAO.ListarUsuariosDoCompromisso(entidade.IdCompromisso, id).Any(e => e.Criador.Equals("S", StringComparison.InvariantCultureIgnoreCase));
+            if (verificaLider) { }
+
+            else
+                erros.Clear();
 
             return erros;
         }
 
-        public List<Validacao> ValidarEntidade(Nota entidade)
+        public List<Validacao> ValidarEntidade(Nota entidade, int id)
         {
             List<Validacao> erros = new List<Validacao>();
             bool edicao = false;
@@ -46,7 +64,7 @@ namespace CoolAgenda.Models.Services
                 edicao = true;
             if (edicao)
             {
-                List<Validacao> errosAtualizar = ValidaAtualizar(entidade);
+                List<Validacao> errosAtualizar = ValidaAtualizar(entidade, id);
                 if (errosAtualizar != null)
                     erros.AddRange(errosAtualizar);
             }
