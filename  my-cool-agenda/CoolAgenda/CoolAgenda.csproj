@@ -344,6 +344,7 @@
     <Content Include="Images\bubble.png" />
     <Content Include="Images\default_profile_2_normal.png" />
     <Content Include="Images\desativar.png" />
+    <Content Include="Images\Editar.png" />
     <Content Include="Images\Err-16x16.png" />
     <Content Include="Images\Err-24x24.png" />
     <Content Include="Images\erro.png" />

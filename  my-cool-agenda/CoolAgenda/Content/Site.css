@@ -452,6 +452,23 @@ a .Pclass {
 .Nova {
     color: #000;
     font-style: italic;
+    height: 25px;
+    width: 100px;
+    display: inline-block;
+}
+a.Nova img {
+    width: 10px;
+    margin-left: 10px;
+    margin-right: 5px;
 }
 
+.Nova:hover {
+    text-decoration: none;
+    color: #4151BD;
+    text-shadow: 1px 1px #E2E2E2;
 }
+
+.opcoes2 img {
+    width: 18px;
+}
+
