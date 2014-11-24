@@ -8,6 +8,10 @@ html, body {
     font-family: 'Lato', Calibri, Arial, sans-serif;
 }
 
+body {
+    overflow-x:hidden;
+}
+
 a {
     color: red;
     text-decoration: none;
@@ -432,7 +436,6 @@ a .Pclass {
 #notaForm {
     margin: 0;
 }
-}
 
 .Tabela {
     width: 60%;
@@ -442,6 +445,7 @@ a .Pclass {
     padding: 5px;
     float:left;
 }
+
     .Tabela table{
         width: 100%;
     }
@@ -481,3 +485,14 @@ a.Nova img {
     width: 18px;
 }
 
+.container {
+    margin-left:2%!important;
+}
+
+label {
+    font-weight:bold!important;
+}
+
+.salvar {
+    float:right;
+}
