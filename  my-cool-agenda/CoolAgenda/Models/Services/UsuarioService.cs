@@ -78,6 +78,25 @@ namespace CoolAgenda.Models
             return false;
         }
 
+        public List<Validacao> ValidaSenhaAtual(Usuario user)
+        {
+            List<Validacao> erros = new List<Validacao>();
+
+            Usuario usuario = usuarioDAO.Listar().Find(
+                        m => (m.IdUsuario.Equals(user.IdUsuario) && m.Senha.Equals(user.Senha)));
+
+            if (usuario == null)
+            {
+                erros.Add(new Validacao("Senha atual inválida"));
+            }
+            else
+            {
+                // Sem erros
+            }
+
+            return erros;
+        }
+
         // Cadastrar Usuario
         public List<Validacao> ValidaEntidadeUsuario(Usuario user, bool edicao)
         {
@@ -178,6 +197,21 @@ namespace CoolAgenda.Models
 
             //envia o email
             objSmtp.Send(objEmail);
+        }
+
+        public void AtualizarNome(Usuario entidade)
+        {
+            usuarioDAO.AtualizarNome(entidade);
+        }
+
+        public void AtualizarSenha(Usuario entidade)
+        {
+            usuarioDAO.AtualizarSenha(entidade);
+        }
+
+        public Usuario BuscarPorId(int id)
+        {
+            return usuarioDAO.BuscarPorId(id);
         }
 
     }

@@ -19,6 +19,8 @@ namespace CoolAgenda.Models
 
         List<CompromissoUsuario> ListarUsuariosDoCompromisso(int id, int idUser);
 
+        List<CompromissoUsuario> VerificarUsuarioCriador(int id, int idUser);
+
         void Aceitar(int id, int idUser);
 
         void Rejeitar(int id, int idUser);

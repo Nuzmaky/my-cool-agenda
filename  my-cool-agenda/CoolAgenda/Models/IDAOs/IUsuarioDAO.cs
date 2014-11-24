@@ -14,6 +14,7 @@ namespace CoolAgenda.Models
         int ProximoIdUser(DbTransaction transaction);
 
         void AtivaCadastro(Usuario usuario);
+
         void AtivaUsuarioGrupo(Usuario usuario);
 
         List<Usuario> Listar();
@@ -21,5 +22,9 @@ namespace CoolAgenda.Models
         Usuario BuscarPorId(int id);
 
         Usuario BuscarPorEmail(string email);
+
+        void AtualizarNome(Usuario entidade);
+
+        void AtualizarSenha(Usuario entidade);
     }
 }

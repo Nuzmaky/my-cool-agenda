@@ -62,7 +62,49 @@ namespace CoolAgenda.Models
             return ListaUsuario;
         }
 
+        public void AtualizarSenha(Usuario usuario)
+        {
+            SQL = "UPDATE Usuario SET Senha = ? WHERE IdUsuario = ?";
 
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pSenha = new OleDbParameter("Senha", OleDbType.VarChar);
+            pSenha.Value = usuario.Senha;
+            comando.Parameters.Add(pSenha);
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void AtualizarNome(Usuario usuario)
+        {
+            SQL = "UPDATE Usuario SET Nome = ? WHERE IdUsuario = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = SQL;
+
+            OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
+            pNome.Value = usuario.Nome;
+            comando.Parameters.Add(pNome);
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = usuario.IdUsuario;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
         //Update
         public void Update(Usuario usuario, DbTransaction transacao)
         {

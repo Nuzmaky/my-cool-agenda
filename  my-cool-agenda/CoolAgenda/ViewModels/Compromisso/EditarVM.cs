@@ -18,6 +18,9 @@ namespace CoolAgenda.ViewModels.Compromisso
         public List<CompromissoUsuario> ListaUsuario { get; set; }
         public int TotalRegistros { get; set; }
 
+        public List<CompromissoContato> ListaContato { get; set; }
+        public int TotalRegistrosContato { get; set; }
+
         [Display(Name = "Nome *")]
         [Required(ErrorMessage = "Insira um nome para o Compromisso")]
         [MinLength(3, ErrorMessage = "O campo deve ter no mínimo 3 caracteres")]

@@ -21,6 +21,8 @@ namespace CoolAgenda.Models
        
         //Conversão
         Nota ConverterParaTipoClasse(OleDbDataReader dr);
+
+        Nota BuscarNotaUsuarioCompromisso(int id, int idUser);
         
     }
 }

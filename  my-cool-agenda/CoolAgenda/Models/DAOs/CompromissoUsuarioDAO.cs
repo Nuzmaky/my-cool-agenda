@@ -188,6 +188,46 @@ namespace CoolAgenda.Models
         public List<CompromissoUsuario> ListarUsuariosDoCompromisso(int id, int idUser)
         {
             
+            String sqlConsulta = "select * from CompromissoUser where IdUsuario != ? and IdCompromisso = ?";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            OleDbParameter pId = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pId.Value = idUser;
+            comando.Parameters.Add(pId);
+
+            OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.Integer);
+            pIdCompromisso.Value = id;
+            comando.Parameters.Add(pIdCompromisso);
+
+            // Select
+
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<CompromissoUsuario> registros = new List<CompromissoUsuario>();
+            while (dr.Read())
+            {
+                CompromissoUsuario registro = ConverterDataReaderParaObj(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            foreach (var registro in registros)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registros;
+
+        }
+
+        public List<CompromissoUsuario> VerificarUsuarioCriador(int id, int idUser)
+        {
+
             String sqlConsulta = "select * from CompromissoUser where IdUsuario = ? and IdCompromisso = ? and Criador = 'S'";
 
             // Configura o comando

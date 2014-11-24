@@ -186,6 +186,7 @@
     <Compile Include="Controllers\ContatoController.cs" />
     <Compile Include="Controllers\ErroController.cs" />
     <Compile Include="Controllers\GrupoController.cs" />
+    <Compile Include="Controllers\GrupoUsuarioController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\NotaController.cs" />
     <Compile Include="Controllers\TarefaController.cs" />
@@ -258,14 +259,18 @@
     <Compile Include="ViewModels\Compromisso\CadastrarVM.cs" />
     <Compile Include="ViewModels\Compromisso\EditarVM.cs" />
     <Compile Include="ViewModels\ContatoVM\ContatoVM.cs" />
+    <Compile Include="ViewModels\GrupoUsuarioVM\GrupoUsuarioIndexVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoFormVM.cs" />
     <Compile Include="ViewModels\GrupoVM\GrupoIndexVM.cs" />
     <Compile Include="ViewModels\HomeVM\LoginVM.cs" />
     <Compile Include="ViewModels\NotaVM\NotaVm.cs" />
     <Compile Include="ViewModels\TarefaVM\TarefaVM.cs" />
+    <Compile Include="ViewModels\UserVM\MeusDadosVM.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-dialog.css" />
+    <Content Include="Scripts\bootstrap-dialog.js" />
     <Content Include="Content\bootstrap-responsive.css" />
     <Content Include="Content\bootstrap-responsive.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -292,47 +297,8 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\jquery-ui.css" />
-    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
-    <Content Include="Content\themes\base\jquery.ui.all.css" />
-    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
-    <Content Include="Content\themes\base\jquery.ui.base.css" />
-    <Content Include="Content\themes\base\jquery.ui.button.css" />
-    <Content Include="Content\themes\base\jquery.ui.core.css" />
-    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
-    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
-    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
-    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
-    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
-    <Content Include="Content\themes\base\jquery.ui.slider.css" />
-    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
-    <Content Include="Content\themes\base\jquery.ui.theme.css" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
-    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
-    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\jquery-ui-1.10.4.css" />
+    <Content Include="Content\themes\base\jquery-ui-1.10.4.min.css" />
     <Content Include="Content\token-input-facebook.css" />
     <Content Include="Content\token-input.css" />
     <Content Include="favicon.ico" />
@@ -344,7 +310,10 @@
     <Content Include="Images\bubble.png" />
     <Content Include="Images\default_profile_2_normal.png" />
     <Content Include="Images\desativar.png" />
+    <Content Include="Images\down.jpg" />
     <Content Include="Images\Editar.png" />
+
+    <Content Include="Images\entrenagem.png" />
     <Content Include="Images\Err-16x16.png" />
     <Content Include="Images\Err-24x24.png" />
     <Content Include="Images\erro.png" />
@@ -352,6 +321,7 @@
     <Content Include="Images\Novo.png" />
     <Content Include="Images\ok.png" />
     <Content Include="Images\pinguim.png" />
+    <Content Include="Images\up.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\fullcalendar.js" />
@@ -414,6 +384,8 @@
     <Content Include="Views\Nota\Index.cshtml" />
     <Content Include="Views\Nota\Form.cshtml" />
     <Content Include="Views\Compromisso\Editar.cshtml" />
+    <Content Include="Views\GrupoUsuario\Index.cshtml" />
+    <Content Include="Views\Usuario\MeusDados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

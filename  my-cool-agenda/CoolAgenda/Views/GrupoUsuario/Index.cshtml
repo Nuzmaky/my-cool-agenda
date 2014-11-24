@@ -1,0 +1,162 @@
+﻿@model CoolAgenda.ViewModels.GrupoUsuarioVM.GrupoUsuarioIndexVM
+@{
+    ViewBag.Title = "Index";
+}
+<div id="paginas">
+    <h2>Index</h2>
+
+    @{
+        if (Model.TotalRegistros > 0)
+        {
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Nível</th>
+                <th>Ativar/Inativar</th>
+            </tr>
+            @for (int i = 0; i < Model.Lista.Count; i++)
+            {
+                    
+                <tr>
+                    <td>@Model.Lista[i].Usuario.Nome</td>
+                    <td>@Model.Lista[i].Usuario.Email</td>
+                    <td>
+                        @if (Model.Lista[i].Administrador.Equals("A"))
+                        {
+                            <span>Rank: A</span>
+                        }
+                        else if (Model.Lista[i].Administrador.Equals("B"))
+                        {
+                            <span>Rank: B</span><a href="#" onclick="RetirarPermissao(@Model.Lista[i].IdUsuario);"><img src="~/Images/down.jpg" /></a>
+                        }
+                        else
+                        {
+                            <span>Rank: C</span><a href="#" onclick="DarPermissao(@Model.Lista[i].IdUsuario);"><img src="~/Images/up.jpg" /></a>
+                        }
+                    </td>
+                    <td>
+                        @if (Model.Lista[i].Ativo.Equals("S"))
+                        {
+                            <img src="~/Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.Lista[i].IdUsuario);"> Desativar</a>
+                        }
+                        else
+                        {
+                            <img src="~/Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.Lista[i].IdUsuario);"> Ativar</a>
+                        }
+                    </td>
+
+                </tr>
+             
+            }
+        </table>
+        
+        }
+        else
+        {
+        <p>Não existe nenhum registro cadastrado.</p>
+        }
+    }
+
+</div>
+
+@section scripts 
+{
+    <script type="text/javascript">
+
+        // Armazena o id do registro a ser ativado/desativado
+        var idRegistro;
+
+        function DesativarRegistro(id) {
+            idRegistro = id;
+            BootstrapDialog.confirm("Desativar", "Deseja desativar o registro?", function (result) {
+                if (result) {
+                    RequisitaDesativacaoRegServidor(id);
+                }
+            });
+        }
+        
+        // Trata o evento onclick da opção de desativar um registro
+        //function DesativarRegistro(id) {
+        //    idRegistro = id;
+        //    JSMostraDialogConfirmacao("Desativar", "Deseja desativar o registro?", true, RequisitaDesativacaoRegServidor);
+
+        //}
+
+        // Trata o evento onclick da opção de ativar um registro
+        function AtivarRegistro(id) {
+            idRegistro = id;
+            BootstrapDialog.confirm("Ativar", "Deseja ativar o registro?", function (result) {
+                if (result) {
+                    RequisitaAtivarRegServidor(id);
+                }
+            });
+        }
+
+        // Trata o evento onclick da opção de dar permissão
+        function DarPermissao(id) {
+            idRegistro = id;
+            BootstrapDialog.confirm("Conceder Permissões", "Deseja promover para administrador?", function (result) {
+                if (result) {
+                    RequisitaDarPermissao(id);
+                }
+            });
+        }
+
+        // Trata o evento onclick da opção de remover permissão
+        function RetirarPermissao(id) {
+            idRegistro = id;
+            BootstrapDialog.confirm("Remover Permissões", "Deseja remover da posição de administrador?", function (result) {
+                if (result) {
+                    RequisitaRetirarPermissao(id);
+                }
+            });
+        }
+
+        // Efetua uma requisição ao servidor pedindo para desativar um registro
+        function RequisitaDesativacaoRegServidor() {
+            $.post('@Url.Action("Desativar")', { id: idRegistro }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+
+
+        // Efetua uma requisição ao servidor pedindo para ativar um registro
+        function RequisitaAtivarRegServidor() {
+            $.post('@Url.Action("Ativar")', { id: idRegistro }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+
+        // Efetua uma requisição ao servidor pedindo para dar permissão
+        function RequisitaDarPermissao() {
+            $.post('@Url.Action("DarPermissao")', { id: idRegistro }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+
+        // Efetua uma requisição ao servidor pedindo para remover a permissão
+        function RequisitaRetirarPermissao() {
+            $.post('@Url.Action("RetirarPermissao")', { id: idRegistro }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+        
+    </script>
+}

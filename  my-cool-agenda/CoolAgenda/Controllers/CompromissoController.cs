@@ -17,6 +17,7 @@ namespace CoolAgenda.Controllers
         private ICompromissoUsuarioService compromissoUsuarioService;
         private IGrupoUsuarioService grupoUsuarioService;
         private IContatoService contatoService;
+        private ICompromissoContatoService compromissoContatoService;
 
         public CompromissoController()
         {
@@ -24,6 +25,7 @@ namespace CoolAgenda.Controllers
             compromissoUsuarioService = new CompromissoUsuarioService();
             grupoUsuarioService = new GrupoUsuarioService();
             contatoService = new ContatoService();
+            compromissoContatoService = new CompromissoContatoService();
         }
 
         public ActionResult Index()
@@ -91,9 +93,13 @@ namespace CoolAgenda.Controllers
             }
 
             var usuariosCompromisso = compromissoUsuarioService.ListarUsuariosDoCompromisso(idCompromisso, idUser);
-
             vm.ListaUsuario = usuariosCompromisso;
             vm.TotalRegistros = usuariosCompromisso.Count;
+
+            var contatoCompromisso = compromissoContatoService.ListarContatoDoCompromisso(idCompromisso);
+            vm.ListaContato = contatoCompromisso;
+            vm.TotalRegistrosContato = contatoCompromisso.Count;
+
             CompromissoUsuario registro = compromissoUsuarioService.BuscarPorId(idCompromisso, idUser);
             vm.grupoNome = registro.Grupo.Nome;
             PopularItensCadastrarVMEdicao(vm);
@@ -218,11 +224,16 @@ namespace CoolAgenda.Controllers
             {
                 EditarVM vm = ConverterFormVMEdicao(reg);
 
+                //lista usuarios do compromisso menos o requisitante
                 var usuariosCompromisso = compromissoUsuarioService.ListarUsuariosDoCompromisso(id, idUser);
-
                 vm.ListaUsuario = usuariosCompromisso;
                 vm.TotalRegistros = usuariosCompromisso.Count;
 
+                //lista contatos do compromisso
+                var contatoCompromisso = compromissoContatoService.ListarContatoDoCompromisso(id);
+                vm.ListaContato = contatoCompromisso;
+                vm.TotalRegistrosContato = contatoCompromisso.Count;
+                
                 vm.Edicao = true;
                 PopularItensCadastrarVMEdicao(vm);
                 return vm;

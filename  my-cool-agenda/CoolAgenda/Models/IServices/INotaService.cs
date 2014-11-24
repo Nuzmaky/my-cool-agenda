@@ -26,6 +26,8 @@ namespace CoolAgenda.Models
 
         Nota BuscarPorId(int id);
 
+        Nota BuscarNotaUsuarioCompromisso(int id, int idUser);
+
 
     }
 }

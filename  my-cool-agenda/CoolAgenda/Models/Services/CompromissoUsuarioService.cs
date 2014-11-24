@@ -51,7 +51,7 @@ namespace CoolAgenda.Models
         {
             List<Validacao> erros = new List<Validacao>();
 
-            int usuarioCriador = compromissoUsuarioDAO.ListarUsuariosDoCompromisso(entidade.IdCompromisso, entidade.IdUsuario).Count();
+            int usuarioCriador = compromissoUsuarioDAO.VerificarUsuarioCriador(entidade.IdCompromisso, entidade.IdUsuario).Count();
             if (usuarioCriador == 0)
                 erros.Add(new Validacao("Apenas o usuário que criou pode alterar o compromisso"));
 

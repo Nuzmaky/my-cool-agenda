@@ -145,5 +145,126 @@ namespace CoolAgenda.Models
 
             return registros;
         }
+
+        public List<GrupoUsuario> Listar(int id)
+        {
+            String sqlConsulta = "select * from usergrupo where idgrupo = " + id + " order by NomeUsuario";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            List<GrupoUsuario> registros = new List<GrupoUsuario>();
+            while (dr.Read())
+            {
+                GrupoUsuario registro = ConverterDataReaderParaObj(dr);
+                registros.Add(registro);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            foreach (var registro in registros)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registros;
+        }
+
+        public GrupoUsuario validaAdm(int id, int idUser)
+        {
+            GrupoUsuario registro = null;
+            String sqlConsulta = "select * from usergrupo where idgrupo = ? and idusuario = ? and Administrador != 'C' and UserGrupoAtivo = 'S'";
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlConsulta;
+
+            OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.Integer);
+            pIdGrupo.Value = id;
+            comando.Parameters.Add(pIdGrupo);
+
+            OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pIdUsuario.Value = idUser;
+            comando.Parameters.Add(pIdUsuario);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+
+            if (dr.Read())
+            {
+                 registro = ConverterDataReaderParaObj(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            if (registro != null)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return registro;
+        }
+
+        public void AtivarPorId(int id)
+        {
+            string sqlAtualizar = "update UsuarioGrupo set Ativo = 'S' where IdUsuario = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void DesativarPorId(int id)
+        {
+            string sqlAtualizar = "update UsuarioGrupo set Ativo = 'N' where IdUsuario = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+            
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void DarPermissaoPorId(int id)
+        {
+            string sqlAtualizar = "update UsuarioGrupo set Administrador = 'B' where IdUsuario = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void RetirarPermissaoPorId(int id)
+        {
+            string sqlAtualizar = "update UsuarioGrupo set Administrador = 'C' where IdUsuario = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
     }
 }

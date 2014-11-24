@@ -48,5 +48,35 @@ namespace CoolAgenda.Models
             return grupoUsuarioDAO.ListarUsuarioPorGrupo(idGrupo, q, idUser);
         }
 
+        public List<GrupoUsuario> Listar(int id)
+        {
+            return grupoUsuarioDAO.Listar(id);
+        }
+
+        public GrupoUsuario validaAdm(int id, int idUser)
+        {
+            return grupoUsuarioDAO.validaAdm(id, idUser);
+        }
+
+        public void AtivarPorId(int id)
+        {
+            grupoUsuarioDAO.AtivarPorId(id);
+        }
+
+        public void DesativarPorId(int id)
+        {
+            grupoUsuarioDAO.DesativarPorId(id);
+        }
+
+        public void DarPermissaoPorId(int id)
+        {
+            grupoUsuarioDAO.DarPermissaoPorId(id);
+        }
+
+        public void RetirarPermissaoPorId(int id)
+        {
+            grupoUsuarioDAO.RetirarPermissaoPorId(id);
+        }
+
     }
 }

@@ -10,5 +10,7 @@ namespace CoolAgenda.Models
     public interface ICompromissoContatoDAO
     {
         void Adicionar(CompromissoContato entidade, DbTransaction transaction);
+
+        List<CompromissoContato> ListarContatoDoCompromisso(int id);
     }
 }

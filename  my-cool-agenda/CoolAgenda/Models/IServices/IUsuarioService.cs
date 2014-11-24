@@ -26,5 +26,13 @@ namespace CoolAgenda.Models
         List<Validacao> ValidaAdicionarUser(Usuario user);
 
         List<Validacao> ValidaAtualizarUser(Usuario user);
+
+        void AtualizarNome(Usuario entidade);
+
+        void AtualizarSenha(Usuario entidade);
+
+        List<Validacao> ValidaSenhaAtual(Usuario user);
+
+        Usuario BuscarPorId(int id);
     }
 }

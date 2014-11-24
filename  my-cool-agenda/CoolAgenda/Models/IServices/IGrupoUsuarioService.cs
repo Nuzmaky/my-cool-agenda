@@ -18,5 +18,17 @@ namespace CoolAgenda.Models
 
         List<GrupoUsuario> ListarUsuarioPorGrupo(int idGrupo, string q, int idUser);
 
+        List<GrupoUsuario> Listar(int i);
+
+        GrupoUsuario validaAdm(int id, int idUser);
+
+        void AtivarPorId(int id);
+
+        void DesativarPorId(int id);
+
+        void DarPermissaoPorId(int id);
+
+        void RetirarPermissaoPorId(int id);
+
     }
 }

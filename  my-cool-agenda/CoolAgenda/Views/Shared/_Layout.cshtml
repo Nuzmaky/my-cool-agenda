@@ -8,6 +8,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/scripts")
+    @Styles.Render("~/Content/css/jqueryui/themes/start/css")
 
     <script src="~/Scripts/moment.min.js" charset="UTF-8"></script>
     <script src="~/Scripts/fullcalendar.js" charset="UTF-8"></script>
@@ -16,7 +17,7 @@
 <body>
     @{
         var usuario = Session["Usuario"] as CoolAgenda.Models.Usuario;
-            
+
         if (usuario != null)
         {       
         <div id="barrausuario">
@@ -24,15 +25,15 @@
                 <li class="barraoutros">@usuario.Nome</li>
                 @if (usuario.Nivel == "U")
                 {
-                <li>@Html.ActionLink("Agenda","Index","Agenda")</li>
-                } 
-                <li>@Html.ActionLink("Meus Dados","Index","Usuario")</li> 
-                <li>@Html.ActionLink("Sair","Sair","Home")</li> 
+                    <li>@Html.ActionLink("Agenda", "Index", "Agenda")</li>
+                }
+                <li>@Html.ActionLink("Meus Dados", "MeusDados", "Usuario")</li>
+                <li>@Html.ActionLink("Sair", "Sair", "Home")</li>
             </ul>
         </div>
         }
     }
-    
+
     <div class="container">
         @RenderBody()
     </div>

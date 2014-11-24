@@ -71,6 +71,10 @@ namespace CoolAgenda.Models.Services
             return notaDao.BuscarPorId(id);
         }
 
+        public Nota BuscarNotaUsuarioCompromisso(int id, int idUser)
+        {
+            return notaDao.BuscarNotaUsuarioCompromisso(id, idUser);
+        }
     }
 
 }

@@ -12,40 +12,52 @@ using CoolAgenda.Controllers.Utilidades;
 
 namespace CoolAgenda.Controllers
 {
-    [FiltroAutenticacao]
+    [FiltroAutenticacao("U")]
     public class NotaController : Controller
     {
-       
             INotaService notaService;
 
             public NotaController()
             {
                 notaService = new NotaService();
-
             }
 
-            [FiltroAutenticacao]
             public ActionResult Index()
             {
                 NotaVM vm = ConstruirIndexVM();
                 return View(vm);
             }
 
+            [ChildActionOnly]
             public ActionResult Form(int? id)
             {
+                Usuario pUsuario = Session["Usuario"] as Usuario;
+                int idUser = pUsuario.IdUsuario;
+
                 NotaVM vm;
+
                 if (id.HasValue)
                 {
-                    vm = ConstruirFormVMParaEdicao(id.Value);
-                    if (vm == null)
-                        return new HttpNotFoundResult();
+                    int idComp = id.Value;
+                    Nota reg = notaService.BuscarNotaUsuarioCompromisso(idComp, idUser);
+
+                    if (reg != null)
+                    {
+                        vm = ConstruirFormVMParaEdicao(reg.IdNota);
+                        if (vm == null)
+                            return new HttpNotFoundResult();
+                    }
+                    else
+                    {
+                        vm = ConstruirFormVMParaNovo(idComp);
+                    }
                 }
                 else
                 {
-                    vm = ConstruirFormVMParaNovo();
+                    return new HttpNotFoundResult();
                 }
 
-                return View(vm);
+                return PartialView(vm);
             }
 
             [HttpPost]
@@ -67,7 +79,7 @@ namespace CoolAgenda.Controllers
                             notaService.Adicionar(nota);
                         }
 
-                        return RedirectToAction("Index");
+                        return Json(new { redirectTo = Url.Action("Editar", "Compromisso" , new{ id = vm.IdCompromisso }) });
                     }
                     else
                     {
@@ -75,7 +87,7 @@ namespace CoolAgenda.Controllers
                     }
                 }
 
-                return View(vm);
+                return PartialView(vm);
             }
 
             //OUTROS METODOS
@@ -114,10 +126,11 @@ namespace CoolAgenda.Controllers
                 return vm;
             }
 
-            private NotaVM ConstruirFormVMParaNovo()
+            private NotaVM ConstruirFormVMParaNovo(int idComp)
             {
                 NotaVM vm = new NotaVM();
                 vm.Edicao = false;
+                vm.IdCompromisso = idComp;
                 return vm;
             }
 

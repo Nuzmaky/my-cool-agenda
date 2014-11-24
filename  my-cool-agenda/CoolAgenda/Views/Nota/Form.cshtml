@@ -3,65 +3,62 @@
     ViewBag.Title = "Nota";
 }
 
-<div id="paginas">
-    
-    @{
-        if (Model.Edicao)
-        {
-            ViewBag.Title = "Editar Nota";
-        <h1>Edite os dados da Nota</h1>
-        }
-        else
-        {
-            ViewBag.Title = "Cadastrar Nota";
-        <h1>Informe os dados da Nota</h1>
-        }
-    }
-        <h2>Nota</h2>
-    
-
-    
-    @using (Html.BeginForm("Form", "Nota", FormMethod.Post, new { id = "EventForm", @class = "well" }))
-    {
-       string display = ViewData.ModelState.IsValid ? "none" : "block";
-        <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
-            @Html.ValidationSummary()
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="bootstrap-dialog-header">
+                <div class="bootstrap-dialog-close-button" style="display: block;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="bootstrap-dialog-title">Nota</div>
+            </div>
         </div>
+        <div class="modal-body">
 
-        @Html.HiddenFor(m => m.Edicao)
-        @Html.HiddenFor(m => m.IdNota)
-        @Html.HiddenFor(m=>m.IdUsuario)
-        @Html.HiddenFor(m=>m.IdCompromisso)
+            @using (Html.BeginForm("Form", "Nota", FormMethod.Post, new { id = "notaForm" }))
+            {
+                @Html.ValidationSummary()
 
-        @Html.LabelFor(m => m.Texto)
-        @Html.TextAreaFor(m => m.Texto) <br />
-        
-        if (!Model.Edicao)
-        {
-            @Html.HiddenFor(m=>m.Ativo, new{@id="flgAtivo"})
+                @Html.HiddenFor(m => m.Edicao)
+                @Html.HiddenFor(m => m.IdNota)
+                @Html.HiddenFor(m => m.IdUsuario)
+                @Html.HiddenFor(m => m.IdCompromisso)
 
-        <script>
-            $("#flgAtivo").val = "S";
-        </script>
-        }
-                else{
-            @Html.LabelFor(m => m.Ativo, new { @style = "display:inline; margin-left:2px" })
-            <input type="checkbox" id="Ativo" /><br /><br />
-            <script>
-                if ($("#ativo").checked) {
-                    $("#flgAtivo").val = "S";
+                @Html.TextAreaFor(m => m.Texto, new { id = "notaTexto", @class = "form-control", @placeholder = "Digite a nota..." }) <br />
+                
+            }
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        <input type="submit" id="btnNota" class="btn btn-primary" value="Salvar" form="notaForm"/>
+    </div>
+</div>
+<!-- /.modal-content -->
+
+<script>
+
+    $(document).ready(function () {
+        $('#btnNota').click(function (e) {
+            alert("clicado");
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Form", "Nota")',
+                data: $('#notaForm').serialize(),
+                success: function (result) {
+                    if (result.redirectTo) {
+                        window.location.href = result.redirectTo;
+                    } else {
+                        $("#notaUsuario").html(result);
+                    }
+                },
+                error: function () {
+
                 }
-            </script>
-        }
-       
-        <input type="submit" name="btOK" value="Salvar!" />
-    }
+            });
+        });
+    });
 
-    
-
-    @Html.ActionLink("Voltar", "Index")
-
-   </div>
-
-   
-
+</script>

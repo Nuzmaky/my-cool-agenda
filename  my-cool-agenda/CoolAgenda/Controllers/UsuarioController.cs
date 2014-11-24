@@ -2,11 +2,13 @@
 using CoolAgenda.Models;
 using CoolAgenda.Models.Services;
 using CoolAgenda.ViewModels;
+using CoolAgenda.ViewModels.UserVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CoolAgenda.Controllers.Utilidades;
 
 namespace CoolAgenda.Controllers
 {
@@ -34,6 +36,79 @@ namespace CoolAgenda.Controllers
             return View(userVM);
         }
 
+        public ActionResult MeusDados()
+        {
+            MeusDadosVM vm;
+
+            Usuario usuarioSession = Session["Usuario"] as Usuario;
+            int id = usuarioSession.IdUsuario;
+
+            if (id > 1)
+            { 
+                vm = ConstruirFormVMParaEdicao(id);
+                if (vm == null)
+                    return new HttpNotFoundResult();
+            }
+            else
+            {
+                return new HttpNotFoundResult();
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public ActionResult EditarNome(MeusDadosVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario user = new Usuario();
+                user.Nome = vm.Nome;
+                user.IdUsuario = vm.IdUsuario;
+
+                usuarioService.AtualizarNome(user);
+
+                return RedirectToAction("Index","Agenda");
+            }
+            else
+            {
+                return View(vm);
+            }
+
+        }
+
+        [HttpPost]
+        public ActionResult MudarSenha(MeusDadosVM vm)
+        {
+           
+            if (ModelState.IsValid)
+            {
+                Usuario user = new Usuario();
+                user.Senha = vm.SenhaAtual;
+                user.IdUsuario = vm.IdUsuario;
+
+                var erros = usuarioService.ValidaSenhaAtual(user);
+
+                if (erros.Count == 0)
+                {
+                    user.Senha = vm.SenhaConfirmacao;
+                    usuarioService.AtualizarSenha(user);
+
+                    return RedirectToAction("Index", "Agenda");
+                }
+                else
+                {
+                    ModelState.AddModelErrors(erros);
+                }
+
+                return RedirectToAction("Index","Agenda");
+            }
+            else
+            {
+                return View(vm);
+            }
+
+        }
 
         // View de retorno de cadastro.
         [HttpPost]
@@ -46,7 +121,7 @@ namespace CoolAgenda.Controllers
 
             //SE FOR USUARIO, CADASTRO COM NIVEL DE USUARIO            
             if (usuarioVM.Nivel)
-                usuario.Nivel = "A"; // Tenho que ajustar ainda
+                usuario.Nivel = "A"; // Tenhoue ajustar ainda
             else
                 usuario.Nivel = "U";
 
@@ -106,14 +181,14 @@ namespace CoolAgenda.Controllers
                         {
                             ViewBag.Mensagem = "Usuário ativado com sucesso!";
                             return View();
-                        }                                                 
+                        }
                     }
-                }                
+                }
             }
             ViewBag.Mensagem = "Não é possível ativar o cadastro. Verifique seus dados ou contate a área de suporte.";
             return View();
         }
- 
+
 
         [PermitirAnonimos]
         public ActionResult DadosAtivacaoCadastro(UsuarioVM vm, Usuario usuario)
@@ -121,6 +196,26 @@ namespace CoolAgenda.Controllers
             usuario.clicouAtivacao = vm.clicouAtivacao;
             return View(vm);
         }
+
+        private MeusDadosVM ConstruirFormVMParaEdicao(int id)
+        {
+            Usuario registro = usuarioService.BuscarPorId(id);
+            MeusDadosVM vm = null;
+            if (registro != null)
+            {
+                vm = ConverterFormVM(registro);
+            }
+            return vm;
+        }
+
+        private MeusDadosVM ConverterFormVM(Usuario reg)
+        {
+            MeusDadosVM vm = new MeusDadosVM();
+            vm.IdUsuario = reg.IdUsuario;
+            vm.Nome = reg.Nome;
+            return vm;
+        }
+
 
     }
 }

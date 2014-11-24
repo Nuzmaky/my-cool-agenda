@@ -296,7 +296,6 @@ nav {
             margin-left: 20px;
             text-decoration: none;
             color: #aaa;
-            display: block;
             width: 200px;
         }
 
@@ -423,6 +422,16 @@ a .Pclass {
 
 #agendasSubMenu li {
     cursor: pointer;
+}
+
+#notaTexto {
+    width:97%;
+    min-height:200px;
+}
+
+#notaForm {
+    margin: 0;
+}
 }
 
 .Tabela {

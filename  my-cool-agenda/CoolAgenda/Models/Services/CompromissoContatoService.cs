@@ -10,6 +10,16 @@ namespace CoolAgenda.Models
 {
     public class CompromissoContatoService : ICompromissoContatoService
     {
+        ICompromissoContatoDAO compromissoContatoDAO;
 
+        public CompromissoContatoService()
+        {
+            compromissoContatoDAO = new CompromissoContatoDAO();
+        }
+
+        public List<CompromissoContato> ListarContatoDoCompromisso(int id)
+        {
+            return compromissoContatoDAO.ListarContatoDoCompromisso(id);
+        }
     }
 }
