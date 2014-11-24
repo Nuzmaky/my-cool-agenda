@@ -312,7 +312,6 @@
     <Content Include="Images\desativar.png" />
     <Content Include="Images\down.jpg" />
     <Content Include="Images\Editar.png" />
-
     <Content Include="Images\entrenagem.png" />
     <Content Include="Images\Err-16x16.png" />
     <Content Include="Images\Err-24x24.png" />
@@ -386,6 +385,9 @@
     <Content Include="Views\Compromisso\Editar.cshtml" />
     <Content Include="Views\GrupoUsuario\Index.cshtml" />
     <Content Include="Views\Usuario\MeusDados.cshtml" />
+    <Content Include="Views\Usuario\MudarSenha.cshtml" />
+    <Content Include="Views\Usuario\EditarNome.cshtml" />
+    <Content Include="Views\Usuario\EditarSenha.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

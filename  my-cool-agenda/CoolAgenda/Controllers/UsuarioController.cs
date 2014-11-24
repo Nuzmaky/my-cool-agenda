@@ -69,19 +69,43 @@ namespace CoolAgenda.Controllers
 
                 usuarioService.AtualizarNome(user);
 
-                return RedirectToAction("Index","Agenda");
+                ViewBag.Mensagem = "Nome alterado com sucesso!";
+
+                return View(vm);
             }
             else
             {
+                ViewBag.Mensagem = "Impossível alterar o nome!";
                 return View(vm);
             }
 
         }
 
-        [HttpPost]
-        public ActionResult MudarSenha(MeusDadosVM vm)
+        
+        public ActionResult MudarSenha()
         {
-           
+            MeusDadosVM vm;
+
+            Usuario usuarioSession = Session["Usuario"] as Usuario;
+            int id = usuarioSession.IdUsuario;
+
+            if (id > 1)
+            {
+                vm = ConstruirFormVMParaEdicao(id);
+                if (vm == null)
+                    return new HttpNotFoundResult();
+            }
+            else
+            {
+                return new HttpNotFoundResult();
+            }
+            return View(vm);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditarSenha(MeusDadosVM vm)
+        {
             if (ModelState.IsValid)
             {
                 Usuario user = new Usuario();
@@ -95,20 +119,17 @@ namespace CoolAgenda.Controllers
                     user.Senha = vm.SenhaConfirmacao;
                     usuarioService.AtualizarSenha(user);
 
-                    return RedirectToAction("Index", "Agenda");
+                    ViewBag.Mensagem = "Senha alterada com sucesso!";
+
+                    return View(vm);
                 }
                 else
                 {
                     ModelState.AddModelErrors(erros);
+                    ViewBag.Mensagem = "Impossível alterar a senha!";
                 }
-
-                return RedirectToAction("Index","Agenda");
             }
-            else
-            {
-                return View(vm);
-            }
-
+            return View(vm);
         }
 
         // View de retorno de cadastro.

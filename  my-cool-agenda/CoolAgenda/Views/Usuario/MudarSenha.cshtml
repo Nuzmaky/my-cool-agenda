@@ -1,0 +1,27 @@
+﻿@model CoolAgenda.ViewModels.UserVM.MeusDadosVM
+@{
+    ViewBag.Title = "MudarSenha";
+}
+
+<div id="paginas">
+
+       @using (Html.BeginForm("EditarSenha", "Usuario", FormMethod.Post))
+           {
+            @Html.ValidationSummary()
+
+            @Html.HiddenFor(m => m.IdUsuario)
+    
+            @Html.LabelFor(m => m.SenhaAtual)
+            @Html.PasswordFor(m => m.SenhaAtual)
+
+            @Html.LabelFor(m => m.SenhaNova)
+            @Html.PasswordFor(m => m.SenhaNova)
+            <br />
+
+            @Html.LabelFor(m => m.SenhaConfirmacao)
+            @Html.PasswordFor(m => m.SenhaConfirmacao)
+            <br />
+       
+            <input type="submit" name="btOK" value="Salvar!" />
+           }
+</div>

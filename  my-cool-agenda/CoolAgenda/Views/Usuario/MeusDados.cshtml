@@ -14,31 +14,14 @@
         @Html.LabelFor(m => m.Nome)
         @Html.TextBoxFor(m => m.Nome)
     
-        <input type="submit" name="btOK" value="Salvar!" />         
-    }
-
-@*    @using (Html.BeginForm("MudarSenha", "Usuario", FormMethod.Post))
-    {
-        @Html.ValidationSummary()
-
-        @Html.HiddenFor(m => m.IdUsuario)
-    
-        @Html.LabelFor(m => m.SenhaAtual)
-        @Html.PasswordFor(m => m.SenhaAtual)
-
-        @Html.LabelFor(m => m.SenhaNova)
-        @Html.PasswordFor(m => m.SenhaNova)
-        <br />
-
-        @Html.LabelFor(m => m.SenhaConfirmacao)
-        @Html.TextBoxFor(m => m.SenhaConfirmacao)
+        <input type="submit" name="btOK" value="Salvar!" />   
         <br />
         
-        <input type="submit" name="btOK" value="Salvar!" />
-    }*@
+        @Html.ActionLink("Alterar Senha", "MudarSenha")      
+    }
 
 
-    @Html.ActionLink("Voltar", "Index")
+    @Html.ActionLink("Voltar", "Index", "Agenda")
 
 
 </div>

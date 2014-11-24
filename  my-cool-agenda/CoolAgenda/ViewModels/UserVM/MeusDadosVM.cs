@@ -11,16 +11,16 @@ namespace CoolAgenda.ViewModels.UserVM
     {
         public int IdUsuario { get; set; }
 
-        [Required(ErrorMessage = "Insira um Nome.")]
+        //[Required(ErrorMessage = "Insira um Nome.")]
         [Display(Name = "Nome: ")]
         public string Nome { get; set; }
 
-        [Required(ErrorMessage = "Insira a senha atual.")]
+        //[Required(ErrorMessage = "Insira a senha atual.")]
         [Display(Name = "Senha: ")]
         public string SenhaAtual { get; set; }
 
         [StringLength(300, MinimumLength = 4, ErrorMessage = "A senha deve ter no mínimo 4 e no máximo 30 caracteres.")]
-        [Required(ErrorMessage = "Insira a nova senha.")]
+        //[Required(ErrorMessage = "Insira a nova senha.")]
         [Display(Name = "Senha: ")]
         public string SenhaNova { get; set; }
 

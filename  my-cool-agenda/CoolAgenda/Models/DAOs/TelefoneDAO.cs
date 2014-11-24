@@ -51,13 +51,13 @@ namespace CoolAgenda.Models
             if (transacao != null)
                 comando.Transaction = transacao as OleDbTransaction;
 
-            OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
-            pIdContato.Value = entidade.IdContato;
-            comando.Parameters.Add(pIdContato);
-
             OleDbParameter pNumeroTelefone = new OleDbParameter("NumeroTelefone", OleDbType.VarChar);
             pNumeroTelefone.Value = entidade.NumeroTelefone;
             comando.Parameters.Add(pNumeroTelefone);
+            
+            OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
+            pIdContato.Value = entidade.IdContato;
+            comando.Parameters.Add(pIdContato);
 
             OleDbParameter pIdTelefone = new OleDbParameter("IdTelefone", OleDbType.Integer);
             pIdTelefone.Value = entidade.IdTelefone;
