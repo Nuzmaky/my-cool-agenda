@@ -3,26 +3,34 @@
     ViewBag.Title = "Tarefa";
 }
 
-<div id="paginas">
-
-    @{
-        if (Model.Edicao)
-        {
-            ViewBag.Title = "Editar Tarefa";
-        <h1>Edite os dados da Tarefa</h1>
+<style>
+    #barrausuario {display:none;}
+</style>
+<div class="modal-header">
+        @{
+            if (Model.Edicao)
+            {
+                ViewBag.Title = "Editar Tarefa";
+            <h2>Edite os dados da Tarefa</h2>
+            }
+            else
+            {
+                ViewBag.Title = "Cadastrar Tarefa";
+            <h2>Nova Tarefa</h2>
+            }
         }
-        else
-        {
-            ViewBag.Title = "Cadastrar Tarefa";
-        <h1>Informe os dados da Tarefa</h1>
-        }
-    }
-    <h2>Tarefa</h2>
+        
+    </div>
+<div class="modal-body">
 
-    @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post))
+    @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post, new{ id = "EventForm", @class = "well" }))
+    
     {
-        @Html.ValidationSummary()
-
+         string display = ViewData.ModelState.IsValid ? "none" : "block";
+        <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
+            @Html.ValidationSummary()
+        </div>
+        
         @Html.HiddenFor(m => m.Edicao)
         @Html.HiddenFor(m => m.IdTarefa)
         @Html.HiddenFor(m=>m.IdUsuario)
@@ -40,24 +48,51 @@
         
         @Html.LabelFor(m => m.DataFinal)
         @Html.TextBoxFor(m => m.DataFinal,new { @class = "datetimepicker-pt-br"}) <br />
-        
-        
-    
-        <input type="submit" name="btOK" value="Salvar!" />
     }
-
-    @Html.ActionLink("Voltar", "Index")
-
-</div>
-
+    </div>
+<div class="modal-footer">
+       <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn">Cancelar</button>
+       <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="EventForm" />
+    </div>
 <script>
-    $(document).ready(function () {
-        jQuery(".datetimepicker-pt-br").datetimepicker({
-            lang: 'pt',
-            format: 'd/m/y H:i',
-            step: 30
+       $(document).ready(function () {
+           jQuery(".datetimepicker-pt-br").datetimepicker({
+               lang: 'pt',
+               format: 'd/m/y H:i',
+               step: 30
+            });
         });
+
+       $(document).ready(function () {
+           $('#btnPopupSave').click(function (e) {
+               e.preventDefault();
+               $.ajax({
+                   type: "POST",
+                   url: '@Url.Action("Cadastrar", "Compromisso")',
+                data: $('form').serialize(),
+                success: function (result) {
+                    if (result.redirectTo) {
+                        window.location.href = result.redirectTo;
+                    } else {
+                        $("#popupEventForm").html(result);
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+       });
+
+
+    $('#btnPopupCancel').click(function () {
+        resetValidation();
+        ClearPopupFormValues();
+        $('#popupEventForm').hide();
+
     });
-</script>
-   
+    </script>
+ 
+    
+
 

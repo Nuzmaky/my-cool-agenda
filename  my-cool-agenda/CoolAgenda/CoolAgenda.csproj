@@ -348,6 +348,7 @@
     <Content Include="Images\Err-24x24.png" />
     <Content Include="Images\erro.png" />
     <Content Include="Images\info-24x24.png" />
+    <Content Include="Images\Novo.png" />
     <Content Include="Images\ok.png" />
     <Content Include="Images\pinguim.png" />
     <Content Include="Scripts\bootstrap.js" />

@@ -10,7 +10,7 @@
                 <h4><a href="#" onclick="ShowEventPopup();">Novo Compromisso</a></h4>
             </div>
             <div class="menu-item alpha">
-                <h4><a href="#">Nova Tarefa</a></h4>
+                <h4><a href="#" onclick="ShowTarefaEventPopup();">Nova Tarefa</a></h4>
             </div>
 
             <div class="menu-item alpha">
@@ -57,6 +57,10 @@
     <div id="popupEventForm" class="modal hide" style="display: none;">
 
         @Html.Action("Cadastrar", "Compromisso")
+    </div>
+
+    <div id="popupEventTarefaForm" class="modal hide" style="display: none;">
+        @Html.Action("Form", "Tarefa")
     </div>
 
 
@@ -211,6 +215,9 @@
             $('#nomeCompromisso').focus();
         }
 
+        function ShowTarefaEventPopup(date) {
+            $('#popupEventTarefaForm').show();
+        }
         //MENU LATERAL
         //$(function () {
         //    $('#agendasMenu').click(function () {
@@ -242,7 +249,7 @@
                 $("td.fc-day").filter("[data-date='" + strDate + "']").addClass('fc-highlight');
             });
             $('td.fc-day').mouseout(function () {
-                $(this).removeClass('fc-highlight');
+                $(s).removeClass('fc-highlight');
             })
             $('td.fc-day-number').mouseout(function () {
                 var strDate = $(this).data('date');

@@ -1,27 +1,32 @@
 ﻿@model CoolAgenda.ViewModels.NotaVM.NotaVM
 @{
-    ViewBag.Title = "Tarefa";
+    ViewBag.Title = "Nota";
 }
 
 <div id="paginas">
-
+    
     @{
         if (Model.Edicao)
         {
             ViewBag.Title = "Editar Nota";
-        <h1>Edite os dados da Tarefa</h1>
+        <h1>Edite os dados da Nota</h1>
         }
         else
         {
             ViewBag.Title = "Cadastrar Nota";
-        <h1>Informe os dados da Tarefa</h1>
+        <h1>Informe os dados da Nota</h1>
         }
     }
-    <h2>Tarefa</h2>
+        <h2>Nota</h2>
+    
 
-    @using (Html.BeginForm("Form", "Nota", FormMethod.Post))
+    
+    @using (Html.BeginForm("Form", "Nota", FormMethod.Post, new { id = "EventForm", @class = "well" }))
     {
-        @Html.ValidationSummary()
+       string display = ViewData.ModelState.IsValid ? "none" : "block";
+        <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
+            @Html.ValidationSummary()
+        </div>
 
         @Html.HiddenFor(m => m.Edicao)
         @Html.HiddenFor(m => m.IdNota)
@@ -39,8 +44,7 @@
             $("#flgAtivo").val = "S";
         </script>
         }
-        
-        else{
+                else{
             @Html.LabelFor(m => m.Ativo, new { @style = "display:inline; margin-left:2px" })
             <input type="checkbox" id="Ativo" /><br /><br />
             <script>
@@ -53,8 +57,11 @@
         <input type="submit" name="btOK" value="Salvar!" />
     }
 
+    
+
     @Html.ActionLink("Voltar", "Index")
 
-</div>
+   </div>
+
    
 

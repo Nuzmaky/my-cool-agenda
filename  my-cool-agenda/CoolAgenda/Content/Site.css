@@ -424,3 +424,34 @@ a .Pclass {
 #agendasSubMenu li {
     cursor: pointer;
 }
+
+.Tabela {
+    width: 60%;
+    display: inline-block;
+    border: 1px solid #9AA7FF;
+    border-radius: 10px;
+    padding: 5px;
+    float:left;
+}
+    .Tabela table{
+        width: 100%;
+    }
+    .Tabela tr {
+        border-bottom:1px solid #9AA7FF
+    }
+        .Tabela tr:last-child {
+            border:none;
+        }
+    .Tabela td {
+        text-align:center;
+        padding:5px;
+    }
+.CabecalhoLista th {
+    padding-bottom:5px;
+}
+.Nova {
+    color: #000;
+    font-style: italic;
+}
+
+}
