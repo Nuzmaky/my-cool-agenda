@@ -63,6 +63,18 @@ namespace CoolAgenda.Controllers
                         Usuario usuario = Session["Usuario"] as Usuario;
                         tarefa.IdUsuario = usuario.IdUsuario;
                         tarefaService.Adicionar(tarefa);
+                        
+
+                        // Mateus - E-mail                        
+                        List<Tarefa> ListaUsuario = tarefaService.ListarId(tarefa.IdUsuario);
+                        
+                        UsuarioService usuarioService = new UsuarioService();
+                        
+                        // Buscar o Usuário que está na tarefa
+                        usuario = usuarioService.BuscarPorId(tarefa.IdUsuario);
+
+                        // Envia E-mail
+                        TarefaService.EnviaEmailTarefa(usuario.Email, usuario.Nome);
                     }
 
                     return RedirectToAction("Index");

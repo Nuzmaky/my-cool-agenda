@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Net.Mail;
+using System.Text;
+using System.Net;
 
 namespace CoolAgenda.Models
 {
@@ -82,6 +85,59 @@ namespace CoolAgenda.Models
         //{
         //    return tarefaDao.ListarPorGrupo(idUser, id);
         //}
+
+        // Envia e-mail de Tarefa
+        public static void EnviaEmailTarefa(string email, string nome)
+        {
+            Contato contato = new Contato();
+            //objeto responsável pela mensagem de email
+            MailMessage objEmail = new MailMessage();
+
+            //rementente do email
+            objEmail.From = new MailAddress("mateus.quintino@gmail.com", "Cool Agenda");
+
+            //destinatário(s) do email(s). Obs. pode ser mais de um, pra isso basta repetir a linha
+            //abaixo com outro endereço
+            objEmail.To.Add(email);
+
+            //prioridade do email
+            objEmail.Priority = MailPriority.Normal;
+
+            //utilize true pra ativar html no conteúdo do email, ou false, para somente texto      
+            objEmail.IsBodyHtml = false;
+
+            //Assunto do email        
+            objEmail.Subject = "Cool Agenda - Nova Tarefa";
+
+            //corpo do email a ser enviado        
+            objEmail.Body = "Olá " + nome + "! Você acaba de ser convocado para realizar uma tarefa! \n " +
+                            "\n \nPara ver a tarefa, faça o seu login!. \n \n" +
+
+                            "\n\nCaso o link não esteja funcionando, copie e cole na barra de endereços do seu navegador. " +
+                            "http://localhost:52333/Index";
+
+            //codificação do ASSUNTO do email para que os caracteres acentuados serem reconhecidos.
+            objEmail.SubjectEncoding = Encoding.GetEncoding("ISO-8859-1");
+
+            //codificação do CORPO do email para que os caracteres acentuados serem reconhecidos.
+            objEmail.BodyEncoding = Encoding.GetEncoding("ISO-8859-1");
+
+            //cria o objeto responsável pelo envio do email
+            SmtpClient objSmtp = new SmtpClient();
+
+            //endereço do servidor SMTP(para mais detalhes leia abaixo do código)
+            objSmtp.Host = "smtp.gmail.com";
+
+            //para envio de email autenticado, coloque login e senha de seu servidor de email
+            //para detalhes leia abaixo do código
+            objSmtp.Credentials = new NetworkCredential("mateus.quintino@gmail.com", "quintinuvy");
+            objSmtp.EnableSsl = true;
+            objSmtp.Port = 587;
+
+            //envia o email
+            objSmtp.Send(objEmail);
+        }
+
 
     }
 }
