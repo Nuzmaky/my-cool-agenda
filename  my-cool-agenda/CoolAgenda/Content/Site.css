@@ -301,7 +301,7 @@ nav {
 
     /*li Estilos*/
     .menu-item li {
-        border-bottom: 1px solid #eee;
+        
     }
 
         .menu-item li:hover {
@@ -432,16 +432,15 @@ a .Pclass {
 #notaForm {
     margin: 0;
 }
-}
-
 .Tabela {
-    width: 60%;
+    width: 100%;
     display: inline-block;
     border: 1px solid #9AA7FF;
     border-radius: 10px;
     padding: 5px;
     float:left;
 }
+
     .Tabela table{
         width: 100%;
     }
@@ -479,5 +478,13 @@ a.Nova img {
 
 .opcoes2 img {
     width: 18px;
+}
+
+#tarefasSubMenu div {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #DADADA;
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 

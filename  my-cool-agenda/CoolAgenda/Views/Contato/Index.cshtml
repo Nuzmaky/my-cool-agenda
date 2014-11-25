@@ -4,19 +4,22 @@
 }
 <div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
 
-    <a href="@Url.Action("Form")">Novo</a>
+    <a href="@Url.Action("Form")" class="Nova" ><img src="~/images/Novo.png" />Novo</a>
 
     <h2>Contato</h2>
     @{
         if (Model.TotalRegistros > 0)
         {
-        
+        <div class="Tabela">
         <table>
             <tr>
                 <th>Nome</th>
                 <th>Email</th>
                 <th>Telefone</th>
                 <th>Endereço</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+                <th>Convidar</th>
             </tr>
 
         @{ int k=0;
@@ -41,7 +44,7 @@
                                         {                                        
                                             while (k < Model.ListaTelefone.Count && Model.ListaTelefone[k].IdContato == Model.ListaContato[i].IdContato)
                                             {
-                                                <li>@Model.ListaTelefone[k].NumeroTelefone</li>
+                                                <li style="">@Model.ListaTelefone[k].NumeroTelefone</li>
                                                 if (c == 1) 
                                                 {                                                     
                                                     {k++; break; }
@@ -57,19 +60,21 @@
 
                 <td class="opcoes2">
                     <img class="no-border" src="../Images/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})                    
-                        @if (Model.ListaContato[i].Ativo.Equals("S"))
-                        {
-                            <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaContato[i].IdContato);"> Excluir</a>
-                        }
-    
-
-                    <img class="no-border" src="../Images/Novo.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
                 </td>
+                <td>
+                    @if (Model.ListaContato[i].Ativo.Equals("S"))
+                   {
+                        <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaContato[i].IdContato);"> Excluir</a>
+                   }
+                </td>
+                <td>
+                        <img class="no-border" src="../Images/Novo.png" />@Html.ActionLink("Convidar", "Convida", new { id = Model.ListaContato[i].IdContato})
+                 </td>
             </tr>
         }
         }
         </table>
-        
+</div>
         }
         else
         {

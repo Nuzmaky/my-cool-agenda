@@ -9,15 +9,15 @@
         if (Model.Edicao)
         {
             ViewBag.Title = "Editar Contato";
-        <h1>Edite os dados do Contato</h1>
+        <h2>Edite os dados do Contato</h2>
         }
         else
         {
             ViewBag.Title = "Cadastrar Contato";
-        <h1>Informe os dados do Contato</h1>
+        <h2>Informe os dados do Contato</h2>
         }
     }
-    <h2>Contato</h2>
+    <h3>Contato</h3>
 
 
     @using (Html.BeginForm("Form", "Contato", FormMethod.Post))

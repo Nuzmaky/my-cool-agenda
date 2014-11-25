@@ -4,13 +4,13 @@
 }
 <div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
 
-    <a href="@Url.Action("Form")">Novo</a>
+    <a href="@Url.Action("Form")" class="Nova"><img src="~/Images/Novo.png" />Novo</a>
 
     <h2>Grupo</h2>
     @{
         if (Model.TotalRegistros > 0)
         {
-        
+        <div class="Tabela">
         <table>
             <tr>
                 <th>Nome</th>
@@ -25,7 +25,7 @@
                     <td>@Model.ListaGrupo[i].Nome</td>
                     <td>@Model.ListaGrupo[i].CNPJ</td>
                     <td class="opcoes2">
-                        <img class="no-border" src="../Imagens/editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaGrupo[i].IdGrupo })</td>
+                        <img class="no-border" src="../Images/editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaGrupo[i].IdGrupo })</td>
                     <td class="opcoes">
                         @if (Model.ListaGrupo[i].FlagAtivo.Equals("S"))
                         {
@@ -41,6 +41,7 @@
              
             }
         </table>
+            </div>
         
         }
         else
