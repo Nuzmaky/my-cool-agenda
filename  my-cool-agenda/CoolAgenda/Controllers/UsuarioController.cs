@@ -39,7 +39,7 @@ namespace CoolAgenda.Controllers
 
         public ActionResult MeusDados()
         {
-            MeusDadosVM vm;
+            MudarNome vm;
 
             Usuario usuarioSession = Session["Usuario"] as Usuario;
             int id = usuarioSession.IdUsuario;
@@ -59,7 +59,7 @@ namespace CoolAgenda.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditarNome(MeusDadosVM vm)
+        public ActionResult EditarNome(MudarNome vm)
         {
             if (ModelState.IsValid)
             {
@@ -81,7 +81,6 @@ namespace CoolAgenda.Controllers
 
         }
 
-        
         public ActionResult MudarSenha()
         {
             MeusDadosVM vm;
@@ -91,7 +90,7 @@ namespace CoolAgenda.Controllers
 
             if (id > 1)
             {
-                vm = ConstruirFormVMParaEdicao(id);
+                vm = ConstruirFormVMParaEdicaoSenha(id);
                 if (vm == null)
                     return new HttpNotFoundResult();
             }
@@ -129,6 +128,7 @@ namespace CoolAgenda.Controllers
                     ViewBag.Mensagem = "Impossível alterar a senha!";
                 }
             }
+
             return View(vm);
         }
 
@@ -219,10 +219,10 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
-        private MeusDadosVM ConstruirFormVMParaEdicao(int id)
+        private MudarNome ConstruirFormVMParaEdicao(int id)
         {
             Usuario registro = usuarioService.BuscarPorId(id);
-            MeusDadosVM vm = null;
+            MudarNome vm = null;
             if (registro != null)
             {
                 vm = ConverterFormVM(registro);
@@ -230,14 +230,31 @@ namespace CoolAgenda.Controllers
             return vm;
         }
 
-        private MeusDadosVM ConverterFormVM(Usuario reg)
+        private MeusDadosVM ConstruirFormVMParaEdicaoSenha(int id)
         {
-            MeusDadosVM vm = new MeusDadosVM();
+            Usuario registro = usuarioService.BuscarPorId(id);
+            MeusDadosVM vm = null;
+            if (registro != null)
+            {
+                vm = ConverterFormVMSenha(registro);
+            }
+            return vm;
+        }
+
+        private MudarNome ConverterFormVM(Usuario reg)
+        {
+            MudarNome vm = new MudarNome();
             vm.IdUsuario = reg.IdUsuario;
             vm.Nome = reg.Nome;
             return vm;
         }
 
+        private MeusDadosVM ConverterFormVMSenha(Usuario reg)
+        {
+            MeusDadosVM vm = new MeusDadosVM();
+            vm.IdUsuario = reg.IdUsuario;
+            return vm;
+        }
 
     }
 }

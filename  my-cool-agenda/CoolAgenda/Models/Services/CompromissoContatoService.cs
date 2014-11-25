@@ -21,5 +21,15 @@ namespace CoolAgenda.Models
         {
             return compromissoContatoDAO.ListarContatoDoCompromisso(id);
         }
+
+        public void Aceitar(int id, int idContato)
+        {
+            compromissoContatoDAO.Aceitar(id, idContato);
+        }
+
+        public void Rejeitar(int id, int idContato)
+        {
+            compromissoContatoDAO.Rejeitar(id, idContato);
+        }
     }
 }

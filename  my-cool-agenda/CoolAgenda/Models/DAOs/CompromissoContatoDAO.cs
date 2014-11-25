@@ -99,5 +99,33 @@ namespace CoolAgenda.Models
             return compromissoContato;
         }
 
+        public void Aceitar(int id, int idContato)
+        {
+            String sqlAtualizar = "update CompromissoContato set Aceito = 'S' where IdUsuario = " + idContato + " and IdCompromisso = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void Rejeitar(int id, int idContato)
+        {
+            String sqlAtualizar = "update CompromissoContato set Aceito = 'N' where IdUsuario = " + idContato + " and IdCompromisso = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
     }
 }

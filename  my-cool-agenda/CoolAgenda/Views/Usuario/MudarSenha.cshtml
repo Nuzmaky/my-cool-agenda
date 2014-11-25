@@ -5,23 +5,57 @@
 
 <div id="paginas">
 
-       @using (Html.BeginForm("EditarSenha", "Usuario", FormMethod.Post))
-           {
+    @using (Html.BeginForm("EditarSenha", "Usuario", FormMethod.Post, new { id = "MudarSenha", @class = "well", style = "width:550px; margin-left:auto; margin-right:auto;" }))
+    {
+        string display = ViewData.ModelState.IsValid ? "none" : "block";
+        <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 35%">
             @Html.ValidationSummary()
+        </div>
 
-            @Html.HiddenFor(m => m.IdUsuario)
+        @Html.HiddenFor(m => m.IdUsuario)
     
-            @Html.LabelFor(m => m.SenhaAtual)
-            @Html.PasswordFor(m => m.SenhaAtual)
+        @Html.LabelFor(m => m.SenhaAtual)
+        @Html.PasswordFor(m => m.SenhaAtual)
 
-            @Html.LabelFor(m => m.SenhaNova)
-            @Html.PasswordFor(m => m.SenhaNova)
-            <br />
+        @Html.LabelFor(m => m.SenhaNova)
+        @Html.PasswordFor(m => m.SenhaNova)
+        <br />
 
-            @Html.LabelFor(m => m.SenhaConfirmacao)
-            @Html.PasswordFor(m => m.SenhaConfirmacao)
-            <br />
+        @Html.LabelFor(m => m.SenhaConfirmacao)
+        @Html.PasswordFor(m => m.SenhaConfirmacao)
+        <br />
        
-            <input type="submit" name="btOK" value="Salvar!" />
-           }
+        <div style="width: 550px;">
+            <div style="float: left; margin-top: 10px;">@Html.ActionLink("Voltar", "Index", "Agenda")</div>
+            <div style="text-align: right;">
+                <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="MudarSenha" />
+            </div>
+        </div>
+    }
 </div>
+
+<script>
+
+    $(document).ready(function () {
+        $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");
+    });
+
+    function resetValidation() {
+        //Remove validacao dos input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Remove validation das mensagens dps dos input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Remove o validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+        $('#validationSummary').css('display', 'none');
+    }
+
+    setTimeout(function () {
+        $('.errorbox').fadeOut('slow');
+    }, 6000);
+
+
+</script>

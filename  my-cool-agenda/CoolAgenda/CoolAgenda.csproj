@@ -266,6 +266,7 @@
     <Compile Include="ViewModels\NotaVM\NotaVm.cs" />
     <Compile Include="ViewModels\TarefaVM\TarefaVM.cs" />
     <Compile Include="ViewModels\UserVM\MeusDadosVM.cs" />
+    <Compile Include="ViewModels\UserVM\MudarNome.cs" />
     <Compile Include="ViewModels\UsuarioVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -389,6 +390,7 @@
     <Content Include="Views\Usuario\EditarNome.cshtml" />
     <Content Include="Views\Usuario\EditarSenha.cshtml" />
     <Content Include="Views\Compromisso\AceitarCompromisso.cshtml" />
+    <Content Include="Views\Compromisso\RejeitarCompromisso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

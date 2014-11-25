@@ -300,7 +300,34 @@ namespace CoolAgenda.Models
             return registro;
         }
 
+        public Usuario BuscarPorId(int id, DbTransaction transaction = null)
+        {
+            Usuario registro = null;
+            string sqlBuscar = "select * from Usuario where IdUsuario = ?";
+   
+            OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+            if (transaction != null)
+                comando.Transaction = transaction as OleDbTransaction;
 
+            // Configura o comando
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlBuscar;
+
+            OleDbParameter pId = new OleDbParameter("IdUsuario", OleDbType.Integer);
+            pId.Value = id;
+            comando.Parameters.Add(pId);
+
+            // Select
+            OleDbDataReader dr = comando.ExecuteReader();
+            if (dr.Read())
+            {
+                registro = ConverterParaTipoClasse(dr);
+            }
+            dr.Close();
+            comando.Dispose();
+
+            return registro;
+        }
         // Buscar pot E-mail
         public Usuario BuscarPorEmail(string email)
         {

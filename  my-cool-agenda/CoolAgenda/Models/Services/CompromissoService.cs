@@ -17,12 +17,14 @@ namespace CoolAgenda.Models
         ICompromissoDAO compromissoDAO;
         ICompromissoUsuarioDAO compromissoUsuarioDAO;
         ICompromissoContatoDAO compromissoContatoDAO;
+        IUsuarioDAO usuarioDAO;
 
         public CompromissoService()
         {
             compromissoDAO = new CompromissoDAO();
             compromissoUsuarioDAO = new CompromissoUsuarioDAO();
             compromissoContatoDAO = new CompromissoContatoDAO();
+            usuarioDAO = new UsuarioDAO();
         }
 
         public void Adicionar(Compromisso entidade, List<CompromissoUsuario> cUser, List<CompromissoContato> cContato)
@@ -40,8 +42,10 @@ namespace CoolAgenda.Models
                     cUsuario.IdCompromisso = idCompromisso;
                     AddCompromissoUsuario(cUsuario, transaction);
 
+                    Usuario reg = usuarioDAO.BuscarPorId(cUsuario.IdUsuario, transaction);
+
                     // Enviar e-mail
-                    EnviaEmailCompromisso(cUsuario.IdCompromisso, cUsuario.IdUsuario, cUsuario.Usuario.Email, cUsuario.Usuario.Nome);
+                    EnviaEmailCompromisso(cUsuario.IdCompromisso, cUsuario.IdUsuario, reg.Email, reg.Nome);
                 }
 
                 foreach (var cCont in cContato)
@@ -187,10 +191,12 @@ namespace CoolAgenda.Models
 
             //corpo do email a ser enviado        
             objEmail.Body = "Olá " + nome + "! Você acaba de ser incluso em um Compromisso na Cool Agenda! \n " +
-                            "\n \nPara ver o seu compromisso, faça o seu login!. \n \n" +
+                            "\n \nPara aceitar o seu compromisso, clique no link logo abaixo. \n \n" +
 
                             "\n\nCaso o link não esteja funcionando, copie e cole na barra de endereços do seu navegador. " +
-                            "http://localhost:52333/Compromisso/AceitarCompromisso/id="+idCompromisso +"&idUser=" +idUsuario;
+                            "http://localhost:52333/Compromisso/AceitarCompromisso?id=" + idCompromisso + "&idUser=" + idUsuario + "&u=S" +
+                            "http://localhost:52333/Compromisso/NegarCompromisso?id=" + idCompromisso + "&idUser=" + idUsuario +"&u=S";
+                                
 
             //codificação do ASSUNTO do email para que os caracteres acentuados serem reconhecidos.
             objEmail.SubjectEncoding = Encoding.GetEncoding("ISO-8859-1");
@@ -214,5 +220,62 @@ namespace CoolAgenda.Models
             objSmtp.Send(objEmail);
         }
 
+        // Envia e-mail de Tarefa
+        public static void EnviaEmailContato(int idCompromisso, int idContato, string email, string nome)
+        {
+            Contato contato = new Contato();
+            //objeto responsável pela mensagem de email
+            MailMessage objEmail = new MailMessage();
+
+            //rementente do email
+            objEmail.From = new MailAddress("mateus.quintino@gmail.com", "Cool Agenda");
+
+            //destinatário(s) do email(s). Obs. pode ser mais de um, pra isso basta repetir a linha
+            //abaixo com outro endereço
+            objEmail.To.Add(email);
+
+            //prioridade do email
+            objEmail.Priority = MailPriority.Normal;
+
+            //utilize true pra ativar html no conteúdo do email, ou false, para somente texto      
+            objEmail.IsBodyHtml = false;
+
+            //Assunto do email        
+            objEmail.Subject = "Cool Agenda - Novo Compromisso";
+
+            //corpo do email a ser enviado        
+            objEmail.Body = "Olá " + nome + "! Você acaba de ser incluso em um Compromisso na Cool Agenda! \n " +
+                            "\n \nPara aceitar o seu compromisso, clique no link logo abaixo. \n \n" +
+
+                            "\n\nCaso o link não esteja funcionando, copie e cole na barra de endereços do seu navegador. " +
+                            "http://localhost:52333/Compromisso/AceitarCompromisso?id=" + idCompromisso + "&idUser=" + idContato + "&u=N" +
+                            "http://localhost:52333/Compromisso/NegarCompromisso?id=" + idCompromisso + "&idUser=" + idContato + "&u=N";
+
+            //codificação do ASSUNTO do email para que os caracteres acentuados serem reconhecidos.
+            objEmail.SubjectEncoding = Encoding.GetEncoding("ISO-8859-1");
+
+            //codificação do CORPO do email para que os caracteres acentuados serem reconhecidos.
+            objEmail.BodyEncoding = Encoding.GetEncoding("ISO-8859-1");
+
+            //cria o objeto responsável pelo envio do email
+            SmtpClient objSmtp = new SmtpClient();
+
+            //endereço do servidor SMTP(para mais detalhes leia abaixo do código)
+            objSmtp.Host = "smtp.gmail.com";
+
+            //para envio de email autenticado, coloque login e senha de seu servidor de email
+            //para detalhes leia abaixo do código
+            objSmtp.Credentials = new NetworkCredential("mateus.quintino@gmail.com", "quintinuvy");
+            objSmtp.EnableSsl = true;
+            objSmtp.Port = 587;
+
+            //envia o email
+            objSmtp.Send(objEmail);
+        }
+
+        public void Excluir(int id)
+        {
+            compromissoDAO.Excluir(id);
+        }
     }
 }

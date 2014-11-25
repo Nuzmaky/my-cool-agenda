@@ -59,7 +59,7 @@
                         @for (int i = 0; i < Model.TotalRegistrosTarefa; i++)
                         {
                             <li>
-                                <div style="float: left; width: 100%"><a class="idPertGrupo" data-val="@Model.ListaTarefa[i].IdTarefa">@Model.ListaTarefa[i].NomeTarefa</a></div>
+                                <div style="float: left; width: 100%;"><a class="idPertGrupo" data-val="@Model.ListaTarefa[i].IdTarefa">@Model.ListaTarefa[i].NomeTarefa</a></div>
                             </li>             
                         }
                     </ul>
@@ -129,7 +129,7 @@
                         aceito = "Pendente"
 
                     if (event.criador == "S")
-                        criador = "<div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Visualizar</a></div>";
+                        criador = "<div style='text-align:right'><div style='float:left'><span style='margin-right:3px'><a href='#' onclick='RequisitaExcluir(" + event.id + ")'>Excluir</a></span></div><a href= " + url + "/" + event.id + ">Editar/Visualizar</a></div>";
                     else
                         criador = "<span class='title' style='font-weight:bold'>Status: </span>" + aceito + "<br /><div><div style='float:left'><span style='margin-right:3px'><a href='#' onclick='RequisitaAceitar(" + event.id + ")'>Sim</a></span>|<span style='margin-left:3px'><a href='#' onclick='RequisitaRejeitar(" + event.id + ")'>Não</a></span></div><div style='text-align:right'><a href= " + url + "/" + event.id + ">Editar/Vizualizar</a></div></div>";
 
@@ -309,6 +309,17 @@
         // Efetua uma requisição ao servidor pedindo para aceitar um compromisso
         function RequisitaRejeitar(idCompromisso) {
             $.post('@Url.Action("Rejeitar", "Compromisso")', { id: idCompromisso }, function (data) {
+                // Mostra uma notificação de acordo com a resposta do servidor
+                if (!data.Erro)
+                    JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });
+                else
+                    JSMostraNotificacaoErro(data.Mensagem, true);
+            });
+        }
+
+        // Efetua uma requisição ao servidor pedindo para aceitar um compromisso
+        function RequisitaExcluir(idCompromisso) {
+            $.post('@Url.Action("Excluir", "Compromisso")', { id: idCompromisso }, function (data) {
                 // Mostra uma notificação de acordo com a resposta do servidor
                 if (!data.Erro)
                     JSMostraNotificacaoSucesso(data.Mensagem, false, function () { location.reload(); });

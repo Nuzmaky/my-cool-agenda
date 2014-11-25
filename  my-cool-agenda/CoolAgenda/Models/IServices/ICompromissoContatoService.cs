@@ -12,5 +12,10 @@ namespace CoolAgenda.Models
     public interface ICompromissoContatoService
     {
         List<CompromissoContato> ListarContatoDoCompromisso(int id);
+
+        void Rejeitar(int id, int idContato);
+
+        void Aceitar(int id, int idContato);
     }
+
 }

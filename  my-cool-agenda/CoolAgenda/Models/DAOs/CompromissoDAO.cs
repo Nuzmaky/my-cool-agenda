@@ -152,5 +152,20 @@ namespace CoolAgenda.Models
             comando.Dispose();
             throw new Exception("Erro ao recuperar o próximo ID do Compromisso.");
         }
+
+
+        public void Excluir(int id)
+        {
+            String sqlAtualizar = "update Compromisso set Ativo = 'N' where IdCompromisso = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
     }
 }

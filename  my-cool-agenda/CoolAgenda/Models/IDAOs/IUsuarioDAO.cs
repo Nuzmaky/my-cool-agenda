@@ -21,6 +21,8 @@ namespace CoolAgenda.Models
 
         Usuario BuscarPorId(int id);
 
+        Usuario BuscarPorId(int id, DbTransaction transaction);
+
         Usuario BuscarPorEmail(string email);
 
         void AtualizarNome(Usuario entidade);

@@ -114,10 +114,25 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
-        public ActionResult AceitarCompromisso(int idCompromisso, int idUser)
+        [PermitirAnonimos]
+        public ActionResult AceitarCompromisso(int id, int idUser, string u)
         {
 
-            compromissoUsuarioService.Aceitar(idCompromisso, idUser);
+            if (u == "S")
+                compromissoUsuarioService.Aceitar(id, idUser);
+            else
+                compromissoContatoService.Aceitar(id, idUser);
+
+            return View();
+        }
+
+        [PermitirAnonimos]
+        public ActionResult RejeitarCompromisso(int id, int idUser, string u)
+        {
+            if (u == "S")
+                compromissoUsuarioService.Rejeitar(id, idUser);
+            else
+                compromissoContatoService.Rejeitar(id, idUser);
 
             return View();
         }
@@ -136,7 +151,7 @@ namespace CoolAgenda.Controllers
                 if (erros.Count == 0)
                 {
                     if (!vm.Edicao)
-                        compromissoService.Adicionar(reg, cUser, cContato);                    
+                        compromissoService.Adicionar(reg, cUser, cContato);
 
                     return Json(new { redirectTo = Url.Action("Index", "Agenda") });
                 }
@@ -212,6 +227,13 @@ namespace CoolAgenda.Controllers
             return Json(new JsonActionResultModel("Compromisso negado!"));
         }
 
+        public JsonResult Excluir(int id)
+        {
+            compromissoService.Excluir(id);
+            return Json(new JsonActionResultModel("Compromisso excluido!"));
+        }
+
+
         // MÉTODOS A SEREM CHAMADOS
 
         private CadastrarVM CadastrarVMNovo()
@@ -253,7 +275,7 @@ namespace CoolAgenda.Controllers
                 var notasCompromisso = notaService.Listar(id);
                 vm.ListaNota = notasCompromisso;
                 vm.TotalRegistrosNota = notasCompromisso.Count();
-                
+
                 vm.Edicao = true;
                 PopularItensCadastrarVMEdicao(vm);
                 return vm;

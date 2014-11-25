@@ -31,6 +31,6 @@ namespace CoolAgenda.Models
 
         void AddCompromissoContato(CompromissoContato entidade, DbTransaction transaction);
 
-
+        void Excluir(int id);
     }
 }

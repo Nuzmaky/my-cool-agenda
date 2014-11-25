@@ -16,6 +16,8 @@ namespace CoolAgenda.Models
         Compromisso BuscarPorId(int idCompromisso);
 
         int ProximoIdCompromisso(DbTransaction transaction);
+
+        void Excluir(int id);
         
     }
 }

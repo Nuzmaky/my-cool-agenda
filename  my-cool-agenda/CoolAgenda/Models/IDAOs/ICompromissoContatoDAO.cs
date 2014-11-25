@@ -12,5 +12,10 @@ namespace CoolAgenda.Models
         void Adicionar(CompromissoContato entidade, DbTransaction transaction);
 
         List<CompromissoContato> ListarContatoDoCompromisso(int id);
+
+        void Aceitar(int id, int idContato);
+
+        void Rejeitar(int id, int idContato);
+
     }
 }
