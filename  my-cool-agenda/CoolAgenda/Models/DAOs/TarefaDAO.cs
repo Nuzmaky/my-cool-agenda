@@ -15,7 +15,7 @@ namespace CoolAgenda.Models
         //Insert
         public void Adcionar(Tarefa tarefa)
         {
-            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Descricao, dataInicial, datafinal, ativo) VALUES (SeqTarefa.NEXTVAL, ?, ?, ?, ?, ?, ?,'S')";
+            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Descricao, DataInicial, DataFinal) VALUES (SeqTarefa.NEXTVAL, ?, ?, ?, ?, TO_DATE(?, 'DD-MM-YY HH24:MI'), TO_DATE(?, 'DD-MM-YY HH24:MI'))";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
             
@@ -71,7 +71,7 @@ namespace CoolAgenda.Models
         //Update
         public void Update(Tarefa tarefa)
         {
-            SQL = "UPDATE Tarefa SET idUsuario = ?, Nome = ?, Descricao = ?, dataInicial = ?, datafinal = ? WHERE IdTarefa = ?";
+            SQL = "UPDATE Tarefa SET idUsuario = ?, Nome = ?, Descricao = ?,  DataInicial = TO_DATE(?, 'DD-MM-YY HH24:MI'), DataFinal = TO_DATE(?, 'DD-MM-YY HH24:MI') WHERE IdTarefa = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();

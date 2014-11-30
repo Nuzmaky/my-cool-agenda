@@ -3,10 +3,6 @@
     ViewBag.Title = "Tarefa";
 }
 
-<style>
-    #barrausuario {display:none;}
-</style>
-<div class="modal-header">
         @{
             if (Model.Edicao)
             {
@@ -20,11 +16,7 @@
             }
         }
         
-    </div>
-<div class="modal-body">
-
-    @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post, new{ id = "EventForm", @class = "well" }))
-    
+    @using (Html.BeginForm("Form","Tarefa", FormMethod.Post))
     {
          string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
@@ -47,13 +39,12 @@
         @Html.TextBoxFor(m => m.DataInicial,new { @class = "datetimepicker-pt-br"}) <br />
         
         @Html.LabelFor(m => m.DataFinal)
-        @Html.TextBoxFor(m => m.DataFinal,new { @class = "datetimepicker-pt-br"}) <br />
+        @Html.TextBoxFor(m => m.DataFinal,new { @class = "datetimepicker-pt-br2"}) <br />
+
+        <input type="submit" value="Salvar" />
     }
-    </div>
-<div class="modal-footer">
-       <button type="button" id="btnPopupCancel" data-dismiss="modal" class="btn">Cancelar</button>
-       <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="EventForm" />
-    </div>
+    
+
 <script>
        $(document).ready(function () {
            jQuery(".datetimepicker-pt-br").datetimepicker({
@@ -61,37 +52,17 @@
                format: 'd/m/y H:i',
                step: 30
             });
-        });
-
-       $(document).ready(function () {
-           $('#btnPopupSave').click(function (e) {
-               e.preventDefault();
-               $.ajax({
-                   type: "POST",
-                   url: '@Url.Action("Cadastrar", "Compromisso")',
-                data: $('form').serialize(),
-                success: function (result) {
-                    if (result.redirectTo) {
-                        window.location.href = result.redirectTo;
-                    } else {
-                        $("#popupEventForm").html(result);
-                    }
-                },
-                error: function () {
-
-                }
-            });
-        });
        });
 
+       $(document).ready(function () {
+           jQuery(".datetimepicker-pt-br2").datetimepicker({
+               lang: 'pt',
+               format: 'd/m/y H:i',
+               step: 30
+           });
+       });
+</script>
 
-    $('#btnPopupCancel').click(function () {
-        resetValidation();
-        ClearPopupFormValues();
-        $('#popupEventForm').hide();
-
-    });
-    </script>
  
     
 

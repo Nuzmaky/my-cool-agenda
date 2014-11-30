@@ -74,7 +74,7 @@ namespace CoolAgenda.Controllers
                         usuario = usuarioService.BuscarPorId(tarefa.IdUsuario);
 
                         // Envia E-mail
-                        TarefaService.EnviaEmailTarefa(usuario.Email, usuario.Nome);
+                        //TarefaService.EnviaEmailTarefa(usuario.Email, usuario.Nome);
                     }
 
                     return RedirectToAction("Index");
