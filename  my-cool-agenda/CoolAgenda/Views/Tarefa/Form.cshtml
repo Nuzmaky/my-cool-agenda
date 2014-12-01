@@ -5,21 +5,20 @@
 
 <div id="paginas">
 
-
         @{
             if (Model.Edicao)
             {
                 ViewBag.Title = "Editar Tarefa";
-            <h2>Edite os dados da Tarefa</h2>
+            <h2 style="text-align: center">Edite os dados da Tarefa</h2>
             }
             else
             {
                 ViewBag.Title = "Cadastrar Tarefa";
-            <h2>Nova Tarefa</h2>
+            <h2 style="text-align: center">Nova Tarefa</h2>
             }
         }
         
-    @using (Html.BeginForm("Form","Tarefa", FormMethod.Post))
+    @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post, new { id = "cadTarefa", @class = "well", style = "width:450px; margin-left:auto; margin-right:auto;" }))
     {
          string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
@@ -52,9 +51,13 @@
                 <label>Concluida</label>
                 @Html.CheckBoxFor(m=>m.Concluida)<br /><br />
             }
-          
 
-        <input type="submit" value="Salvar" />
+        <div style="width: 450px;">
+            <div style="float: left; margin-top: 10px;">@Html.ActionLink("Voltar", "Index")</div>
+            <div style="text-align: right;">
+                <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="cadTarefa" />
+            </div>
+        </div>    
     }
 
 </div>
@@ -76,6 +79,29 @@
                step: 30
            });
        });
+
+
+       $(document).ready(function () {
+           $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");
+       });
+
+       function resetValidation() {
+           //Remove validacao dos input-fields
+           $('.input-validation-error').addClass('input-validation-valid');
+           $('.input-validation-error').removeClass('input-validation-error');
+           //Remove validation das mensagens dps dos input-fields
+           $('.field-validation-error').addClass('field-validation-valid');
+           $('.field-validation-error').removeClass('field-validation-error');
+           //Remove o validation summary 
+           $('.validation-summary-errors').addClass('validation-summary-valid');
+           $('.validation-summary-errors').removeClass('validation-summary-errors');
+           $('#validationSummary').css('display', 'none');
+       }
+
+       setTimeout(function () {
+           $('.errorbox').fadeOut('slow');
+       }, 6000);
+
 </script>
 
  

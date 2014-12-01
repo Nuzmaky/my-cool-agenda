@@ -19,6 +19,9 @@ namespace CoolAgenda.Models
         public string Concluida { get; set; }
         public string Ativo { get; set; }
 
+        //composicao de classes
+        public Usuario Usuario { get; set; }
+        public Usuario UsuarioCriador { get; set; }
     }
 
 }

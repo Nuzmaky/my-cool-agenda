@@ -14,20 +14,29 @@ namespace CoolAgenda.Models
 {
     public class TarefaDAO : ITarefaDAO
     {
+        private ICompromissoDAO compromissoDAO;
+        private IUsuarioDAO usuarioDAO;
+
+        public TarefaDAO()
+        {
+            compromissoDAO = new CompromissoDAO();
+            usuarioDAO = new UsuarioDAO();
+        }
+
+
         private string SQL;
 
         //Insert
         public void Adcionar(Tarefa tarefa)
         {
             SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Criador, Descricao, DataInicial, DataFinal, Concluida) VALUES (SeqTarefa.NEXTVAL, 1, ?, ?, ?, ?, TO_DATE(?, 'DD-MM-YY HH24:MI'), TO_DATE(?, 'DD-MM-YY HH24:MI'), 'N')";
-                                       
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
-            
+
             //OleDbParameter pIdCompromisso = new OleDbParameter("IdCompromisso", OleDbType.VarChar);
-          //  pIdCompromisso.Value = tarefa.IdCompromisso;
-           // comando.Parameters.Add(pIdCompromisso);
-                         
+            //pIdCompromisso.Value = tarefa.IdCompromisso;
+            //comando.Parameters.Add(pIdCompromisso);
+
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = tarefa.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
@@ -62,18 +71,60 @@ namespace CoolAgenda.Models
         public List<Tarefa> Listar(int id)
         {
             List<Tarefa> ListaTarefa = new List<Tarefa>();
-            string SQL = "Select * From Tarefa Where idUsuario=" + id + "";
+            string SQL = "Select * From Tarefa Where Ativo = 'S' and idUsuario=" + id + "";
             OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
             OleDbDataReader dr = Select.ExecuteReader();
 
             while (dr.Read())
             {
-
                 ListaTarefa.Add(ConverterParaTipoClasse(dr));
             }
 
+            dr.Close();
+            Select.Dispose();
+
+            foreach (var registro in ListaTarefa)
+            {
+                CarregarComposicao(registro);
+            }
+
             return ListaTarefa;
+        }
+
+        public List<Tarefa> ListarReq(int id)
+        {
+            List<Tarefa> ListaTarefa = new List<Tarefa>();
+            string SQL = "Select * From Tarefa Where Ativo = 'S' and Criador =" + id + "";
+            OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
+
+            OleDbDataReader dr = Select.ExecuteReader();
+
+            while (dr.Read())
+            {
+                ListaTarefa.Add(ConverterParaTipoClasse(dr));
+            }
+
+            dr.Close();
+            Select.Dispose();
+
+            foreach (var registro in ListaTarefa)
+            {
+                CarregarComposicao(registro);
+            }
+
+            return ListaTarefa;
+        }
+
+        private void CarregarComposicao(Tarefa tarefa)
+        {
+            int idUsuario = tarefa.IdUsuario;
+            Usuario user = usuarioDAO.BuscarPorId(idUsuario);
+            tarefa.Usuario = user;
+
+            int idUsuarioCriador = tarefa.Criador;
+            Usuario user2 = usuarioDAO.BuscarPorId(idUsuarioCriador);
+            tarefa.UsuarioCriador = user2;
         }
 
 
@@ -86,7 +137,7 @@ namespace CoolAgenda.Models
             OleDbCommand comando = new OleDbCommand();
             comando.Connection = Conexao.getConexao();
             comando.CommandText = SQL;
-           
+
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = tarefa.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
@@ -94,7 +145,7 @@ namespace CoolAgenda.Models
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = tarefa.NomeTarefa;
             comando.Parameters.Add(pNome);
-            
+
             OleDbParameter pDescricao = new OleDbParameter("Descricao", OleDbType.VarChar);
             pDescricao.Value = tarefa.DescTarefa;
             comando.Parameters.Add(pDescricao);
@@ -133,13 +184,13 @@ namespace CoolAgenda.Models
 
             return tarefa;
         }
-        
-            public List<Tarefa> populaTarefas(Tarefa tarefa)
+
+        public List<Tarefa> populaTarefas(Tarefa tarefa)
         {
             List<Tarefa> listaTarefa = new List<Tarefa>();
             string SQL = "Select C.Idtarefa, C.nomeTarefa from Tarefa C, where C.idtarefa = ?;";
             OleDbCommand Select = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
-            
+
             OleDbParameter pidusuario = new OleDbParameter("Descricao", OleDbType.VarChar);
             pidusuario.Value = tarefa.IdUsuario;
             Select.Parameters.Add(pidusuario);
@@ -217,7 +268,34 @@ namespace CoolAgenda.Models
 
             return registros;
         }
-        
+
+        public void ConcluirPorId(int id)
+        {
+            string sqlAtualizar = "update tarefa set concluida = 'S' where IdTarefa = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
+
+        public void DesativarPorId(int id)
+        {
+            string sqlAtualizar = "update tarefa set Ativo = 'N' where IdTarefa = " + id;
+
+            // Configura o comando
+            OleDbCommand comando = new OleDbCommand();
+            comando.Connection = Conexao.getConexao();
+            comando.CommandText = sqlAtualizar;
+
+            // Update
+            comando.ExecuteNonQuery();
+            comando.Dispose();
+        }
 
 
     }

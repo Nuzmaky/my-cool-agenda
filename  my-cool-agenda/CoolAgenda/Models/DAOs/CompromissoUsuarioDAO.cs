@@ -91,7 +91,7 @@ namespace CoolAgenda.Models
 
         public List<CompromissoUsuario> ListarPorGrupo(int idUser, int id)
         {
-            String sqlConsulta = "Select * from CompromissoUsuario where IdUsuario = ? and IdGrupo = ?";
+            String sqlConsulta = "Select * from CompromissoUsuario where IdUsuario = ? and IdGrupo = ?  Ativo = 'S'";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();

@@ -71,6 +71,9 @@ namespace CoolAgenda.Controllers
 
                 ViewBag.Mensagem = "Nome alterado com sucesso!";
 
+                Usuario usuarioSession = Session["Usuario"] as Usuario;
+                usuarioSession.Nome = vm.Nome;
+
                 return View(vm);
             }
             else
@@ -101,9 +104,8 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
-
         [HttpPost]
-        public ActionResult EditarSenha(MeusDadosVM vm)
+        public ActionResult MudarSenha(MeusDadosVM vm)
         {
             if (ModelState.IsValid)
             {
@@ -118,19 +120,23 @@ namespace CoolAgenda.Controllers
                     user.Senha = vm.SenhaConfirmacao;
                     usuarioService.AtualizarSenha(user);
 
-                    ViewBag.Mensagem = "Senha alterada com sucesso!";
-
-                    return View(vm);
+                    return RedirectToAction("EditarSenha");
                 }
                 else
                 {
                     ModelState.AddModelErrors(erros);
-                    ViewBag.Mensagem = "Impossível alterar a senha!";
                 }
             }
 
             return View(vm);
         }
+
+        public ActionResult EditarSenha()
+        {
+            ViewBag.Mensagem = "Senha alterada com sucesso!";
+            return View();
+        }
+
 
         // View de retorno de cadastro.
         [HttpPost]

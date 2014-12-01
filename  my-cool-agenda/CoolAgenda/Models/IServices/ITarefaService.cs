@@ -13,6 +13,8 @@ namespace CoolAgenda.Models
     {
         List<Tarefa> Listar(int id);
 
+        List<Tarefa> ListarReq(int id);
+
         List<Validacao> ValidarEntidade(Tarefa entidade);
 
         List<Validacao> ValidaAdicionar(Tarefa entidade);
@@ -28,5 +30,9 @@ namespace CoolAgenda.Models
         //List<Tarefa> ListarPorGrupo(int idUser, int id);
 
         List<Tarefa> ListarId(int idUser);
+
+        void DesativarPorId(int id);
+
+        void ConcluirPorId(int id);
    }
 }

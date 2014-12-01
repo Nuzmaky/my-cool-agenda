@@ -5,7 +5,7 @@
 
 <div id="paginas">
 
-    @using (Html.BeginForm("EditarSenha", "Usuario", FormMethod.Post, new { id = "MudarSenha", @class = "well", style = "width:550px; margin-left:auto; margin-right:auto;" }))
+    @using (Html.BeginForm("MudarSenha", "Usuario", FormMethod.Post, new { id = "MudarSenha", @class = "well", style = "width:550px; margin-left:auto; margin-right:auto;" }))
     {
         string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 35%">

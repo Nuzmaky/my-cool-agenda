@@ -26,6 +26,11 @@ namespace CoolAgenda.Models
             return tarefaDao.Listar(id);
         }
 
+        public List<Tarefa> ListarReq(int id)
+        {
+            return tarefaDao.ListarReq(id);
+        }
+
         public void Adicionar(Tarefa entidade)
         {
             tarefaDao.Adcionar(entidade);
@@ -138,6 +143,14 @@ namespace CoolAgenda.Models
             objSmtp.Send(objEmail);
         }
 
+        public void DesativarPorId(int id)
+        {
+            tarefaDao.DesativarPorId(id);
+        }
 
+        public void ConcluirPorId(int id)
+        {
+            tarefaDao.ConcluirPorId(id);
+        }
     }
 }

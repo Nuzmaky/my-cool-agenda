@@ -1,17 +1,15 @@
-﻿@model CoolAgenda.ViewModels.UserVM.MeusDadosVM
-@{
+﻿@{
     ViewBag.Title = "Editar Senha";
 }
 
 
-<div id="paginas">
-    
-    <h2>Alterar Senha</h2>
-
-
-    <h1>@ViewBag.Mensagem</h1>
-     
-    @Html.ActionLink("Voltar", "Index", "Agenda")
-
-
+<div id="paginasErro">
+    <div style="width: 100px; height: 100px; float: left">
+        <img id="imgPin" src="~/Images/pinguim.png" />
     </div>
+    <div style="margin-top:20px">
+        <h3>@ViewBag.Mensagem</h3>
+        @Html.ActionLink("Voltar", "Index", "Agenda")
+    </div>
+</div>
+    

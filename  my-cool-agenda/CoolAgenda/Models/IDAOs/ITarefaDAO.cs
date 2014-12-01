@@ -15,6 +15,7 @@ namespace CoolAgenda.Models
         //Select
         List<Tarefa> Listar(int id);
         Tarefa BuscarPorId(int id);
+        List<Tarefa> ListarReq(int id);
 
         //Update
         //void Update(Tarefa tarefa, DbTransaction transacao);
@@ -29,6 +30,10 @@ namespace CoolAgenda.Models
         //List<Tarefa> ListarPorGrupo(int idUser, int id);
 
         List<Tarefa> ListarId(int idUser);
+
+        void DesativarPorId(int id);
+
+        void ConcluirPorId(int id);
 
     }
 }

@@ -11,7 +11,7 @@ using CoolAgenda.Controllers.Utilidades;
 namespace CoolAgenda.Controllers
 {
 
-    [FiltroAutenticacao]
+    [FiltroAutenticacao("U")]
     public class TarefaController : Controller
     {
         
@@ -88,6 +88,18 @@ namespace CoolAgenda.Controllers
             return View(vm);
         }
 
+        public JsonResult Desativar(int id)
+        {
+            tarefaService.DesativarPorId(id);
+            return Json(new JsonActionResultModel("Tarefa excluída!"));
+        }
+
+        public JsonResult Concluir(int id)
+        {
+            tarefaService.ConcluirPorId(id);
+            return Json(new JsonActionResultModel("Tarefa finalizada!"));
+        }
+
         //OUTROS METODOS
 
         private TarefaVM ConstruirIndexVM()
@@ -95,8 +107,13 @@ namespace CoolAgenda.Controllers
             TarefaVM vm = new TarefaVM();
             Usuario usuario = Session["Usuario"] as Usuario;
             var registros = tarefaService.Listar(usuario.IdUsuario);
+            var registrosReq = tarefaService.ListarReq(usuario.IdUsuario);
+
             vm.ListaTarefa = registros;
             vm.TotalRegistros = registros.Count;
+
+            vm.ListaTarefaReq = registrosReq;
+            vm.TotalRegistrosReq = registrosReq.Count;
             return vm;
         }
 

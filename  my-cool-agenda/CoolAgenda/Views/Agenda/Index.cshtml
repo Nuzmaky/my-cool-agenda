@@ -50,7 +50,7 @@
             </div>
 
             <div class="menu-item">
-                <h4 id="tarefasMenu"><a href="#">Tarefas</a></h4>
+                <h4 id="tarefasMenu">@Html.ActionLink("Tarefas", "Index", "Tarefa")</h4>
                 @{
                     
                     if (Model.TotalRegistrosTarefa > 0)
@@ -244,19 +244,11 @@
             $('#popupEventTarefaForm').show();
         }
 
-        $(function () {
-            $('#tarefasMenu').click(function () {
-                $('#tarefasSubMenu').slideToggle();
-            });
-        });
-
-        $('#tarefasSubMenu input:checkbox').change(function () {
-            if ($(this).is(':checked')) {
-                $('.checkList').css('text-decoration', 'line-through')
-            } else {
-                $('.checkList').css('text-decoration', 'none')
-            }
-        });
+        //$(function () {
+        //    $('#tarefasMenu').click(function () {
+        //        $('#tarefasSubMenu').slideToggle();
+        //    });
+        //});
 
         function highlight() {
             $('td.fc-day').mouseover(function () {

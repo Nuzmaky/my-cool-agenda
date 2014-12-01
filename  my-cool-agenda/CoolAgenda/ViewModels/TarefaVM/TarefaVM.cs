@@ -39,8 +39,7 @@ namespace CoolAgenda.ViewModels.TarefaVM
         [Required(ErrorMessage = "Insira uma data e horário inicial para a Tarefa")]
         public string DataInicial { get; set; }
 
-        [Display(Name = "Data Final  *")]
-        [Required(ErrorMessage = "Insira uma data e horário final para a Tarefa")]
+        [Display(Name = "Data Final")]
         public string DataFinal { get; set; }
 
         [Display(Name = "Concluida  *")]
@@ -51,8 +50,12 @@ namespace CoolAgenda.ViewModels.TarefaVM
         public List<Tarefa> ListaTarefa { get; set; }
         public int TotalRegistros { get; set; }
 
+        public List<Tarefa> ListaTarefaReq { get; set; }
+        public int TotalRegistrosReq { get; set; }
+
     }
 
 
 }
     
+
