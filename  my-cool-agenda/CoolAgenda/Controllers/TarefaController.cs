@@ -61,7 +61,7 @@ namespace CoolAgenda.Controllers
                         tarefaService.Atualizar(tarefa);
                     else{
                         Usuario usuario = Session["Usuario"] as Usuario;
-                        tarefa.IdUsuario = usuario.IdUsuario;
+                        tarefa.Criador = usuario.IdUsuario;
                         tarefaService.Adicionar(tarefa);
                         
 
@@ -93,8 +93,8 @@ namespace CoolAgenda.Controllers
         private TarefaVM ConstruirIndexVM()
         {
             TarefaVM vm = new TarefaVM();
-
-            var registros = tarefaService.Listar();
+            Usuario usuario = Session["Usuario"] as Usuario;
+            var registros = tarefaService.Listar(usuario.IdUsuario);
             vm.ListaTarefa = registros;
             vm.TotalRegistros = registros.Count;
             return vm;
@@ -119,10 +119,11 @@ namespace CoolAgenda.Controllers
             vm.IdUsuario = reg.IdUsuario;
             vm.IdCompromisso = reg.IdCompromisso;
             vm.NomeTarefa = reg.NomeTarefa;
+            vm.Criador = reg.Criador;
             vm.DescTarefa = reg.DescTarefa;
             vm.DataInicial = reg.DataInicial;
             vm.DataFinal = reg.DataFinal;
-            
+            if (reg.Concluida == "S") { vm.Concluida = true; }       
 
             return vm;
         }
@@ -141,9 +142,11 @@ namespace CoolAgenda.Controllers
             reg.IdUsuario = vm.IdUsuario;
             reg.IdCompromisso = vm.IdCompromisso;
             reg.NomeTarefa = vm.NomeTarefa;
+            reg.Criador = vm.Criador;
             reg.DescTarefa = vm.DescTarefa;
             reg.DataInicial = vm.DataInicial;
             reg.DataFinal = vm.DataFinal;
+            if (vm.Concluida) { reg.Concluida = "S"; }
 
             return reg;
         }

@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Tarefa";
 }
+
 <div id="paginas" style="width:97%; margin-left:auto;margin-right:auto;">
 
     
@@ -19,6 +20,7 @@
                     <th>Nome</th>
                     <th>Data Inicial</th>
                     <th>Data Final</th>
+                    <th>Concluida</th>
                     <th>Editar</th>
                     <th>Ativar/Inativar</th>
                 </tr>
@@ -30,24 +32,39 @@
                         <td>@Model.ListaTarefa[i].NomeTarefa</td>
                         <td>@Model.ListaTarefa[i].DataInicial</td>
                         <td>@Model.ListaTarefa[i].DataFinal</td>
+                        @{
+                            if (Model.Concluida)
+                            { 
+                                <td><span>Concluida</span></td>
+                            }
+                            else
+                            {
+                                <td><span>Em andamento</span></td> 
+                            } 
+                        }      
+                                         
+
+                        
                         <td class="opcoes2">
                             <img class="no-border" src="~/Images/Editar.png" />@Html.ActionLink(" Editar", "Form", new { id = Model.ListaTarefa[i].IdTarefa })</td>
                         <td class="opcoes">
                         
-                            @if (Model.ListaTarefa[i].Ativo!=null){ 
-                                if(Model.ListaTarefa[i].Ativo.Equals("S"))
-                                {
+                            @{if (Model.ListaTarefa[i].Ativo != null)
+                              {
+                                  if (Model.ListaTarefa[i].Ativo.Equals("S"))
+                                  {
                                     <img class="no-border" src="../Images/desativar.png" /><a href="#" onclick="DesativarRegistro(@Model.ListaTarefa[i].IdTarefa);"> Desativar</a>
-                                }
-                                else
-                                {
+                                  }
+                                  else
+                                  {
                                     <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaTarefa[i].);"> Ativar</a>
-                                }
+                                  }
+                              }
+                              else
+                              {
+                                    <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaTarefa[i].);"> Ativar</a>
+                              }
                             }
-                            else
-                                {
-                                    <img class="no-border" src="../Images/ativar.png" /><a href="#" onclick="AtivarRegistro(@Model.ListaTarefa[i].);"> Ativar</a>
-                                }
                         </td>
 
                     </tr>

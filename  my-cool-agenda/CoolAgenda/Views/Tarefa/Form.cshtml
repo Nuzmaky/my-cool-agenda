@@ -3,6 +3,9 @@
     ViewBag.Title = "Tarefa";
 }
 
+<div id="paginas">
+
+
         @{
             if (Model.Edicao)
             {
@@ -25,7 +28,7 @@
         
         @Html.HiddenFor(m => m.Edicao)
         @Html.HiddenFor(m => m.IdTarefa)
-        @Html.HiddenFor(m=>m.IdUsuario)
+        @Html.HiddenFor(m=>m.Criador)
         @Html.HiddenFor(m=>m.IdCompromisso)
         @Html.HiddenFor(m=>m.Ativo)
 
@@ -35,14 +38,26 @@
         @Html.LabelFor(m => m.DescTarefa)
         @Html.TextAreaFor(m => m.DescTarefa) <br />
         
+        @Html.LabelFor(m=>m.IdUsuario)
+        @Html.TextBoxFor(m=>m.IdUsuario)
+        
         @Html.LabelFor(m => m.DataInicial)
         @Html.TextBoxFor(m => m.DataInicial,new { @class = "datetimepicker-pt-br"}) <br />
         
         @Html.LabelFor(m => m.DataFinal)
         @Html.TextBoxFor(m => m.DataFinal,new { @class = "datetimepicker-pt-br2"}) <br />
+        
+        if (Model.Edicao)
+            {
+                <label>Concluida</label>
+                @Html.CheckBoxFor(m=>m.Concluida)<br /><br />
+            }
+          
 
         <input type="submit" value="Salvar" />
     }
+
+</div>
     
 
 <script>

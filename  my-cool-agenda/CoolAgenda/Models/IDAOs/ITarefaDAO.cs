@@ -13,7 +13,7 @@ namespace CoolAgenda.Models
         void Adcionar(Tarefa tarefa);
 
         //Select
-        List<Tarefa> Listar();
+        List<Tarefa> Listar(int id);
         Tarefa BuscarPorId(int id);
 
         //Update

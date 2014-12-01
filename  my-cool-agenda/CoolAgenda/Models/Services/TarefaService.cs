@@ -21,9 +21,9 @@ namespace CoolAgenda.Models
             tarefaDao = new TarefaDAO();
         }
 
-        public List<Tarefa> Listar()
+        public List<Tarefa> Listar(int id)
         {
-            return tarefaDao.Listar();
+            return tarefaDao.Listar(id);
         }
 
         public void Adicionar(Tarefa entidade)

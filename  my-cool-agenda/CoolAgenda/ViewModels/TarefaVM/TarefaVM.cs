@@ -16,8 +16,12 @@ namespace CoolAgenda.ViewModels.TarefaVM
 
         [Display(Name = "Compromisso")]
         public int? IdCompromisso { get; set; }
-     
+
+        [Display(Name = "Usuário *")]
+        [Required(ErrorMessage = "Escolha um Usuário para executar a tarefa.")]
         public int IdUsuario { get; set; }
+
+        public int Criador { get; set; }
 
         [Display(Name = "Nome *")]
         [Required(ErrorMessage = "Insira um nome para a Tarefa")]
@@ -38,6 +42,9 @@ namespace CoolAgenda.ViewModels.TarefaVM
         [Display(Name = "Data Final  *")]
         [Required(ErrorMessage = "Insira uma data e horário final para a Tarefa")]
         public string DataFinal { get; set; }
+
+        [Display(Name = "Concluida  *")]
+        public bool Concluida { get; set; }
 
         public string Ativo { get; set; }
 

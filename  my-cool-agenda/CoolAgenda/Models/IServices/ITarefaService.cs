@@ -11,7 +11,7 @@ namespace CoolAgenda.Models
 {
     public interface ITarefaService
     {
-        List<Tarefa> Listar();
+        List<Tarefa> Listar(int id);
 
         List<Validacao> ValidarEntidade(Tarefa entidade);
 
