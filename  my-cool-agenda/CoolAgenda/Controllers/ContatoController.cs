@@ -42,7 +42,7 @@ namespace CoolAgenda.Controllers
         {
             //Pega o usuário na sessão
             Usuario usuario = Session["Usuario"] as Usuario;
-            int idUsuario = usuario.IdUsuario;            
+            int idUsuario = usuario.IdUsuario;
 
             ContatoVM vm = ConstruirContatoVM(idUsuario);
             return View(vm);
@@ -53,9 +53,9 @@ namespace CoolAgenda.Controllers
         {
             ContatoVM vm;
             if (id.HasValue)
-            {                
+            {
                 vm = ConstruirFormVMParaEdicao(id.Value);
-               
+
                 // Telfones
                 List<Telefone> telefonesEntidades = contatoService.BuscarTelefonePorId(vm.IdContato);
 
@@ -77,11 +77,11 @@ namespace CoolAgenda.Controllers
                 vm = ConstruirFormVMParaNovo();
             }
             return View(vm);
-                            }
+        }
 
         //Convite de Contatos
         public ActionResult Convida(int? id, UsuarioVM vmUser)
-        {            
+        {
             //Pega o usuário na sessão
             Usuario usuario = Session["Usuario"] as Usuario;
             int idUsuario = usuario.IdUsuario;
@@ -111,28 +111,28 @@ namespace CoolAgenda.Controllers
 
                             //Adiciona no banco com senha padrão
                             usuarioDAO.Adicionar(registro);
-                            
-                            
+
+
                             // Pega os grupos em que o usuário está cadastrado
                             var usuarioGrupos = grupoUsuarioService.ListarGruposPessoa(idUsuario);
                             List<GrupoUsuario> listaGrupoUsuario = new List<GrupoUsuario>();
                             listaGrupoUsuario = usuarioGrupos;
 
                             //Joga o Id do Novo Usuario para cadastrar no grupo
-                                //SELECT
-                                Usuario novoUsuarioGrupo = usuarioDAO.BuscarPorEmail(registro.Email);
+                            //SELECT
+                            Usuario novoUsuarioGrupo = usuarioDAO.BuscarPorEmail(registro.Email);
 
-                                // Joga o Id do novo Usuario no GrupoUsuario
-                                for(int i = 0; i < listaGrupoUsuario.Count; i++)
-                                {
-                                    listaGrupoUsuario[i].IdUsuario = novoUsuarioGrupo.IdUsuario;
-                                    listaGrupoUsuario[i].Ativo = "N";
-                                }
+                            // Joga o Id do novo Usuario no GrupoUsuario
+                            for (int i = 0; i < listaGrupoUsuario.Count; i++)
+                            {
+                                listaGrupoUsuario[i].IdUsuario = novoUsuarioGrupo.IdUsuario;
+                                listaGrupoUsuario[i].Ativo = "N";
+                            }
 
-                                // 
+                            // 
 
                             // Adiciona  o Usuário no Grupo
-                            contatoService.InsertContatoGrupo(listaGrupoUsuario);  
+                            contatoService.InsertContatoGrupo(listaGrupoUsuario);
 
                             ViewBag.Mensagem = "Usuário convidado com sucesso!";
                         }
@@ -140,7 +140,7 @@ namespace CoolAgenda.Controllers
                         {
                             ViewBag.Mensagem = "Impossível enviar o e-mail. Verifique os dados do contato.";
                         }
-                        
+
 
                         return View();
                     }
@@ -161,26 +161,26 @@ namespace CoolAgenda.Controllers
             //Pega o usuário na sessão
             Usuario usuario = Session["Usuario"] as Usuario;
             int idUsuario = usuario.IdUsuario;
-            vm.IdUsuario = idUsuario;              
-            
+            vm.IdUsuario = idUsuario;
+
 
             if (ModelState.IsValid)
             {
                 // Recebe o Contato e o Telefone
-                Contato contato = ConverterFormVM(vm);                
+                Contato contato = ConverterFormVM(vm);
                 List<Telefone> telefones = ConverterCadVMParaTelefones(vm);
 
                 var erros = contatoService.ValidarEntidade(contato);
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
-                    {                                                
+                    {
                         // Atualiza Contato
                         contatoService.UpdateContato(contato);
 
                         vm = ConstruirContatoVM(idUsuario);
-                                                
-                        
+
+
                         for (int i = 0; i < telefones.Count; i++)
                         {
                             List<Telefone> tel = telefoneService.ListarPorIdContato(contato.IdContato);
@@ -195,7 +195,7 @@ namespace CoolAgenda.Controllers
                     {
                         // Insere Contato
                         contatoService.InsertContato(contato);
-                                              
+
 
                         vm = ConstruirContatoVM(idUsuario);
                         int i = vm.ListaContato.Count - 1;
@@ -217,7 +217,7 @@ namespace CoolAgenda.Controllers
 
         private ContatoVM ConstruirContatoVM(int id)
         {
-            ContatoVM vm = new ContatoVM();            
+            ContatoVM vm = new ContatoVM();
 
             var registros = contatoService.BuscarPorIdUsuario(id);
             vm.ListaContato = registros;
@@ -231,7 +231,7 @@ namespace CoolAgenda.Controllers
             Contato registro = contatoService.BuscarPorId(id);
             ContatoVM vm = null;
             if (registro != null)
-            {                
+            {
                 vm = ConverterFormVM(registro);
                 vm.Edicao = true;
             }
@@ -244,12 +244,22 @@ namespace CoolAgenda.Controllers
             vm.IdContato = reg.IdContato;
             vm.IdUsuario = reg.IdUsuario;
             vm.Nome = reg.Nome;
-            vm.Email = reg.Email;            
+            vm.Email = reg.Email;
             vm.ListaTelefone = telefoneService.ListarPorIdContato(vm.IdContato);
-            vm.telefoneUm = vm.ListaTelefone[0].NumeroTelefone;
-            vm.telefoneDois = vm.ListaTelefone[1].NumeroTelefone;
+
+
+            if (vm.ListaTelefone[0].NumeroTelefone != null)
+                vm.telefoneUm = vm.ListaTelefone[0].NumeroTelefone;
+
+            if (vm.ListaTelefone.Count > 1)
+            {
+                if (vm.ListaTelefone[1].NumeroTelefone != null)
+                    vm.telefoneDois = vm.ListaTelefone[1].NumeroTelefone;
+            }
+
+
             vm.Endereco = reg.Endereco;
-            
+
             return vm;
         }
 
@@ -257,7 +267,7 @@ namespace CoolAgenda.Controllers
         {
             Grupo reg = new Grupo();
             reg.IdGrupo = vm.IdGrupo;
-            reg.Nome = vm.Nome;            
+            reg.Nome = vm.Nome;
             reg.FlagAtivo = (vm.FlagAtivo ? "S" : "N");
 
             return reg;
@@ -304,12 +314,12 @@ namespace CoolAgenda.Controllers
         private List<Telefone> ConverterCadVMParaTelefones(ContatoVM vm)
         {
             List<Telefone> telefones = new List<Telefone>();
-            
+
             string numeroTelefoneUm = vm.telefoneUm;
             if (!String.IsNullOrEmpty(numeroTelefoneUm))
             {
                 Telefone telefoneUm = new Telefone();
-                telefoneUm.NumeroTelefone= RemoverFormatacaoTelefone(numeroTelefoneUm);
+                telefoneUm.NumeroTelefone = RemoverFormatacaoTelefone(numeroTelefoneUm);
                 telefones.Add(telefoneUm);
             }
 
@@ -325,7 +335,7 @@ namespace CoolAgenda.Controllers
         }
 
         private string RemoverFormatacaoTelefone(string telefoneFormatado)
-        {            
+        {
             string telefoneApenasNumeros = telefoneFormatado.Replace("(", "").Replace(")", "").Replace(" ", "").Replace("-", "");
             return telefoneApenasNumeros;
         }

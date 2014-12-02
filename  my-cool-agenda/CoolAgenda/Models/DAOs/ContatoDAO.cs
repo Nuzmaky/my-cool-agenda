@@ -21,7 +21,11 @@ namespace CoolAgenda.Models
 
         //Insert
         public void Insert(Contato contato)
-        {            
+        {
+            string end = contato.Endereco;
+            if (contato.Endereco == null)
+                end = "";            
+
             SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Email, Endereco) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?)";
 
             // Configura o comando
@@ -42,7 +46,7 @@ namespace CoolAgenda.Models
             comando.Parameters.Add(pEmail);
 
             OleDbParameter pEndereco = new OleDbParameter("Endereco", OleDbType.VarChar);
-            pEndereco.Value = contato.Endereco;
+            pEndereco.Value = end;
             comando.Parameters.Add(pEndereco);            
 
             comando.ExecuteNonQuery();

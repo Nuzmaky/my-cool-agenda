@@ -2,7 +2,14 @@
     ViewBag.Title = "Cadastro Inativo";
 }
 
-<h2>Cadastro Inativo</h2>
 
-<p>@ViewBag.Inativo</p>
-@Html.ActionLink("Ir para autenticação","Index","Home")
+<div id="paginasErro">
+    <div style="width: 100px; height: 100px; float: left">
+        <img id="imgPin" src="~/Images/pinguim.png" />
+    </div>
+    <div style="margin-top:20px">
+        <h3><p>@ViewBag.Inativo</p></h3>
+        @Html.ActionLink("Ir para autenticação","Index","Home")
+    </div>
+</div>
+    
