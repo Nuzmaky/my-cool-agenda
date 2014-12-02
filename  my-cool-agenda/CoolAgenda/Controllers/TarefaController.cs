@@ -16,10 +16,12 @@ namespace CoolAgenda.Controllers
     {
         
         ITarefaService tarefaService;
+        private IGrupoUsuarioService grupoUsuarioService;
         
         public TarefaController()
         {
             tarefaService = new TarefaService();
+            grupoUsuarioService = new GrupoUsuarioService();
         
         }
 
@@ -148,6 +150,9 @@ namespace CoolAgenda.Controllers
         private TarefaVM ConstruirFormVMParaNovo()
         {
             TarefaVM vm = new TarefaVM();
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+            vm.ListarGrupo = grupoUsuarioService.ComboListarGruposUsuario(idUser);
             vm.Edicao = false;
             return vm;
         }
@@ -157,6 +162,7 @@ namespace CoolAgenda.Controllers
             Tarefa reg = new Tarefa();
             reg.IdTarefa = vm.IdTarefa;
             reg.IdUsuario = vm.IdUsuario;
+            reg.IdGrupo = vm.Grupo;
             reg.IdCompromisso = vm.IdCompromisso;
             reg.NomeTarefa = vm.NomeTarefa;
             reg.Criador = vm.Criador;

@@ -16,6 +16,7 @@
                     <th>Nome</th>
                     <th>Descrição</th>
                     <th>Requisitante</th>
+                    <th>Grupo</th>
                     <th>Data Inicial</th>
                     <th>Data Final</th>
                     <th>Concluida</th>
@@ -28,6 +29,7 @@
                         <td>@Model.ListaTarefa[i].NomeTarefa</td>
                         <td>@Model.ListaTarefa[i].DescTarefa</td>
                         <td>@Model.ListaTarefa[i].UsuarioCriador.Nome</td>
+                        <td>@Model.ListaTarefa[i].Grupo.Nome</td>
                         <td>@Model.ListaTarefa[i].DataInicial</td>
                         <td>@Model.ListaTarefa[i].DataFinal</td>
                         @{
@@ -68,6 +70,7 @@
                 <tr>
                     <th>Nome</th>
                     <th>Usuário</th>
+                    <th>Grupo</th>
                     <th>Data Inicial</th>
                     <th>Data Final</th>
                     <th>Concluída</th>
@@ -80,6 +83,7 @@
                     <tr>
                         <td>@Model.ListaTarefaReq[i].NomeTarefa</td>
                         <td>@Model.ListaTarefaReq[i].Usuario.Nome</td>
+                        <td>@Model.ListaTarefaReq[i].Grupo.Nome</td>
                         <td>@Model.ListaTarefaReq[i].DataInicial</td>
                         <td>@Model.ListaTarefaReq[i].DataFinal</td>
                         @{

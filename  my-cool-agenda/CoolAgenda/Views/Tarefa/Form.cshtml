@@ -5,31 +5,31 @@
 
 <div id="paginas">
 
-        @{
-            if (Model.Edicao)
-            {
-                ViewBag.Title = "Editar Tarefa";
-            <h2 style="text-align: center">Edite os dados da Tarefa</h2>
-            }
-            else
-            {
-                ViewBag.Title = "Cadastrar Tarefa";
-            <h2 style="text-align: center">Nova Tarefa</h2>
-            }
+    @{
+        if (Model.Edicao)
+        {
+            ViewBag.Title = "Editar Tarefa";
+        <h2 style="text-align: center">Edite os dados da Tarefa</h2>
         }
-        
+        else
+        {
+            ViewBag.Title = "Cadastrar Tarefa";
+        <h2 style="text-align: center">Nova Tarefa</h2>
+        }
+    }
+
     @using (Html.BeginForm("Form", "Tarefa", FormMethod.Post, new { id = "cadTarefa", @class = "well", style = "width:450px; margin-left:auto; margin-right:auto;" }))
     {
-         string display = ViewData.ModelState.IsValid ? "none" : "block";
+        string display = ViewData.ModelState.IsValid ? "none" : "block";
         <div class="errorbox" id="validationSummary" style="display:@display; float: right; width: 45%">
             @Html.ValidationSummary()
         </div>
         
         @Html.HiddenFor(m => m.Edicao)
         @Html.HiddenFor(m => m.IdTarefa)
-        @Html.HiddenFor(m=>m.Criador)
-        @Html.HiddenFor(m=>m.IdCompromisso)
-        @Html.HiddenFor(m=>m.Ativo)
+        @Html.HiddenFor(m => m.Criador)
+        @Html.HiddenFor(m => m.IdCompromisso)
+        @Html.HiddenFor(m => m.Ativo)
 
         @Html.LabelFor(m => m.NomeTarefa)
         @Html.TextBoxFor(m => m.NomeTarefa) <br />
@@ -37,20 +37,26 @@
         @Html.LabelFor(m => m.DescTarefa)
         @Html.TextAreaFor(m => m.DescTarefa) <br />
         
-        @Html.LabelFor(m=>m.IdUsuario)
-        @Html.TextBoxFor(m=>m.IdUsuario)
-        
         @Html.LabelFor(m => m.DataInicial)
-        @Html.TextBoxFor(m => m.DataInicial,new { @class = "datetimepicker-pt-br"}) <br />
+        @Html.TextBoxFor(m => m.DataInicial, new { @class = "datetimepicker-pt-br" }) <br />
         
         @Html.LabelFor(m => m.DataFinal)
-        @Html.TextBoxFor(m => m.DataFinal,new { @class = "datetimepicker-pt-br2"}) <br />
+        @Html.TextBoxFor(m => m.DataFinal, new { @class = "datetimepicker-pt-br2" }) <br />
         
-        if (Model.Edicao)
-            {
-                <label>Concluida</label>
-                @Html.CheckBoxFor(m=>m.Concluida)<br /><br />
-            }
+        if (!Model.Edicao)
+        {
+        @Html.DropDownListFor(m => m.Grupo, Model.ListarGrupo, new { id = "mostraGrupo" })<br />
+
+        @Html.LabelFor(m => m.IdUsuario, new { @style = "margin-top: 3px" })
+        @Html.TextBoxFor(m => m.IdUsuario, new { id = "usuariosdoGrupo" })
+             
+        }
+        else
+        {
+        <label>Concluida</label>
+        @Html.CheckBoxFor(m => m.Concluida)<br />
+        <br />
+        }
 
         <div style="width: 450px;">
             <div style="float: left; margin-top: 10px;">@Html.ActionLink("Voltar", "Index")</div>
@@ -61,50 +67,91 @@
     }
 
 </div>
-    
+<style>
+    ul.token-input-list-facebook {
+        width: 220px;
+    }
+
+    div.token-input-dropdown-facebook {
+        width: 220px;
+    }
+</style>
 
 <script>
-       $(document).ready(function () {
-           jQuery(".datetimepicker-pt-br").datetimepicker({
-               lang: 'pt',
-               format: 'd/m/y H:i',
-               step: 30
+    $(document).ready(function () {
+        jQuery(".datetimepicker-pt-br").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/y H:i',
+            step: 30
+        });
+    });
+
+    $(document).ready(function () {
+        jQuery(".datetimepicker-pt-br2").datetimepicker({
+            lang: 'pt',
+            format: 'd/m/y H:i',
+            step: 30
+        });
+    });
+
+
+    $(document).ready(function () {
+        $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");
+    });
+
+    function resetValidation() {
+        //Remove validacao dos input-fields
+        $('.input-validation-error').addClass('input-validation-valid');
+        $('.input-validation-error').removeClass('input-validation-error');
+        //Remove validation das mensagens dps dos input-fields
+        $('.field-validation-error').addClass('field-validation-valid');
+        $('.field-validation-error').removeClass('field-validation-error');
+        //Remove o validation summary 
+        $('.validation-summary-errors').addClass('validation-summary-valid');
+        $('.validation-summary-errors').removeClass('validation-summary-errors');
+        $('#validationSummary').css('display', 'none');
+    }
+
+    setTimeout(function () {
+        $('.errorbox').fadeOut('slow');
+    }, 6000);
+
+    //INICIALIZA O TOKEN USUARIOS DO GRUPO
+    $(document).ready(function () {
+        var grupoSelecionado = $('#mostraGrupo').val()
+        $("#usuariosdoGrupo").tokenInput("/Compromisso/PegaUsuarios/?queryParam=q&idGrupo=" + grupoSelecionado,
+            {
+                queryParam: "q",
+                propertyToSearch: "name",
+                resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.name + "' height='25px' width='25px' style='margin-top:-25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                tokenFormatter: function (item) { return "<li><p>" + item.name + "</p></li>" },
+                theme: "facebook",
+                preventDuplicates: true,
+                tokenLimit: 1,
             });
-       });
+    });
 
-       $(document).ready(function () {
-           jQuery(".datetimepicker-pt-br2").datetimepicker({
-               lang: 'pt',
-               format: 'd/m/y H:i',
-               step: 30
-           });
-       });
-
-
-       $(document).ready(function () {
-           $(".errorbox").prepend("<span class='errorimage2'><span class='errorhead'>Ops, existem problemas</span></span>");
-       });
-
-       function resetValidation() {
-           //Remove validacao dos input-fields
-           $('.input-validation-error').addClass('input-validation-valid');
-           $('.input-validation-error').removeClass('input-validation-error');
-           //Remove validation das mensagens dps dos input-fields
-           $('.field-validation-error').addClass('field-validation-valid');
-           $('.field-validation-error').removeClass('field-validation-error');
-           //Remove o validation summary 
-           $('.validation-summary-errors').addClass('validation-summary-valid');
-           $('.validation-summary-errors').removeClass('validation-summary-errors');
-           $('#validationSummary').css('display', 'none');
-       }
-
-       setTimeout(function () {
-           $('.errorbox').fadeOut('slow');
-       }, 6000);
+    //INICIALIZA O TOKEN USUARIOS DO GRUPO
+    $(document).ready(function () {
+        $('#mostraGrupo').change(function () {
+            var grupoSelecionado = $('#mostraGrupo').val()
+            $('.token-input-list-facebook').remove();
+            $("#usuariosdoGrupo").tokenInput("/Compromisso/PegaUsuarios/?queryParam=q&idGrupo=" + grupoSelecionado,
+                {
+                    queryParam: "q",
+                    propertyToSearch: "name",
+                    resultsFormatter: function (item) { return "<li>" + "<img src='" + item.url + "' title='" + item.name + "' height='25px' width='25px' style='margin-top:-25px' />" + "<div style='display: inline-block; padding-left: 10px;'><div class='full_name'>" + item.name + " </div><div class='email'>" + item.email + "</div></div></li>" },
+                    tokenFormatter: function (item) { return "<li><p>" + item.name + "</p></li>" },
+                    theme: "facebook",
+                    preventDuplicates: true,
+                    tokenLimit: 1,
+                });
+        });
+    });
 
 </script>
 
- 
-    
+
+
 
 

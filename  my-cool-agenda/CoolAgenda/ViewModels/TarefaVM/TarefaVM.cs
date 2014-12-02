@@ -21,6 +21,12 @@ namespace CoolAgenda.ViewModels.TarefaVM
         [Required(ErrorMessage = "Escolha um Usuário para executar a tarefa.")]
         public int IdUsuario { get; set; }
 
+        public List<SelectListItem> ListarGrupo { get; set; }
+
+        [Required(ErrorMessage = "Selecione um Grupo.")]
+        [Display(Name = "Grupo *")]
+        public int Grupo { get; set; }
+
         public int Criador { get; set; }
 
         [Display(Name = "Nome *")]

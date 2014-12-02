@@ -16,11 +16,13 @@ namespace CoolAgenda.Models
     {
         private ICompromissoDAO compromissoDAO;
         private IUsuarioDAO usuarioDAO;
+        private IGrupoDAO grupoDAO;
 
         public TarefaDAO()
         {
             compromissoDAO = new CompromissoDAO();
             usuarioDAO = new UsuarioDAO();
+            grupoDAO = new GrupoDAO();
         }
 
 
@@ -29,7 +31,7 @@ namespace CoolAgenda.Models
         //Insert
         public void Adcionar(Tarefa tarefa)
         {
-            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Criador, Descricao, DataInicial, DataFinal, Concluida) VALUES (SeqTarefa.NEXTVAL, null, ?, ?, ?, ?, TO_DATE(?, 'DD-MM-YY HH24:MI'), TO_DATE(?, 'DD-MM-YY HH24:MI'), 'N')";
+            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, idGrupo, Nome, Criador, Descricao, DataInicial, DataFinal, Concluida) VALUES (SeqTarefa.NEXTVAL, null, ?, ?, ?, ?, ?, TO_DATE(?, 'DD-MM-YY HH24:MI'), TO_DATE(?, 'DD-MM-YY HH24:MI'), 'N')";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
@@ -40,6 +42,10 @@ namespace CoolAgenda.Models
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
             pIdUsuario.Value = tarefa.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
+
+            OleDbParameter pIdGrupo = new OleDbParameter("IdGrupo", OleDbType.VarChar);
+            pIdGrupo.Value = tarefa.IdGrupo;
+            comando.Parameters.Add(pIdGrupo);
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
             pNome.Value = tarefa.NomeTarefa;
@@ -125,6 +131,10 @@ namespace CoolAgenda.Models
             int idUsuarioCriador = tarefa.Criador;
             Usuario user2 = usuarioDAO.BuscarPorId(idUsuarioCriador);
             tarefa.UsuarioCriador = user2;
+
+            int idGrupo = tarefa.IdGrupo;
+            Grupo grupo = grupoDAO.BuscarPorId(idGrupo);
+            tarefa.Grupo = grupo;
         }
 
 
@@ -176,6 +186,7 @@ namespace CoolAgenda.Models
             tarefa.NomeTarefa = dr["NOME"].ToString();
             tarefa.IdCompromisso = int.TryParse(dr["IdCompromisso"].ToString(), out aux) ? aux : (int?)null;
             tarefa.IdUsuario = int.Parse(dr["Idusuario"].ToString());
+            tarefa.IdGrupo = int.Parse(dr["IdGrupo"].ToString());
             tarefa.Criador = int.Parse(dr["Criador"].ToString());
             tarefa.DescTarefa = dr["Descricao"].ToString();
             tarefa.DataInicial = dr["dataInicial"].ToString();

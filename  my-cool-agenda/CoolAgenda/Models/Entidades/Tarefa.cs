@@ -11,6 +11,7 @@ namespace CoolAgenda.Models
         public int IdTarefa { get; set; }
         public int? IdCompromisso { get; set; }
         public int IdUsuario { get; set; }
+        public int IdGrupo { get; set; }
         public int Criador { get; set; }
         public string NomeTarefa { get; set; }
         public string DescTarefa { get; set; }
@@ -22,6 +23,7 @@ namespace CoolAgenda.Models
         //composicao de classes
         public Usuario Usuario { get; set; }
         public Usuario UsuarioCriador { get; set; }
+        public Grupo Grupo { get; set; }
     }
 
 }
