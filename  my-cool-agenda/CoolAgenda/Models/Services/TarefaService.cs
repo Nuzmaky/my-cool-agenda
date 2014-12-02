@@ -44,8 +44,20 @@ namespace CoolAgenda.Models
          public List<Validacao> ValidaAtualizar(Tarefa entidade)
         {
             List<Validacao> erros = new List<Validacao>();
-
-            return erros;
+            DateTime Inicial = DateTime.Parse(entidade.DataInicial);
+            DateTime Final = DateTime.Parse(entidade.DataFinal);
+            if (Final < Inicial)
+            {
+                erros.Add(new Validacao("A Data Final tem que ter Após a Data Inicial"));
+            }
+            else
+            {
+                if (Inicial.AddMinutes(30) > Final)
+                {
+                    erros.Add(new Validacao("A Data Final tem que ser pelo menos 30 minutos após o Inicio da Tarefa"));
+                }
+            }
+          return erros;
         }
 
         public List<Validacao> ValidarEntidade(Tarefa entidade)
@@ -72,7 +84,19 @@ namespace CoolAgenda.Models
         public List<Validacao> ValidaAdicionar(Tarefa entidade)
         {
             List<Validacao> erros = new List<Validacao>();
-
+            DateTime Inicial = DateTime.Parse(entidade.DataInicial);
+            DateTime Final = DateTime.Parse(entidade.DataFinal);
+            if (Final < Inicial)
+            {
+                erros.Add(new Validacao("A Data Final tem que ter Após a Data Inicial"));
+            }
+            else
+            {
+                if (Inicial.AddMinutes(30) > Final)
+                {
+                    erros.Add(new Validacao("A Data Final tem que ser pelo menos 30 minutos após o Inicio da Tarefa"));
+                }
+            }
             return erros;
         }
 

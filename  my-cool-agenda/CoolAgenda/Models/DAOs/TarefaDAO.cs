@@ -29,7 +29,7 @@ namespace CoolAgenda.Models
         //Insert
         public void Adcionar(Tarefa tarefa)
         {
-            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Criador, Descricao, DataInicial, DataFinal, Concluida) VALUES (SeqTarefa.NEXTVAL, 1, ?, ?, ?, ?, TO_DATE(?, 'DD-MM-YY HH24:MI'), TO_DATE(?, 'DD-MM-YY HH24:MI'), 'N')";
+            SQL = "INSERT into TAREFA (idTarefa, idCompromisso, idUsuario, Nome, Criador, Descricao, DataInicial, DataFinal, Concluida) VALUES (SeqTarefa.NEXTVAL, null, ?, ?, ?, ?, TO_DATE(?, 'DD-MM-YY HH24:MI'), TO_DATE(?, 'DD-MM-YY HH24:MI'), 'N')";
 
             OleDbCommand comando = new OleDbCommand(SQL, Conexao.getConexao() as OleDbConnection);
 
