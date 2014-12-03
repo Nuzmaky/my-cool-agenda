@@ -488,3 +488,7 @@ a.Nova img {
     padding-top: 3px;
 }
 
+.btn.btn-default a {
+    color: #383838;
+    text-decoration: none;
+}

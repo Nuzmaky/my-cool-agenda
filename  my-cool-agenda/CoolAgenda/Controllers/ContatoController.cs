@@ -176,17 +176,30 @@ namespace CoolAgenda.Controllers
                     if (vm.Edicao)
                     {
                         // Atualiza Contato
-                        contatoService.UpdateContato(contato);
+                        //contatoService.UpdateContato(contato);
 
                         vm = ConstruirContatoVM(idUsuario);
 
+                        List<Telefone> tel = telefoneService.ListarPorIdContato(contato.IdContato);
+
+                        if (tel.Count == 1 && telefones.Count==2)
+                        {
+                            tel.Add(telefones[1]);
+                            tel[1].NumeroTelefone = "";
+                        }
+
+                        if(telefones.Count==1 && tel.Count==2)
+                        {
+                            telefones.Add(tel[1]);
+                            telefones[1].NumeroTelefone = "";
+                        }
 
                         for (int i = 0; i < telefones.Count; i++)
-                        {
-                            List<Telefone> tel = telefoneService.ListarPorIdContato(contato.IdContato);
-                            telefones[i].IdTelefone = tel[i].IdTelefone;
-                            telefones[i].IdContato = tel[i].IdContato;
-                        }
+                            {
+                                telefones[i].IdTelefone = tel[i].IdTelefone;
+                                telefones[i].IdContato = tel[i].IdContato;
+                            }
+                        
 
                         // Atualiza Telefone
                         contatoService.Update(contato, telefones);
@@ -342,8 +355,13 @@ namespace CoolAgenda.Controllers
 
         private string FormatarNumeroTelefone(string telefoneApenasNumero)
         {
-            string telefoneFormatado = telefoneApenasNumero.Insert(0, "(").Insert(3, ")").Insert(4, " ");
-            return telefoneFormatado;
+            if (telefoneApenasNumero != "")
+            {
+                string telefoneFormatado = telefoneApenasNumero.Insert(0, "(").Insert(3, ")").Insert(4, " ");
+                return telefoneFormatado;
+            }
+
+            else { return telefoneApenasNumero; }
         }
 
 

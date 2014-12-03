@@ -20,7 +20,7 @@
         @Html.TextAreaFor(m => m.Texto, new { id = "notaTexto", @class = "form-control", @placeholder = "Digite a nota..." }) <br />
         
         <div style="width: 550px;">
-            <div style="float: left; margin-top: 10px;"><a href="@Url.Action("Editar", "Compromisso", new { id = Model.IdCompromisso })">Voltar</a></div>
+            <div class="btn btn-default" style="float: left; margin-top: 10px;"><a href="@Url.Action("Editar", "Compromisso", new { id = Model.IdCompromisso })">Voltar</a></div>
             <div style="text-align: right;">
                 <input type="submit" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="notaForm" />
             </div>

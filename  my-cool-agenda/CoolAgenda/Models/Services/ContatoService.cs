@@ -75,10 +75,13 @@ namespace CoolAgenda.Models
 
             try
             {
-                foreach (var telefone in telefones)
-                {                                                            
-                    UpdateTelefone(contato, telefone, transacao);
-                }
+                if (telefones.Count == 1) { telefones.Add(null); }
+                
+               foreach (var telefone in telefones)
+               {
+                   UpdateTelefone(contato, telefone, transacao);
+               }
+                
 
                 // Se chegar até aqui deu tudo certo
                 // então realiza o Commit 
