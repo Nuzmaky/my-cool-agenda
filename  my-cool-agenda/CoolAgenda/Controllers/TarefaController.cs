@@ -14,15 +14,15 @@ namespace CoolAgenda.Controllers
     [FiltroAutenticacao("U")]
     public class TarefaController : Controller
     {
-        
+
         ITarefaService tarefaService;
         private IGrupoUsuarioService grupoUsuarioService;
-        
+
         public TarefaController()
         {
             tarefaService = new TarefaService();
             grupoUsuarioService = new GrupoUsuarioService();
-        
+
         }
 
         [FiltroAutenticacao]
@@ -55,23 +55,24 @@ namespace CoolAgenda.Controllers
             if (ModelState.IsValid)
             {
                 Tarefa tarefa = ConverterFormVM(vm);
-                
+
                 var erros = tarefaService.ValidarEntidade(tarefa);
                 if (erros.Count == 0)
                 {
                     if (vm.Edicao)
                         tarefaService.Atualizar(tarefa);
-                    else{
+                    else
+                    {
                         Usuario usuario = Session["Usuario"] as Usuario;
                         tarefa.Criador = usuario.IdUsuario;
                         tarefaService.Adicionar(tarefa);
-                        
+
 
                         // Mateus - E-mail                        
                         List<Tarefa> ListaUsuario = tarefaService.ListarId(tarefa.IdUsuario);
-                        
+
                         UsuarioService usuarioService = new UsuarioService();
-                        
+
                         // Buscar o Usuário que está na tarefa
                         usuario = usuarioService.BuscarPorId(tarefa.IdUsuario);
 
@@ -86,6 +87,10 @@ namespace CoolAgenda.Controllers
                     ModelState.AddModelErrors(erros);
                 }
             }
+
+            Usuario pUsuario = Session["Usuario"] as Usuario;
+            int idUser = pUsuario.IdUsuario;
+            vm.ListarGrupo = grupoUsuarioService.ComboListarGruposUsuario(idUser);
 
             return View(vm);
         }
@@ -122,7 +127,7 @@ namespace CoolAgenda.Controllers
         private TarefaVM ConstruirFormVMParaEdicao(int id)
         {
             Tarefa registro = tarefaService.BuscarPorId(id);
-            TarefaVM vm = null; 
+            TarefaVM vm = null;
             if (registro != null)
             {
                 vm = ConverterFormVM(registro);
@@ -140,9 +145,19 @@ namespace CoolAgenda.Controllers
             vm.NomeTarefa = reg.NomeTarefa;
             vm.Criador = reg.Criador;
             vm.DescTarefa = reg.DescTarefa;
-            vm.DataInicial = reg.DataInicial;
-            vm.DataFinal = reg.DataFinal;
-            if (reg.Concluida == "S") { vm.Concluida = true; }       
+            DateTime dataInicial = reg.DataInicial;
+            DateTime dataFinal = reg.DataFinal;
+
+            if (dataInicial != null)
+            {
+                vm.DataInicial = dataInicial.ToString("dd/MM/yyyy HH:mm");
+            }
+            if (dataFinal != null)
+            {
+                vm.DataFinal = dataFinal.ToString("dd/MM/yyyy HH:mm");
+            }
+            
+            if (reg.Concluida == "S") { vm.Concluida = true; }
 
             return vm;
         }
@@ -167,9 +182,12 @@ namespace CoolAgenda.Controllers
             reg.NomeTarefa = vm.NomeTarefa;
             reg.Criador = vm.Criador;
             reg.DescTarefa = vm.DescTarefa;
-            reg.DataInicial = vm.DataInicial;
-            reg.DataFinal = vm.DataFinal;
-            if (vm.Concluida) { reg.Concluida = "S"; }
+            reg.DataInicial = DateTime.Parse(vm.DataInicial);
+            reg.DataFinal = DateTime.Parse(vm.DataFinal);
+            if (vm.Concluida)
+            { reg.Concluida = "S"; }
+            else
+            { reg.Concluida = "N"; }
 
             return reg;
         }

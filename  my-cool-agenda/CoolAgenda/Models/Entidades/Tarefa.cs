@@ -15,8 +15,8 @@ namespace CoolAgenda.Models
         public int Criador { get; set; }
         public string NomeTarefa { get; set; }
         public string DescTarefa { get; set; }
-        public string DataInicial { get; set; }
-        public string DataFinal { get; set; }
+        public DateTime DataInicial { get; set; }
+        public DateTime DataFinal { get; set; }
         public string Concluida { get; set; }
         public string Ativo { get; set; }
 

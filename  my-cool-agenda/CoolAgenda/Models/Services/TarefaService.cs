@@ -41,23 +41,22 @@ namespace CoolAgenda.Models
             tarefaDao.Update(entidade);
         }
 
-         public List<Validacao> ValidaAtualizar(Tarefa entidade)
+        public List<Validacao> ValidaAtualizar(Tarefa entidade)
         {
             List<Validacao> erros = new List<Validacao>();
-            DateTime Inicial = DateTime.Parse(entidade.DataInicial);
-            DateTime Final = DateTime.Parse(entidade.DataFinal);
-            if (Final < Inicial)
+
+            bool dataInvalida = entidade.DataInicial > entidade.DataFinal;
+            if (dataInvalida)
             {
-                erros.Add(new Validacao("A Data Final tem que ter Após a Data Inicial"));
+                erros.Add(new Validacao("Data Inicial maior que a Data Final"));
             }
             else
             {
-                if (Inicial.AddMinutes(30) > Final)
-                {
-                    erros.Add(new Validacao("A Data Final tem que ser pelo menos 30 minutos após o Inicio da Tarefa"));
-                }
+                bool dataInvalida2 = entidade.DataInicial.AddMinutes(30) > entidade.DataFinal;
+                if (dataInvalida2)
+                    erros.Add(new Validacao("A Data Final tem que ter ao menos 30 minutos da data Inicial"));
             }
-          return erros;
+            return erros;
         }
 
         public List<Validacao> ValidarEntidade(Tarefa entidade)
@@ -83,19 +82,19 @@ namespace CoolAgenda.Models
 
         public List<Validacao> ValidaAdicionar(Tarefa entidade)
         {
+
             List<Validacao> erros = new List<Validacao>();
-            DateTime Inicial = DateTime.Parse(entidade.DataInicial);
-            DateTime Final = DateTime.Parse(entidade.DataFinal);
-            if (Final < Inicial)
+
+            bool dataInvalida = entidade.DataInicial > entidade.DataFinal;
+            if (dataInvalida)
             {
-                erros.Add(new Validacao("A Data Final tem que ter Após a Data Inicial"));
+                erros.Add(new Validacao("Data Inicial maior que a Data Final"));
             }
             else
             {
-                if (Inicial.AddMinutes(30) > Final)
-                {
-                    erros.Add(new Validacao("A Data Final tem que ser pelo menos 30 minutos após o Inicio da Tarefa"));
-                }
+                bool dataInvalida2 = entidade.DataInicial.AddMinutes(30) > entidade.DataFinal;
+                if (dataInvalida2)
+                    erros.Add(new Validacao("A Data Final tem que ter ao menos 30 minutos da data Inicial"));
             }
             return erros;
         }
