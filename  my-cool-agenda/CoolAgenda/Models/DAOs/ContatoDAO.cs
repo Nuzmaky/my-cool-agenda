@@ -26,7 +26,7 @@ namespace CoolAgenda.Models
             if (contato.Endereco == null)
                 end = "";            
 
-            SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Email, Endereco) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?)";
+            SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Apelido, Email, Endereco, DataNascimento) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?, ?, ?)";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -41,13 +41,21 @@ namespace CoolAgenda.Models
             pNome.Value = contato.Nome;
             comando.Parameters.Add(pNome);
 
+            OleDbParameter pApelido = new OleDbParameter("Apelido", OleDbType.VarChar);
+            pApelido.Value = contato.Apelido;
+            comando.Parameters.Add(pApelido);
+
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
             pEmail.Value = contato.Email;
             comando.Parameters.Add(pEmail);
 
             OleDbParameter pEndereco = new OleDbParameter("Endereco", OleDbType.VarChar);
             pEndereco.Value = end;
-            comando.Parameters.Add(pEndereco);            
+            comando.Parameters.Add(pEndereco);
+
+            OleDbParameter pDataNascimento = new OleDbParameter("DataNascimento", OleDbType.Date);
+            pDataNascimento.Value = contato.DataNascimento;
+            comando.Parameters.Add(pDataNascimento);
 
             comando.ExecuteNonQuery();
 
@@ -83,7 +91,7 @@ namespace CoolAgenda.Models
         //Update
         public void Update(Contato contato)
         {
-            SQL = "UPDATE Contato SET Nome = ?, Email = ?, Endereco = ? WHERE IdContato = ? and IdUsuario = ?";
+            SQL = "UPDATE Contato SET Nome = ?, Apelido = ?, Email = ?, Endereco = ?, DataNascimento = ? WHERE IdContato = ? and IdUsuario = ?";
 
             // Configura o comando
             OleDbCommand comando = new OleDbCommand();
@@ -94,6 +102,11 @@ namespace CoolAgenda.Models
             pNome.Value = contato.Nome;
             comando.Parameters.Add(pNome);
 
+            OleDbParameter pApelido = new OleDbParameter("Apelido", OleDbType.VarChar);
+            pApelido.Value = contato.Apelido;
+            if (pApelido.Value == null) { pApelido.Value = ""; }
+            comando.Parameters.Add(pApelido);
+
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
             pEmail.Value = contato.Email;
             comando.Parameters.Add(pEmail);
@@ -101,6 +114,10 @@ namespace CoolAgenda.Models
             OleDbParameter pEndereco = new OleDbParameter("Endereco", OleDbType.VarChar);
             pEndereco.Value = contato.Endereco;
             comando.Parameters.Add(pEndereco);
+
+            OleDbParameter pDataNascimento = new OleDbParameter("DataNascimento", OleDbType.Date);
+            pDataNascimento.Value = contato.DataNascimento;
+            comando.Parameters.Add(pDataNascimento);
 
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
             pIdContato.Value = contato.IdContato;
@@ -196,9 +213,11 @@ namespace CoolAgenda.Models
             Contato contato = new Contato();
             contato.IdContato = int.Parse(dr["IdContato"].ToString());
             contato.IdUsuario = int.Parse(dr["Idusuario"].ToString());
-            contato.Nome = dr["Nome"].ToString(); 
+            contato.Nome = dr["Nome"].ToString();
+            contato.Apelido = dr["Apelido"].ToString();
             contato.Email = dr["Email"].ToString();
             contato.Endereco = dr["Endereco"].ToString();
+            contato.DataNascimento = DateTime.Parse(dr["DataNascimento"].ToString());
             contato.Ativo = dr["Ativo"].ToString();
 
             return contato;

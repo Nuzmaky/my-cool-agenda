@@ -31,6 +31,9 @@
         @Html.Label("Nome: ")
         @Html.TextBoxFor(m => m.Nome) <br />
         
+        @Html.Label("Apelido: ")
+        @Html.TextBoxFor(m => m.Apelido) <br />
+        
         @Html.Label("E-mail: ")
         @Html.TextBoxFor(m => m.Email) <br /> 
         
@@ -41,7 +44,10 @@
         @Html.TextBoxFor(m => m.telefoneDois, new { @class = "TELEFONE" }) 
 
         @Html.Label("Endereço: ")
-        @Html.TextBoxFor(m => m.Endereco) <br />         
+        @Html.TextBoxFor(m => m.Endereco) <br />     
+        
+        @Html.Label("Data de Nascimento: ")
+        @Html.TextBoxFor(m => m.DataNascimento, new { id = "txDataNascimento", @class = "datetimepicker-pt-br", @placeholder = "Data Nascimento" })    <br />
         
         <input type="submit" name="btOK" value="Cadastrar!" />
     }
@@ -64,5 +70,18 @@
         function ConfiguraMascaras() {
             $(".TELEFONE").mask("(00) 90000-0000");
         }
+
+        $(document).ready(function () {
+            jQuery(".datetimepicker-pt-br").datetimepicker({
+                lang: 'pt',
+                format: 'd/m/Y'
+            });
+
+            if (isDate($("#txDataNascimento").val())) {
+                $("#txDataNascimento").datetimepicker({
+                    startDate: $("#txDatanascimento").val()
+                });
+            }
+        });
     </script>
 }

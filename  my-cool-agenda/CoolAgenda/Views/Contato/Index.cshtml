@@ -14,9 +14,11 @@
         <table>
             <tr>
                 <th>Nome</th>
+                <th>Apelido</th>
                 <th>Email</th>
                 <th>Telefone</th>
                 <th>Endereço</th>
+                <th>Data de Nascimento</th>
                 <th>Editar</th>
                 <th>Excluir</th>
                 <th>Convidar</th>
@@ -28,7 +30,8 @@
             {
                 int c = 0;
                 <tr>
-                    <td>@Model.ListaContato[i].Nome</td>                
+                    <td>@Model.ListaContato[i].Nome</td>   
+                    <td>@Model.ListaContato[i].Apelido</td>              
                     <td>@Model.ListaContato[i].Email</td> 
 
                     <td>
@@ -57,6 +60,7 @@
                         }
                          </td>                                                                    
                     <td>@Model.ListaContato[i].Endereco</td>
+                    <td><span style="width: 110px; height: 20px; margin-left: 25px; display: block; overflow: hidden;">@Model.ListaContato[i].DataNascimento</span></td>
 
                 <td class="opcoes2">
                     <img class="no-border" src="../Images/editar.png" />@Html.ActionLink("Editar", "Form", new { id = Model.ListaContato[i].IdContato})                    

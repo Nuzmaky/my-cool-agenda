@@ -11,8 +11,10 @@ namespace CoolAgenda.Models
         private int idContato;
         private int idUsuario; // FK
         private string nome;
+        private string apelido;
         private string email;
         private string endereco;
+        private DateTime datanascimento;
         private string ativo;
 
         // Composição de classes
@@ -60,6 +62,17 @@ namespace CoolAgenda.Models
             }
         }
 
+        //APELIDO
+        public string Apelido
+        {
+            get { return apelido; }
+            set
+            {
+                if (value != null && value.Length < 100)
+                    apelido = value;
+            }
+        }
+
         //EMAIL
         public string Email
         {
@@ -81,6 +94,13 @@ namespace CoolAgenda.Models
                 if (value != null && value.Length < 100)
                     endereco = value;
             }
+        }
+
+        //DATA DE NASCIMENTO
+        public DateTime DataNascimento
+        {
+            get { return datanascimento; }
+            set { datanascimento = value; }
         }
 
         //ATIVO

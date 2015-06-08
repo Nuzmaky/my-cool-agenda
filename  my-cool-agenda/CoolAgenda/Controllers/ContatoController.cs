@@ -176,7 +176,7 @@ namespace CoolAgenda.Controllers
                     if (vm.Edicao)
                     {
                         // Atualiza Contato
-                        //contatoService.UpdateContato(contato);
+                        contatoService.UpdateContato(contato);
 
                         vm = ConstruirContatoVM(idUsuario);
 
@@ -257,6 +257,7 @@ namespace CoolAgenda.Controllers
             vm.IdContato = reg.IdContato;
             vm.IdUsuario = reg.IdUsuario;
             vm.Nome = reg.Nome;
+            vm.Apelido = reg.Apelido;
             vm.Email = reg.Email;
             vm.ListaTelefone = telefoneService.ListarPorIdContato(vm.IdContato);
 
@@ -272,6 +273,7 @@ namespace CoolAgenda.Controllers
 
 
             vm.Endereco = reg.Endereco;
+            vm.DataNascimento = reg.DataNascimento;
 
             return vm;
         }
@@ -292,8 +294,10 @@ namespace CoolAgenda.Controllers
             reg.IdUsuario = vm.IdUsuario;
             reg.IdContato = vm.IdContato;
             reg.Nome = vm.Nome;
+            reg.Apelido = vm.Apelido;
             reg.Email = vm.Email;
             reg.Endereco = vm.Endereco;
+            reg.DataNascimento = vm.DataNascimento;
 
             return reg;
         }

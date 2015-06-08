@@ -21,6 +21,9 @@ namespace CoolAgenda.ViewModels
         [Required(ErrorMessage = "Insira um Nome.")]
         [Display(Name = "Nome: ")]
         public string Nome { get; set; }
+
+        [Display(Name = "Apelido: ")]
+        public string Apelido { get; set; }
         
         [Required(ErrorMessage = "Insira um e-mail.")]
         [Display(Name = "E-mail: ")]
@@ -28,6 +31,11 @@ namespace CoolAgenda.ViewModels
 
         [Display(Name = "Endereço: ")]
         public string Endereco { get; set; }
+
+        [Display(Name = "Data Nascimento  *")]
+        [Required(ErrorMessage = "Insira a Data de Nascimento")]
+        [DisplayFormat(DataFormatString = "dd/mm/yyy")]
+        public DateTime DataNascimento { get; set; }
 
         [StringLength(15, MinimumLength = 13, ErrorMessage = "Insira o primeiro telefone corretamente.")]
         [Required(ErrorMessage = "Insira a primeira opção de telefone.")]
@@ -37,7 +45,7 @@ namespace CoolAgenda.ViewModels
         [StringLength(15, MinimumLength = 13, ErrorMessage = "Insira o segundo telefone corretamente.")]
         [Display(Name = "Telefone opcional")]
         public string telefoneDois { get; set; }
-     
+
         [Display(Name = "Ativo. ")]
         public bool Ativo { get; set; }
 
