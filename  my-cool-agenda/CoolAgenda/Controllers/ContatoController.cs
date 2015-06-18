@@ -30,6 +30,7 @@ namespace CoolAgenda.Controllers
         {
             grupoUsuarioService = new GrupoUsuarioService();
             usuarioService = new UsuarioService();
+            contatotel = new ContatoTel();
             contatoService = new ContatoService();
             telefoneService = new TelefoneService();
         }
@@ -174,9 +175,7 @@ namespace CoolAgenda.Controllers
                 {
                     if (vm.Edicao)
                     {
-                        // Atualiza Contato
-                        contatoService.UpdateContato(contato);
-
+                        
                         vm = ConstruirContatoVM(idUsuario);
 
                         List<Telefone> tel = telefoneService.ListarPorIdContato(contato.IdContato);
@@ -200,21 +199,19 @@ namespace CoolAgenda.Controllers
                             }
                         
 
-                        // Atualiza Telefone
-                        contatoService.Update(contato, telefones);
+                        // Atualiza Telefone e Contato
+                        contatotel.UpdateContatoTel(contato, telefones);
                     }
                     else
                     {
-                        // Insere Contato
-                        contatoService.InsertContato(contato);
-
-
                         vm = ConstruirContatoVM(idUsuario);
                         int i = vm.ListaContato.Count - 1;
                         contato.IdContato = vm.ListaContato[i].IdContato;
 
-                        //Insere Telefone do contato
+                        //Insere Telefone e Contato
+                        contatoService.InsertContato(contato);
                         contatoService.Insert(contato, telefones);
+
                     }
 
                     return RedirectToAction("Index");

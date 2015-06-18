@@ -2,15 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Common;
 
 namespace CoolAgenda.Models.Entidades
 {
     public class ContatoTel
     {
-        public Contato contato = new Contato();
-        public ContatoDAO contatodao = new ContatoDAO();
-        public Telefone telefone = new Telefone();
-        public TelefoneDAO telefonedao = new TelefoneDAO();
+        private ContatoService contatoservice;
+        private TelefoneService telefoneservice;
 
+        public void InsereContatoTel(Contato contato, List<Telefone> telefones)
+        {
+            contatoservice = new ContatoService();
+            contatoservice.InsertContato(contato);
+            contatoservice.Insert(contato, telefones);
+        }
+
+        public void UpdateContatoTel(Contato contato, List<Telefone> telefones)
+        {
+            contatoservice.UpdateContato(contato);
+            contatoservice.Update(contato, telefones);
+        }
     }
 }

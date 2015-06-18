@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoolAgenda.Models.Entidades;
+using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.OleDb;
@@ -9,8 +10,8 @@ namespace CoolAgenda.Models
 {
     public interface ITelefoneDAO
     {
-        void Insert(Contato contato, Telefone entidade, DbTransaction transacao);
-        void Update(Contato contato, Telefone entidade, DbTransaction transacao);
+        void Insert(Contato contato, Telefone telefone, DbTransaction transacao);
+        void Update(Contato contato, Telefone telefone, DbTransaction transacao);
         
 
         List<Telefone> Select();
