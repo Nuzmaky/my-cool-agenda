@@ -245,6 +245,7 @@
     <Compile Include="Models\TemplateDAOs\ITarefaDAO.cs" />
     <Compile Include="Models\TemplateDAOs\ITelefoneDAO.cs" />
     <Compile Include="Models\TemplateDAOs\IUsuarioDAO.cs" />
+    <Compile Include="Models\TemplateDAOs\TemplateTesteNota.cs" />
     <Compile Include="Models\TemplateServices\ICompromissoContatoService.cs" />
     <Compile Include="Models\TemplateServices\ICompromissoService.cs" />
     <Compile Include="Models\TemplateServices\ICompromissoUsuarioService.cs" />

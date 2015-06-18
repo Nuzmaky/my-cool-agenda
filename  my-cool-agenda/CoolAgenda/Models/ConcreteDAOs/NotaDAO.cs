@@ -1,4 +1,5 @@
 ﻿using CoolAgenda.Models;
+using CoolAgenda.Models.TemplateDAOs;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -8,7 +9,7 @@ using System.Web;
 
 namespace CoolAgenda.Models
 {
-    public class NotaDAO : INotaDAO
+    public class NotaDAO : TemplateNota
     {
         private string SQL;
         private IUsuarioDAO usuarioDAO;
@@ -19,7 +20,7 @@ namespace CoolAgenda.Models
         }
 
         //Insert
-        public void Adcionar(Nota nota)
+        public override void Adcionar(Nota nota)
         {
             SQL = "INSERT into NOTA (idNota, idCompromisso, idUsuario, Texto, Ativo) VALUES (SeqTarefa.NEXTVAL, ?, ?, ?,'S')";
 
@@ -42,7 +43,7 @@ namespace CoolAgenda.Models
         }
 
         //Select
-        public List<Nota> Listar()
+        public override List<Nota> Listar()
         {
             List<Nota> ListaNota = new List<Nota>();
             string SQL = "Select * From Nota";
@@ -58,7 +59,7 @@ namespace CoolAgenda.Models
             return ListaNota;
         }
 
-        public List<Nota> Listar(int id)
+        public override List<Nota> Listar(int id)
         {
             List<Nota> ListaNota = new List<Nota>();
             string SQL = "Select * From Nota where IdCompromisso =" + id;
@@ -89,7 +90,7 @@ namespace CoolAgenda.Models
         }
 
         //Update
-        public void Update(Nota nota)
+        public override void Update(Nota nota)
         {
             SQL = "UPDATE Nota SET Texto = ? WHERE idNota = ? and IdCompromisso = ? and idUsuario = ?";
 
@@ -121,7 +122,7 @@ namespace CoolAgenda.Models
         }
 
         //Conversão
-        public Nota ConverterParaTipoClasse(OleDbDataReader dr)
+        public override Nota ConverterParaTipoClasse(OleDbDataReader dr)
         {
             Nota nota = new Nota();
             nota.IdNota = int.Parse(dr["IdNota"].ToString());
@@ -133,7 +134,7 @@ namespace CoolAgenda.Models
             return nota;
         }
 
-        public Nota BuscarPorId(int id)
+        public override Nota BuscarPorId(int id)
         {
             Nota registro = null;
             string sqlBuscar = "select * from Nota where IdNota = ?";
@@ -159,7 +160,7 @@ namespace CoolAgenda.Models
             return registro;
         }
 
-        public Nota BuscarNotaUsuarioCompromisso(int id, int idUser)
+        public override Nota BuscarNotaUsuarioCompromisso(int id, int idUser)
         {
             Nota registro = null;
             string sqlBuscar = "select * from Nota where IdCompromisso = ? and IdUsuario = ?";
@@ -189,7 +190,7 @@ namespace CoolAgenda.Models
             return registro;
         }
 
-        public List<Nota> VerificarUsuarioCriador(int id, int idUser)
+        public override List<Nota> VerificarUsuarioCriador(int id, int idUser)
         {
             string sqlBuscar = "select * from Nota where IdNota = ? and IdUsuario = ?";
 
