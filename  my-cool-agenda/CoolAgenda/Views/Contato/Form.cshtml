@@ -20,7 +20,7 @@
     <h3>Contato</h3>
 
 
-    @using (Html.BeginForm("Form", "Contato", FormMethod.Post))
+    @using (Html.BeginForm("Form", "Contato", FormMethod.Post, new { id = "cadTarefa", @class = "well", style = "width:450px; margin-left:auto; margin-right:auto;" }))
     {
         @Html.ValidationSummary()
         
@@ -49,7 +49,12 @@
         @Html.Label("Data de Nascimento: ")
         @Html.TextBoxFor(m => m.DataNascimento, new { id = "txDataNascimento", @class = "datetimepicker-pt-br", @placeholder = "Data Nascimento" })    <br />
         
-        <input type="submit" name="btOK" value="Cadastrar!" />
+        <div style="width: 450px;">
+            <div class="btn btn-default" style="float: left; margin-top: 10px;">@Html.ActionLink("Voltar", "Index")</div>
+            <div style="text-align: right;">
+                <input type="submit" name="btOK" value="Cadastrar!" id="btnPopupSave" data-dismiss="modal" class="btn btn-primary" value="Salvar" form="cadTarefa" />
+            </div>
+        </div>    
     }
 
 

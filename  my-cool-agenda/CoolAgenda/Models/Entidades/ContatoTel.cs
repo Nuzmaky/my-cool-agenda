@@ -9,7 +9,6 @@ namespace CoolAgenda.Models.Entidades
     public class ContatoTel
     {
         private ContatoService contatoservice;
-        private TelefoneService telefoneservice;
 
         public void InsereContatoTel(Contato contato, List<Telefone> telefones)
         {
