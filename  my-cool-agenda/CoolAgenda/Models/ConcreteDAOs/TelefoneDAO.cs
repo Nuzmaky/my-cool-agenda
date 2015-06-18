@@ -1,4 +1,5 @@
 ﻿using CoolAgenda.Models;
+using CoolAgenda.Models.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -14,7 +15,7 @@ namespace CoolAgenda.Models
         private string SQL;
 
         // Insert
-        public void Insert(Contato contato, Telefone entidade, DbTransaction transacao = null)
+        public void Insert(ContatoTel contato, DbTransaction transacao = null)
         {
             SQL = "INSERT INTO Telefone (IdTelefone, IdContato, NumeroTelefone) VALUES (seqTelefone.nextval, ?, ?)";
 
@@ -25,11 +26,11 @@ namespace CoolAgenda.Models
                 comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
-            pIdContato.Value = contato.IdContato;
+            pIdContato.Value = contato.contato.IdContato;
             comando.Parameters.Add(pIdContato);
 
             OleDbParameter pNumeroTelefone = new OleDbParameter("NumeroTelefone", OleDbType.VarChar);
-            pNumeroTelefone.Value = entidade.NumeroTelefone;
+            pNumeroTelefone.Value = contato.telefone.NumeroTelefone;
             comando.Parameters.Add(pNumeroTelefone);
 
             // Insert
@@ -39,7 +40,7 @@ namespace CoolAgenda.Models
 
 
         //Update
-        public void Update(Contato contato, Telefone entidade, DbTransaction transacao = null)
+        public void Update(ContatoTel contato, DbTransaction transacao = null) 
         {
             SQL = "UPDATE Telefone SET NumeroTelefone = ? WHERE IdContato = ? and IdTelefone = ?";
 
@@ -52,15 +53,15 @@ namespace CoolAgenda.Models
                 comando.Transaction = transacao as OleDbTransaction;
 
             OleDbParameter pNumeroTelefone = new OleDbParameter("NumeroTelefone", OleDbType.VarChar);
-            pNumeroTelefone.Value = entidade.NumeroTelefone;
+            pNumeroTelefone.Value = contato.telefone.NumeroTelefone;
             comando.Parameters.Add(pNumeroTelefone);
             
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
-            pIdContato.Value = entidade.IdContato;
+            pIdContato.Value = contato.telefone.IdContato;
             comando.Parameters.Add(pIdContato);
 
             OleDbParameter pIdTelefone = new OleDbParameter("IdTelefone", OleDbType.Integer);
-            pIdTelefone.Value = entidade.IdTelefone;
+            pIdTelefone.Value = contato.telefone.IdTelefone;
             comando.Parameters.Add(pIdTelefone);
 
             // Update

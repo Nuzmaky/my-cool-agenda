@@ -228,6 +228,7 @@
     <Compile Include="Models\Entidades\CompromissoContato.cs" />
     <Compile Include="Models\Entidades\CompromissoUsuario.cs" />
     <Compile Include="Models\Entidades\Contato.cs" />
+    <Compile Include="Models\Entidades\ContatoTel.cs" />
     <Compile Include="Models\Entidades\Grupo.cs" />
     <Compile Include="Models\Entidades\GrupoUsuario.cs" />
     <Compile Include="Models\Entidades\Nota.cs" />

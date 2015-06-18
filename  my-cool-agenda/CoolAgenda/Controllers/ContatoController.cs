@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using CoolAgenda.Controllers.Utilidades;
 using CoolAgenda.ViewModels.GrupoVM;
 using CoolAgenda.ViewModels.AgendaVM;
+using CoolAgenda.Models.Entidades;
 
 namespace CoolAgenda.Controllers
 {
@@ -17,10 +18,8 @@ namespace CoolAgenda.Controllers
         //
         // GET: /Contato/        
 
-        Contato contato = new Contato();
-        Usuario usuario = new Usuario();
-        ContatoDAO contatoDAO = new ContatoDAO();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        ContatoTel contatotel = new ContatoTel();
+        UsuarioDAO usuarioDao = new UsuarioDAO();
 
         private IGrupoUsuarioService grupoUsuarioService;
         private IUsuarioService usuarioService;
@@ -110,7 +109,7 @@ namespace CoolAgenda.Controllers
                             ContatoService.EnviaEmailCadastro(registro.Email, registro.Nome, registro.Senha);
 
                             //Adiciona no banco com senha padrão
-                            usuarioDAO.Adicionar(registro);
+                            usuarioDao.Adicionar(registro);
 
 
                             // Pega os grupos em que o usuário está cadastrado
@@ -120,7 +119,7 @@ namespace CoolAgenda.Controllers
 
                             //Joga o Id do Novo Usuario para cadastrar no grupo
                             //SELECT
-                            Usuario novoUsuarioGrupo = usuarioDAO.BuscarPorEmail(registro.Email);
+                            Usuario novoUsuarioGrupo = usuarioDao.BuscarPorEmail(registro.Email);
 
                             // Joga o Id do novo Usuario no GrupoUsuario
                             for (int i = 0; i < listaGrupoUsuario.Count; i++)

@@ -1,4 +1,5 @@
 ﻿using CoolAgenda.Models;
+using CoolAgenda.Models.Entidades;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -20,10 +21,10 @@ namespace CoolAgenda.Models
         }
 
         //Insert
-        public void Insert(Contato contato)
+        public void Insert(ContatoTel contato)
         {
-            string end = contato.Endereco;
-            if (contato.Endereco == null)
+            string end = contato.contato.Endereco;
+            if (contato.contato.Endereco == null)
                 end = "";            
 
             SQL = "INSERT INTO Contato (IdContato, IdUsuario, Nome, Apelido, Email, Endereco, DataNascimento) VALUES (SeqContato.NEXTVAL, ?, ?, ?, ?, ?, ?)";
@@ -34,19 +35,19 @@ namespace CoolAgenda.Models
             comando.CommandText = SQL;
 
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.VarChar);
-            pIdUsuario.Value = contato.IdUsuario;
+            pIdUsuario.Value = contato.contato.IdUsuario;
             comando.Parameters.Add(pIdUsuario);           
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
-            pNome.Value = contato.Nome;
+            pNome.Value = contato.contato.Nome;
             comando.Parameters.Add(pNome);
 
             OleDbParameter pApelido = new OleDbParameter("Apelido", OleDbType.VarChar);
-            pApelido.Value = contato.Apelido;
+            pApelido.Value = contato.contato.Apelido;
             comando.Parameters.Add(pApelido);
 
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
-            pEmail.Value = contato.Email;
+            pEmail.Value = contato.contato.Email;
             comando.Parameters.Add(pEmail);
 
             OleDbParameter pEndereco = new OleDbParameter("Endereco", OleDbType.VarChar);
@@ -54,7 +55,7 @@ namespace CoolAgenda.Models
             comando.Parameters.Add(pEndereco);
 
             OleDbParameter pDataNascimento = new OleDbParameter("DataNascimento", OleDbType.Date);
-            pDataNascimento.Value = contato.DataNascimento;
+            pDataNascimento.Value = contato.contato.DataNascimento;
             comando.Parameters.Add(pDataNascimento);
 
             comando.ExecuteNonQuery();
@@ -89,7 +90,7 @@ namespace CoolAgenda.Models
 
 
         //Update
-        public void Update(Contato contato)
+        public void Update(ContatoTel contato)
         {
             SQL = "UPDATE Contato SET Nome = ?, Apelido = ?, Email = ?, Endereco = ?, DataNascimento = ? WHERE IdContato = ? and IdUsuario = ?";
 
@@ -99,32 +100,32 @@ namespace CoolAgenda.Models
             comando.CommandText = SQL;
 
             OleDbParameter pNome = new OleDbParameter("Nome", OleDbType.VarChar);
-            pNome.Value = contato.Nome;
+            pNome.Value = contato.contato.Nome;
             comando.Parameters.Add(pNome);
 
             OleDbParameter pApelido = new OleDbParameter("Apelido", OleDbType.VarChar);
-            pApelido.Value = contato.Apelido;
+            pApelido.Value = contato.contato.Apelido;
             if (pApelido.Value == null) { pApelido.Value = ""; }
             comando.Parameters.Add(pApelido);
 
             OleDbParameter pEmail = new OleDbParameter("Email", OleDbType.VarChar);
-            pEmail.Value = contato.Email;
+            pEmail.Value = contato.contato.Email;
             comando.Parameters.Add(pEmail);
 
             OleDbParameter pEndereco = new OleDbParameter("Endereco", OleDbType.VarChar);
-            pEndereco.Value = contato.Endereco;
+            pEndereco.Value = contato.contato.Endereco;
             comando.Parameters.Add(pEndereco);
 
             OleDbParameter pDataNascimento = new OleDbParameter("DataNascimento", OleDbType.Date);
-            pDataNascimento.Value = contato.DataNascimento;
+            pDataNascimento.Value = contato.contato.DataNascimento;
             comando.Parameters.Add(pDataNascimento);
 
             OleDbParameter pIdContato = new OleDbParameter("IdContato", OleDbType.Integer);
-            pIdContato.Value = contato.IdContato;
+            pIdContato.Value = contato.contato.IdContato;
             comando.Parameters.Add(pIdContato);
 
             OleDbParameter pIdUsuario = new OleDbParameter("IdUsuario", OleDbType.Integer);
-            pIdUsuario.Value = contato.IdUsuario;
+            pIdUsuario.Value = contato.contato.IdUsuario;
             comando.Parameters.Add(pIdUsuario);
 
             // Update
